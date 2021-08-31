@@ -11,6 +11,7 @@ using Studygroup_with_Hansa.Models;
 using Studygroup_with_Hansa.Services;
 using System.Collections;
 using System.Windows.Threading;
+using Studygroup_with_Hansa.Views;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
@@ -47,6 +48,8 @@ namespace Studygroup_with_Hansa.ViewModels
 
         public IRelayCommand StartCommand { get; private set; }
 
+        public IRelayCommand DeleteCommand { get; private set; }
+
         private static DispatcherTimer timer;
 
         public HomePageViewModel()
@@ -58,6 +61,7 @@ namespace Studygroup_with_Hansa.ViewModels
                 specifiedColor[Subjects.Count % specifiedColor.Length], "수학"));
 
             StartCommand = new RelayCommand<object>(ExecuteStartCommand);
+            DeleteCommand = new RelayCommand<object>(ExecuteDeleteCommand);
 
             SetupTimer();
         }
@@ -97,7 +101,14 @@ namespace Studygroup_with_Hansa.ViewModels
         {
             SubjectModel SelectedSubject = obj as SubjectModel;
 
-            // Code here
+            // code here
+            OnPropertyChanged("TotalRunString");
+        }
+
+        private void ExecuteDeleteCommand(object obj)
+        {
+            SubjectModel SelectedSubject = obj as SubjectModel;
+            Subjects.Remove(SelectedSubject);
             OnPropertyChanged("TotalRunString");
         }
     }

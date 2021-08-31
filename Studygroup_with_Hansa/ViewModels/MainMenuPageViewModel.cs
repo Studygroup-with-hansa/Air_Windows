@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
-    class MainWindowViewModel : ObservableObject
+    class MainMenuPageViewModel : ObservableObject
     {
         public enum MenuNumber { Stat, Plan, Home, Todo, Memo }
 

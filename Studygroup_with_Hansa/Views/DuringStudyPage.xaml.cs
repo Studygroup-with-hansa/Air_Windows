@@ -1,6 +1,4 @@
-﻿using Studygroup_with_Hansa.Services;
-using Studygroup_with_Hansa.Views;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,22 +13,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Studygroup_with_Hansa.Controls
+namespace Studygroup_with_Hansa.Views
 {
     /// <summary>
-    /// Interaction logic for HomePageControl.xaml
+    /// Interaction logic for DuringStudyPage.xaml
     /// </summary>
-    public partial class HomePageControl : UserControl
+    public partial class DuringStudyPage : Page
     {
-        public HomePageControl()
+        public DuringStudyPage()
         {
             InitializeComponent();
         }
 
-        private void StartButton_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Page parentPage = PageNavigation.FindParentPage(this);
-            parentPage.NavigationService.Navigate(new DuringStudyPage());
+            NavigationService.GoBack();
         }
     }
 }

@@ -4,14 +4,59 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lvc ="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:controls="clr-namespace:Studygroup_with_Hansa.Controls"
              xmlns:viewmodels="clr-namespace:Studygroup_with_Hansa.ViewModels"
+             xmlns:services="clr-namespace:Studygroup_with_Hansa.Services"
              xmlns:local="clr-namespace:Studygroup_with_Hansa.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="537.5" d:DesignWidth="800">
     <UserControl.DataContext>
         <viewmodels:HomePageViewModel/>
     </UserControl.DataContext>
     <UserControl.Resources>
+        <!--Binding DataContext-->
+        <services:BindingProxy x:Key="Proxy" Data="{Binding}"/>
+        
+        <Style x:Key="MainPageBtn" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="20"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="DetailBtn" TargetType="{x:Type ToggleButton}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <DataTemplate x:Key="ItemTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -22,8 +67,9 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0"
-                        Command="{Binding DataContext.StartCommand,
-                            RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                        Click="StartButton_Click"
+                        Command="{Binding Path=Data.StartCommand,
+                            Source={StaticResource Proxy}}"
                         CommandParameter="{Binding}"
                         Height="32" Width="32"
                         Background="{Binding BtnColor}"
@@ -48,12 +94,24 @@
                            FontWeight="Regular" Foreground="#333333"
                            Opacity="0.5"
                            VerticalAlignment="Center"/>
-                <Button Grid.Column="3"
-                        Height="12" Width="5"
-                        Background="Transparent" Margin="15"
-                        Style="{StaticResource MainPageBtn}">
+                <controls:DropDownButton Grid.Column="3"
+                                         Height="12" Width="5"
+                                         BorderThickness="0"
+                                         Background="Transparent"
+                                         Margin="15"
+                                         Style="{StaticResource DetailBtn}">
                     <Image Source="{StaticResource detailDrawingImage}"/>
-                </Button>
+                    <controls:DropDownButton.Menu>
+                        <ContextMenu>
+                            <MenuItem Header="수정"/>
+                            <MenuItem Header="삭제"
+                                      Command="{Binding Path=Data.DeleteCommand,
+                                        Source={StaticResource Proxy}}"
+                                      CommandParameter="{Binding Path=Content,
+                                        RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                        </ContextMenu>
+                    </controls:DropDownButton.Menu>
+                </controls:DropDownButton>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>

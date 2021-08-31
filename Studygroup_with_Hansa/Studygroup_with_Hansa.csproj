@@ -152,6 +152,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AddSubjectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DuringStudyPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainMenuPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -160,6 +172,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Controls\HomePageControl.xaml.cs">
       <DependentUpon>HomePageControl.xaml</DependentUpon>
     </Compile>
@@ -177,10 +190,21 @@
     </Compile>
     <Compile Include="Converters\EnumToBooleanConverter.cs" />
     <Compile Include="Models\SubjectModel.cs" />
+    <Compile Include="Services\BindingProxy.cs" />
     <Compile Include="Services\MarginSetter.cs" />
+    <Compile Include="Services\PageNavigation.cs" />
     <Compile Include="Services\TimeToSeconds.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MainMenuPageViewModel.cs" />
+    <Compile Include="Views\AddSubjectWindow.xaml.cs">
+      <DependentUpon>AddSubjectWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DuringStudyPage.xaml.cs">
+      <DependentUpon>DuringStudyPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainMenuPage.xaml.cs">
+      <DependentUpon>MainMenuPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
