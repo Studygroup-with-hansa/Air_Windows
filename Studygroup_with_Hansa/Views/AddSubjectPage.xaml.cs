@@ -13,16 +13,29 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Studygroup_with_Hansa.Controls
+namespace Studygroup_with_Hansa.Views
 {
     /// <summary>
-    /// Interaction logic for MemoPageControl.xaml
+    /// Interaction logic for AddSubjectPage.xaml
     /// </summary>
-    public partial class MemoPageControl : UserControl
+    public partial class AddSubjectPage : Page
     {
-        public MemoPageControl()
+        private static Page beforePage = null;
+
+        public AddSubjectPage()
         {
             InitializeComponent();
+        }
+
+        public AddSubjectPage(Page page)
+        {
+            InitializeComponent();
+            beforePage = page;
+        }
+
+        private void GoBackButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(beforePage);
         }
     }
 }

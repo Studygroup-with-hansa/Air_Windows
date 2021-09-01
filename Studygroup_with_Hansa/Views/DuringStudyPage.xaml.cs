@@ -20,14 +20,22 @@ namespace Studygroup_with_Hansa.Views
     /// </summary>
     public partial class DuringStudyPage : Page
     {
+        private static Page beforePage = null;
+
         public DuringStudyPage()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public DuringStudyPage(Page page)
         {
-            NavigationService.GoBack();
+            InitializeComponent();
+            beforePage = page;
+        }
+
+        private void GoBackButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(beforePage);
         }
     }
 }

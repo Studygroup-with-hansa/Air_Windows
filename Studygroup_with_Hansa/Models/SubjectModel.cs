@@ -10,8 +10,6 @@ namespace Studygroup_with_Hansa.Models
 {
     class SubjectModel : ObservableObject
     {
-        public int Goal { get; set; }
-
         public string BtnColor { get; set; }
 
         public string Name { get; set; }
@@ -37,18 +35,15 @@ namespace Studygroup_with_Hansa.Models
             }
         }
 
-        public string Percentage
+        private double _percentage = 0;
+        public double Percentage
         {
-            get
-            {
-                if (Goal < ElapsedTime) return "100%";
-                else return string.Format("{0:0.#}%", (double)ElapsedTime / Goal * 100);
-            }
+            get { return _percentage; }
+            set { SetProperty(ref _percentage, value); }
         }
 
-        public SubjectModel(int goal, string color, string name)
+        public SubjectModel(string color, string name)
         {
-            Goal = goal;
             BtnColor = color;
             Name = name;
         }

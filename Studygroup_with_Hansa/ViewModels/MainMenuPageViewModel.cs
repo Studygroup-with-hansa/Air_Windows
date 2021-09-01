@@ -10,7 +10,7 @@ namespace Studygroup_with_Hansa.ViewModels
 {
     class MainMenuPageViewModel : ObservableObject
     {
-        public enum MenuNumber { Stat, Plan, Home, Todo, Memo }
+        public enum MenuNumber { Stat, Plan, Home, Todo, Badge }
 
         private MenuNumber _menuNumbers = MenuNumber.Home;
         public MenuNumber MenuNumbers

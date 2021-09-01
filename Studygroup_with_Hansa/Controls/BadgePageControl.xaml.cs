@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Studygroup_with_Hansa.Views
+namespace Studygroup_with_Hansa.Controls
 {
     /// <summary>
-    /// Interaction logic for AddSubjectWindow.xaml
+    /// Interaction logic for MemoPageControl.xaml
     /// </summary>
-    public partial class AddSubjectWindow : Window
+    public partial class BadgePageControl : UserControl
     {
-        public AddSubjectWindow()
+        public BadgePageControl()
         {
             InitializeComponent();
         }

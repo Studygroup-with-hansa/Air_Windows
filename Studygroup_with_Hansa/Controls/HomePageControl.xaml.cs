@@ -30,7 +30,17 @@ namespace Studygroup_with_Hansa.Controls
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             Page parentPage = PageNavigation.FindParentPage(this);
-            parentPage.NavigationService.Navigate(new DuringStudyPage());
+            DuringStudyPage duringStudyPage = new DuringStudyPage(parentPage);
+            duringStudyPage.DataContext = this.DataContext;
+            parentPage.NavigationService.Navigate(duringStudyPage);
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Page parentPage = PageNavigation.FindParentPage(this);
+            AddSubjectPage addSubjectPage = new AddSubjectPage(parentPage);
+            addSubjectPage.DataContext = this.DataContext;
+            parentPage.NavigationService.Navigate(addSubjectPage);
         }
     }
 }

@@ -5,17 +5,42 @@
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
+            <!--Clean Style Button-->
+            <Style x:Key="CleanBtn" TargetType="{x:Type Button}">
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="20"
+                                    Padding="{TemplateBinding Padding}"
+                                    Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Opacity" Value="0"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <ResourceDictionary.MergedDictionaries>
                 <!--Button Icons-->
                 <ResourceDictionary Source="Resources/add.xaml"/>
+                <ResourceDictionary Source="Resources/back.xaml"/>
                 <ResourceDictionary Source="Resources/detail.xaml"/>
                 <ResourceDictionary Source="Resources/drawer.xaml"/>
-                <ResourceDictionary Source="Resources/graph.xaml"/>
                 <ResourceDictionary Source="Resources/start.xaml"/>
 
                 <!--Footer Icons-->
                 <ResourceDictionary Source="Resources/home.xaml"/>
-                <ResourceDictionary Source="Resources/memo.xaml"/>
+                <ResourceDictionary Source="Resources/badge.xaml"/>
                 <ResourceDictionary Source="Resources/plan.xaml"/>
                 <ResourceDictionary Source="Resources/stat.xaml"/>
                 <ResourceDictionary Source="Resources/todo.xaml"/>

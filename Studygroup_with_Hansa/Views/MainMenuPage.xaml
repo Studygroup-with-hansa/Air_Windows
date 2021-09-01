@@ -14,6 +14,8 @@
         <viewmodels:MainMenuPageViewModel/>
     </Page.DataContext>
     <Page.Resources>
+        <converters:EnumToBooleanConverter x:Key="EnumToBoolean"/>
+        
         <!--Page DataTemplates-->
         <DataTemplate x:Key="StatPage">
             <controls:StatPageControl/>
@@ -27,12 +29,9 @@
         <DataTemplate x:Key="TodoPage">
             <controls:TodoPageControl/>
         </DataTemplate>
-        <DataTemplate x:Key="MemoPage">
-            <controls:MemoPageControl/>
+        <DataTemplate x:Key="BadgePage">
+            <controls:BadgePageControl/>
         </DataTemplate>
-
-        <!--Converters-->
-        <converters:EnumToBooleanConverter x:Key="EnumToBoolean"/>
 
         <Style x:Key="BottomMenuBtn" TargetType="{x:Type RadioButton}">
             <Setter Property="Width" Value="20"/>
@@ -68,7 +67,7 @@
 
         <ContentControl Grid.Row="0">
             <ContentControl.Style>
-                <Style TargetType="{x:Type ContentControl}">
+                <Style TargetType="ContentControl">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding MenuNumbers}" Value="Stat">
                             <Setter Property="ContentTemplate"
@@ -86,9 +85,9 @@
                             <Setter Property="ContentTemplate"
                                     Value="{StaticResource TodoPage}"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding MenuNumbers}" Value="Memo">
+                        <DataTrigger Binding="{Binding MenuNumbers}" Value="Badge">
                             <Setter Property="ContentTemplate"
-                                    Value="{StaticResource MemoPage}"/>
+                                    Value="{StaticResource BadgePage}"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -132,9 +131,9 @@
                 </RadioButton>
                 <RadioButton IsChecked="{Binding MenuNumbers,
                                 Converter={StaticResource EnumToBoolean},
-                                ConverterParameter=Memo}"
+                                ConverterParameter=Badge}"
                              Style="{StaticResource BottomMenuBtn}">
-                    <Image Source="{StaticResource memoDrawingImage}"/>
+                    <Image Source="{StaticResource badgeDrawingImage}"/>
                 </RadioButton>
             </StackPanel>
         </Grid>

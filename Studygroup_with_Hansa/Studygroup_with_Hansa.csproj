@@ -35,12 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
-    </Reference>
-    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -96,7 +90,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\MemoPageControl.xaml">
+    <Page Include="Controls\BadgePageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -116,6 +110,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\back.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\badge.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\detail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -124,15 +126,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\graph.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Resources\home.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\memo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -152,7 +146,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddSubjectWindow.xaml">
+    <Page Include="Views\AddSubjectPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -176,8 +170,8 @@
     <Compile Include="Controls\HomePageControl.xaml.cs">
       <DependentUpon>HomePageControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MemoPageControl.xaml.cs">
-      <DependentUpon>MemoPageControl.xaml</DependentUpon>
+    <Compile Include="Controls\BadgePageControl.xaml.cs">
+      <DependentUpon>BadgePageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PlanPageControl.xaml.cs">
       <DependentUpon>PlanPageControl.xaml</DependentUpon>
@@ -188,6 +182,8 @@
     <Compile Include="Controls\TodoPageControl.xaml.cs">
       <DependentUpon>TodoPageControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\WatermarkAdorner.cs" />
+    <Compile Include="Controls\WatermarkService.cs" />
     <Compile Include="Converters\EnumToBooleanConverter.cs" />
     <Compile Include="Models\SubjectModel.cs" />
     <Compile Include="Services\BindingProxy.cs" />
@@ -196,8 +192,8 @@
     <Compile Include="Services\TimeToSeconds.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
     <Compile Include="ViewModels\MainMenuPageViewModel.cs" />
-    <Compile Include="Views\AddSubjectWindow.xaml.cs">
-      <DependentUpon>AddSubjectWindow.xaml</DependentUpon>
+    <Compile Include="Views\AddSubjectPage.xaml.cs">
+      <DependentUpon>AddSubjectPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DuringStudyPage.xaml.cs">
       <DependentUpon>DuringStudyPage.xaml</DependentUpon>
@@ -237,6 +233,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Messages\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
