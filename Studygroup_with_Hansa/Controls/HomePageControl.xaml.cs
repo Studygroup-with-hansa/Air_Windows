@@ -2,8 +2,10 @@
 using Studygroup_with_Hansa.Views;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,20 +29,45 @@ namespace Studygroup_with_Hansa.Controls
             InitializeComponent();
         }
 
+        private void SetGoalButton_Click(object sender, RoutedEventArgs e)
+        {
+            Window parentWindow = Window.GetWindow(this);
+            SetGoalWindow setGoalWindow = new SetGoalWindow();
+
+            Button btn = sender as Button;
+            ICommand cmd = btn.Tag as ICommand;
+            cmd.Execute(null);
+
+            setGoalWindow.Owner = parentWindow;
+            setGoalWindow.ShowDialog();
+        }
+        
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Page parentPage = PageNavigation.FindParentPage(this);
+            AddSubjectPage addSubjectPage = new AddSubjectPage();
+            parentPage.NavigationService.Navigate(addSubjectPage);
+        }
+
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             Page parentPage = PageNavigation.FindParentPage(this);
-            DuringStudyPage duringStudyPage = new DuringStudyPage(parentPage);
+            DuringStudyPage duringStudyPage = new DuringStudyPage();
             duringStudyPage.DataContext = this.DataContext;
             parentPage.NavigationService.Navigate(duringStudyPage);
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        private void EditMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Page parentPage = PageNavigation.FindParentPage(this);
-            AddSubjectPage addSubjectPage = new AddSubjectPage(parentPage);
-            addSubjectPage.DataContext = this.DataContext;
-            parentPage.NavigationService.Navigate(addSubjectPage);
+            Window parentWindow = Window.GetWindow(this);
+            EditSubjectWindow editSubjectWindow = new EditSubjectWindow();
+
+            MenuItem item = sender as MenuItem;
+            ICommand cmd = item.Tag as ICommand;
+            cmd.Execute(item.CommandParameter);
+
+            editSubjectWindow.Owner = parentWindow;
+            editSubjectWindow.ShowDialog();
         }
     }
 }

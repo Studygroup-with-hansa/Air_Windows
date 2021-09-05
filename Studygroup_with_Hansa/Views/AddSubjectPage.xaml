@@ -2,24 +2,19 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:controls="clr-namespace:Studygroup_with_Hansa.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       xmlns:converters="clr-namespace:Studygroup_with_Hansa.Converters"
       xmlns:services="clr-namespace:Studygroup_with_Hansa.Services"
       xmlns:viewmodels="clr-namespace:Studygroup_with_Hansa.ViewModels"
       xmlns:local="clr-namespace:Studygroup_with_Hansa.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="800"
-      d:DataContext="{d:DesignInstance Type=viewmodels:HomePageViewModel}">
+      d:DesignHeight="600" d:DesignWidth="800">
+    <Page.DataContext>
+        <viewmodels:AddSubjectViewModel/>
+    </Page.DataContext>
     <Page.Resources>
         <converters:EnumToBooleanConverter x:Key="EnumToBoolean"/>
-
-        <Style x:Key="Circle" TargetType="{x:Type Border}">
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Width" Value="30"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="CornerRadius" Value="10"/>
-        </Style>
 
         <Style x:Key="ColorSelectBtn" TargetType="{x:Type RadioButton}">
             <Setter Property="Height" Value="30"/>
@@ -72,36 +67,35 @@
                     HorizontalAlignment="Right"
                     Style="{StaticResource CleanBtn}">
                 <TextBlock Text="추가"
-                           FontFamily="Noto Sans" FontSize="16"
-                           FontWeight="Medium" Foreground="White"/>
+                           FontSize="16" FontWeight="Medium"
+                           Foreground="White"/>
             </Button>
         </Grid>
 
         <StackPanel Grid.Row="1">
-            <TextBlock Text="과목"
-                       FontFamily="Noto Sans" FontSize="16"
-                       FontWeight="Regular" Foreground="#333333"
+            <TextBlock Text="과목 이름"
+                       FontSize="16" FontWeight="Regular"
+                       Foreground="#333333"
                        Margin="20"/>
-            <TextBox x:Name="tbInputName"
-                     Text="{Binding EnteredName,
-                        UpdateSourceTrigger=PropertyChanged}"
-                     FontFamily="Noto Sans" FontSize="12"
-                     FontWeight="Regular" Foreground="#333333"
-                     Background="Transparent"
-                     BorderThickness="0"
-                     Margin="20,-5,0,0">
-                <controls:WatermarkService.Watermark>
+            <xctk:WatermarkTextBox Text="{Binding EnteredName,
+                                    UpdateSourceTrigger=PropertyChanged}"
+                                   FontSize="12" FontWeight="Regular"
+                                   Foreground="#333333"
+                                   Background="Transparent"
+                                   BorderThickness="0"
+                                   Margin="20,-5,0,0">
+                <xctk:WatermarkTextBox.Watermark>
                     <TextBlock Text="과목 이름을 입력해주세요"
-                               FontFamily="Noto Sans" FontSize="12"
-                               FontWeight="Regular" Foreground="#C4C4C4"/>
-                </controls:WatermarkService.Watermark>
-            </TextBox>
+                               FontSize="12" FontWeight="Regular"
+                               Foreground="#C4C4C4"/>
+                </xctk:WatermarkTextBox.Watermark>
+            </xctk:WatermarkTextBox>
             <TextBlock Text="과목 색상"
-                       FontFamily="Noto Sans" FontSize="16"
-                       FontWeight="Regular" Foreground="#333333"
-                       Margin="20,20,0,9"/>
-            <StackPanel Orientation="Horizontal" Margin="13,0,0,0"
-                        services:MarginSetter.Margin="8">
+                       FontSize="16" FontWeight="Regular"
+                       Foreground="#333333"
+                       Margin="20,20,0,0"/>
+            <StackPanel Orientation="Horizontal" Margin="20,0,0,0"
+                        services:MarginSetter.Margin="0,15,15,0">
                 <RadioButton IsChecked="{Binding SelectedColor,
                                 Converter={StaticResource EnumToBoolean},
                                 ConverterParameter=_ED6A5E}"

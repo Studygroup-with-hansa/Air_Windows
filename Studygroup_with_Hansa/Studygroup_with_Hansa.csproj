@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -80,12 +83,42 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Messages\GoalChangedMessage.cs" />
+    <Compile Include="Messages\IsBlurChangedMessage.cs" />
+    <Compile Include="Messages\SubjectAddedMessage.cs" />
+    <Compile Include="Messages\SubjectEditedMessage.cs" />
+    <Compile Include="Models\Types\MenuType.cs" />
+    <Compile Include="Models\Types\SubjectColorType.cs" />
+    <Compile Include="ViewModels\AddSubjectViewModel.cs" />
+    <Compile Include="ViewModels\EditSubjectViewModel.cs" />
+    <Compile Include="ViewModels\SetGoalViewModel.cs" />
+    <Compile Include="Views\EditSubjectWindow.xaml.cs">
+      <DependentUpon>EditSubjectWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SetGoalWindow.xaml.cs">
+      <DependentUpon>SetGoalWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Controls\HomePageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -154,6 +187,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\EditSubjectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainMenuPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -182,8 +219,6 @@
     <Compile Include="Controls\TodoPageControl.xaml.cs">
       <DependentUpon>TodoPageControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\WatermarkAdorner.cs" />
-    <Compile Include="Controls\WatermarkService.cs" />
     <Compile Include="Converters\EnumToBooleanConverter.cs" />
     <Compile Include="Models\SubjectModel.cs" />
     <Compile Include="Services\BindingProxy.cs" />
@@ -191,7 +226,7 @@
     <Compile Include="Services\PageNavigation.cs" />
     <Compile Include="Services\TimeToSeconds.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
-    <Compile Include="ViewModels\MainMenuPageViewModel.cs" />
+    <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="Views\AddSubjectPage.xaml.cs">
       <DependentUpon>AddSubjectPage.xaml</DependentUpon>
     </Compile>
@@ -205,6 +240,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\SetGoalWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -234,7 +273,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Messages\" />
+    <Resource Include="Resources\Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

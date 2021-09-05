@@ -4,38 +4,36 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Studygroup_with_Hansa.Controls"
-             xmlns:converters="clr-namespace:Studygroup_with_Hansa.Converters"
-             xmlns:viewmodels="clr-namespace:Studygroup_with_Hansa.ViewModels"
              xmlns:services="clr-namespace:Studygroup_with_Hansa.Services"
+             xmlns:viewmodels="clr-namespace:Studygroup_with_Hansa.ViewModels"
              xmlns:local="clr-namespace:Studygroup_with_Hansa.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="537.5" d:DesignWidth="800">
-    <UserControl.DataContext>
-        <viewmodels:HomePageViewModel/>
-    </UserControl.DataContext>
+             d:DesignHeight="537.5" d:DesignWidth="800"
+             DataContext="{StaticResource HomePageViewModel}"
+             d:DataContext="{d:DesignInstance Type=viewmodels:HomePageViewModel}">
     <UserControl.Resources>
         <!--Binding DataContext-->
         <services:BindingProxy x:Key="Proxy" Data="{Binding}"/>
 
         <Style x:Key="TextBtn" TargetType="{x:Type Button}">
+            <EventSetter Event="Click" Handler="SetGoalButton_Click"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}">
-                            <TextBlock x:Name="tbInform"
-                                       Text="목표 시간을 설정해주세요"
-                                       FontFamily="Noto Sans" FontSize="16"
-                                       FontWeight="Medium"
-                                       TextDecorations="Underline"
-                                       Foreground="White" Opacity="0.8"/>
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="0,0,0,1"
+                                Opacity="{TemplateBinding Opacity}">
+                            <ContentPresenter/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Cursor" Value="Hand"/>
-                                <Setter TargetName="tbInform"
-                                        Property="TextDecorations"
-                                        Value="None"/>
+                                <Setter TargetName="Border"
+                                        Property="BorderBrush"
+                                        Value="Transparent"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -86,18 +84,16 @@
                             Margin="0,5,0,0"
                             VerticalAlignment="Center">
                     <TextBlock Text="{Binding Name}"
-                               FontFamily="Noto Sans" FontSize="14"
-                               FontWeight="SemiBold" Foreground="#333333"/>
+                               FontSize="14" FontWeight="SemiBold"
+                               Foreground="#333333"/>
                     <TextBlock Text="{Binding ElapsedTimeString}"
-                               FontFamily="Noto Sans" FontSize="12"
-                               FontWeight="Regular" Foreground="#333333"
-                               Opacity="0.5"/>
+                               FontSize="12" FontWeight="Regular"
+                               Foreground="#333333" Opacity="0.5"/>
                 </StackPanel>
                 <TextBlock Grid.Column="2"
                            Text="{Binding Percentage, StringFormat={}{0:0.#}%}"
-                           FontFamily="Noto Sans" FontSize="12"
-                           FontWeight="Regular" Foreground="#333333"
-                           Opacity="0.5"
+                           FontSize="12" FontWeight="Regular"
+                           Foreground="#333333" Opacity="0.5"
                            VerticalAlignment="Center"/>
                 <controls:DropDownButton Grid.Column="3"
                                          Height="12" Width="5"
@@ -108,7 +104,12 @@
                     <Image Source="{StaticResource detailDrawingImage}"/>
                     <controls:DropDownButton.Menu>
                         <ContextMenu>
-                            <MenuItem Header="수정"/>
+                            <MenuItem Header="수정"
+                                      Click="EditMenuItem_Click"
+                                      Tag="{Binding Path=Data.SelectCommand,
+                                        Source={StaticResource Proxy}}"
+                                      CommandParameter="{Binding Path=Content,
+                                        RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                             <MenuItem Header="삭제"
                                       Command="{Binding Path=Data.DeleteCommand,
                                         Source={StaticResource Proxy}}"
@@ -131,14 +132,13 @@
             <StackPanel HorizontalAlignment="Center">
                 <TextBlock Text="{Binding NowTime,
                             StringFormat={}{0:yyyy.MM.dd}}"
-                           FontFamily="Noto Sans" FontSize="16"
-                           FontWeight="Medium" Foreground="White"
-                           Opacity="0.8" Margin="0,40,0,5"
-                           HorizontalAlignment="Center"/>
+                           FontSize="16" FontWeight="Medium"
+                           Foreground="White" Opacity="0.8"
+                           Margin="0,40,0,5" HorizontalAlignment="Center"/>
                 <TextBlock Text="{Binding TotalRunString}"
-                           FontFamily="Noto Sans" FontSize="26"
-                           FontWeight="Medium" Foreground="White"
-                           Margin="5" HorizontalAlignment="Center"/>
+                           FontSize="26" FontWeight="Medium"
+                           Foreground="White" Margin="5"
+                           HorizontalAlignment="Center"/>
                 <ContentControl Margin="20"
                                 HorizontalAlignment="Center">
                     <ContentControl.Style>
@@ -149,9 +149,8 @@
                                         <TextBlock Text="{Binding Path=Data.GoalString,
                                                     Source={StaticResource Proxy},
                                                     StringFormat=목표 시간 {0}}"
-                                                   FontFamily="Noto Sans" FontSize="16"
-                                                   FontWeight="Medium" Foreground="White"
-                                                   Opacity="0.8"/>
+                                                   FontSize="16" FontWeight="Medium"
+                                                   Foreground="White" Opacity="0.8"/>
                                     </DataTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -162,8 +161,16 @@
                                     <Setter Property="ContentTemplate">
                                         <Setter.Value>
                                             <DataTemplate>
-                                                <Button Background="Transparent"
-                                                        Style="{StaticResource TextBtn}"/>
+                                                <Button Tag="{Binding Path=Data.SetBlurCommand,
+                                                            Source={StaticResource Proxy}}"
+                                                        Background="Transparent"
+                                                        BorderBrush="White"
+                                                        Opacity="0.85"
+                                                        Style="{DynamicResource TextBtn}">
+                                                    <TextBlock Text="목표 시간을 설정해주세요"
+                                                               FontSize="16" FontWeight="Medium"
+                                                               Foreground="White"/>
+                                                </Button>
                                             </DataTemplate>
                                         </Setter.Value>
                                     </Setter>
@@ -172,13 +179,21 @@
                         </Style>
                     </ContentControl.Style>
                 </ContentControl>
-                <ProgressBar Value="{Binding Progress, Mode=OneWay}"
-                             Minimum="0" Maximum="100"
-                             Height="20" Width="{Binding Path=ActualWidth,
-                                RelativeSource={RelativeSource AncestorType=UserControl}}"
-                             Background="White" Foreground="#ABB8E8"
-                             BorderThickness="0" Opacity="0.6"
-                             Margin="0,35,0,0"/>
+                <Grid Height="20" Width="{Binding Path=ActualWidth,
+                        RelativeSource={RelativeSource AncestorType=UserControl}}"
+                      Margin="0,35,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding Progress}"/>
+                        <ColumnDefinition Width="{Binding ProgressLeft}"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0"
+                            CornerRadius="0,10,10,0"
+                            Background="White"
+                            Opacity="0.6"/>
+                    <Border Grid.ColumnSpan="2"
+                            Background="White"
+                            Opacity="0.6"/>
+                </Grid>
             </StackPanel>
         </Grid>
 
@@ -190,8 +205,8 @@
 
             <Grid Grid.Row="0">
                 <TextBlock Text="과목"
-                           FontFamily="Noto Sans" FontSize="20"
-                           FontWeight="SemiBold" Foreground="#333333"
+                           FontSize="20" FontWeight="SemiBold"
+                           Foreground="#333333"
                            Margin="20,20,0,10"
                            HorizontalAlignment="Left"/>
                 <Button Click="AddButton_Click"

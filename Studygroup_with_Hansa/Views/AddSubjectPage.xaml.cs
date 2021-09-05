@@ -20,22 +20,14 @@ namespace Studygroup_with_Hansa.Views
     /// </summary>
     public partial class AddSubjectPage : Page
     {
-        private static Page beforePage = null;
-
         public AddSubjectPage()
         {
             InitializeComponent();
         }
 
-        public AddSubjectPage(Page page)
-        {
-            InitializeComponent();
-            beforePage = page;
-        }
-
         private void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(beforePage);
+            NavigationService.GoBack();
         }
     }
 }

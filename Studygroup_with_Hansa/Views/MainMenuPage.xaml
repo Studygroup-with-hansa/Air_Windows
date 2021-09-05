@@ -11,7 +11,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800">
     <Page.DataContext>
-        <viewmodels:MainMenuPageViewModel/>
+        <viewmodels:MainMenuViewModel/>
     </Page.DataContext>
     <Page.Resources>
         <converters:EnumToBooleanConverter x:Key="EnumToBoolean"/>
@@ -65,7 +65,14 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <ContentControl Grid.Row="0">
+        <Border Panel.ZIndex="1"
+                Grid.RowSpan="2"
+                Visibility="{Binding IsBlur}"
+                Background="Black"
+                Opacity="0.3"/>
+
+        <ContentControl Panel.ZIndex="0"
+                        Grid.Row="0">
             <ContentControl.Style>
                 <Style TargetType="ContentControl">
                     <Style.Triggers>
@@ -94,7 +101,8 @@
             </ContentControl.Style>
         </ContentControl>
 
-        <Grid Grid.Row="1" Background="#F8F8FA">
+        <Grid Panel.ZIndex="0"
+              Grid.Row="1" Background="#F8F8FA">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>

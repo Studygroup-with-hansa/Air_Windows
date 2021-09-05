@@ -5,14 +5,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Studygroup_with_Hansa.Models
 {
     class SubjectModel : ObservableObject
     {
-        public string BtnColor { get; set; }
+        public DispatcherTimer subjectTimer;
 
-        public string Name { get; set; }
+        private string _btnColor;
+        public string BtnColor
+        {
+            get { return _btnColor; }
+            set { SetProperty(ref _btnColor, value); }
+        }
+
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set { SetProperty(ref _name, value); }
+        }
 
         private int _elapsedTime = 0;
         public int ElapsedTime
@@ -22,7 +35,6 @@ namespace Studygroup_with_Hansa.Models
             {
                 SetProperty(ref _elapsedTime, value);
                 OnPropertyChanged("ElapsedTimeString");
-                OnPropertyChanged("Percentage");
             }
         }
 
@@ -44,8 +56,17 @@ namespace Studygroup_with_Hansa.Models
 
         public SubjectModel(string color, string name)
         {
+            subjectTimer = new DispatcherTimer();
+            subjectTimer.Interval = new TimeSpan(0, 0, 1);
+            subjectTimer.Tick += new EventHandler(Time_Elapsed);
+
             BtnColor = color;
             Name = name;
+        }
+
+        private void Time_Elapsed(object sender, EventArgs e)
+        {
+            ElapsedTime++;
         }
     }
 }

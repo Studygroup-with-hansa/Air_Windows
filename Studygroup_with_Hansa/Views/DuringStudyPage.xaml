@@ -12,26 +12,25 @@
     <StackPanel VerticalAlignment="Center"
                 HorizontalAlignment="Center">
         <TextBlock Text="{Binding SelectedSubject.Name}"
-                   FontFamily="Noto Sans" FontSize="14"
-                   FontWeight="SemiBold" Foreground="White"
+                   FontSize="14" FontWeight="SemiBold"
+                   Foreground="White"
                    HorizontalAlignment="Center"/>
         <TextBlock Text="{Binding NowTime,
                     StringFormat={}{0:yyyy.MM.dd}}"
-                   FontFamily="Noto Sans" FontSize="16"
-                   FontWeight="Medium" Foreground="White"
-                   Opacity="0.8" Margin="15"
+                   FontSize="16" FontWeight="Medium"
+                   Foreground="White" Opacity="0.8"
+                   Margin="15"
                    HorizontalAlignment="Center"/>
         <TextBlock Text="{Binding SelectedSubject.ElapsedTimeString}"
-                   FontFamily="Noto Sans" FontSize="26"
-                   FontWeight="Medium" Foreground="White"
+                   FontSize="26" FontWeight="Medium"
+                   Foreground="White"
                    Margin="-5"
                    HorizontalAlignment="Center"/>
         <TextBlock Text="{Binding GoalString,
                     StringFormat=목표 시간 : {0}}"
-                   FontFamily="Noto Sans" FontSize="16"
-                   FontWeight="Medium" Foreground="White"
-                   Opacity="0.8" Margin="40"
-                   HorizontalAlignment="Center"/>
+                   FontSize="16" FontWeight="Medium"
+                   Foreground="White" Opacity="0.8"
+                   Margin="40" HorizontalAlignment="Center"/>
         <Button Click="GoBackButton_Click"
                 Command="{Binding StopCommand}"
                 Height="32" Width="32"

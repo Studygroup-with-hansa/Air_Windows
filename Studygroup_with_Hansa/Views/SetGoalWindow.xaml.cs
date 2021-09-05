@@ -10,24 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Studygroup_with_Hansa.Views
 {
     /// <summary>
-    /// Interaction logic for DuringStudyPage.xaml
+    /// Interaction logic for SetGoalWindow.xaml
     /// </summary>
-    public partial class DuringStudyPage : Page
+    public partial class SetGoalWindow : Window
     {
-        public DuringStudyPage()
+        public SetGoalWindow()
         {
             InitializeComponent();
         }
 
-        private void GoBackButton_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.GoBack();
+            Close();
         }
     }
 }
