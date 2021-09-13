@@ -13,26 +13,12 @@ namespace Studygroup_with_Hansa.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string parameterString = parameter as string;
-
-            if (parameterString == null)
-                return DependencyProperty.UnsetValue;
-
-            if (Enum.IsDefined(value.GetType(), value) == false)
-                return DependencyProperty.UnsetValue;
-
-            object parameterValue = Enum.Parse(value.GetType(), parameterString);
-
-            return parameterValue.Equals(value);
+            return value?.Equals(parameter);
         }
+
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string parameterString = parameter as string;
-
-            if (parameterString == null)
-                return DependencyProperty.UnsetValue;
-
-            return Enum.Parse(targetType, parameterString);
+            return value?.Equals(true) == true ? parameter : Binding.DoNothing;
         }
     }
 }

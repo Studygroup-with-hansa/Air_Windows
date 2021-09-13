@@ -1,6 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 using Studygroup_with_Hansa.Messages;
 using Studygroup_with_Hansa.Models;
 using Studygroup_with_Hansa.Services;
@@ -13,16 +12,17 @@ using System.Windows;
 using System.Windows.Threading;
 using System.Collections;
 using System.Collections.ObjectModel;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
-    class HomePageViewModel : ObservableObject
+    public class HomePageViewModel : ViewModelBase
     {
         private DateTime _nowTime = DateTime.Now;
         public DateTime NowTime
         {
             get { return _nowTime; }
-            set { SetProperty(ref _nowTime, value); }
+            set { Set(ref _nowTime, value); }
         }
 
         private int _goal = -1;
@@ -31,10 +31,10 @@ namespace Studygroup_with_Hansa.ViewModels
             get { return _goal; }
             set
             {
-                SetProperty(ref _goal, value);
-                OnPropertyChanged("GoalString");
-                OnPropertyChanged("Progress");
-                OnPropertyChanged("ProgressLeft");
+                Set(ref _goal, value);
+                RaisePropertyChanged("GoalString");
+                RaisePropertyChanged("Progress");
+                RaisePropertyChanged("ProgressLeft");
             }
         }
 
@@ -86,19 +86,19 @@ namespace Studygroup_with_Hansa.ViewModels
             }
         }
 
-        public SubjectModel SelectedSubject { get; set; }
-
         public ObservableCollection<SubjectModel> Subjects { get; set; }
 
-        public IRelayCommand SetBlurCommand { get; private set; }
+        public SubjectModel SelectedSubject { get; set; }
 
-        public IRelayCommand StartCommand { get; private set; }
+        public RelayCommand SetBlurCommand { get; private set; }
 
-        public IRelayCommand StopCommand { get; private set; }
+        public RelayCommand<object> StartCommand { get; private set; }
 
-        public IRelayCommand SelectCommand { get; private set; }
+        public RelayCommand StopCommand { get; private set; }
 
-        public IRelayCommand DeleteCommand { get; private set; }
+        public RelayCommand<object> SelectCommand { get; private set; }
+
+        public RelayCommand<object> DeleteCommand { get; private set; }
 
         private static DispatcherTimer changeDateTimer;
 
@@ -112,20 +112,20 @@ namespace Studygroup_with_Hansa.ViewModels
             SelectCommand = new RelayCommand<object>(ExecuteSelectCommand);
             DeleteCommand = new RelayCommand<object>(ExecuteDeleteCommand);
 
-            WeakReferenceMessenger.Default.Register<GoalChangedMessage>(this, (r, m) =>
+            Messenger.Default.Register<GoalChangedMessage>(this, m =>
             {
-                Goal = m.Value;
+                Goal = m.Goal;
             });
 
-            WeakReferenceMessenger.Default.Register<SubjectAddedMessage>(this, (r, m) =>
+            Messenger.Default.Register<SubjectAddedMessage>(this, m =>
             {
-                Subjects.Add(m.Value);
+                Subjects.Add(m.Subject);
             });
 
-            WeakReferenceMessenger.Default.Register<SubjectEditedMessage>(this, (r, m) =>
+            Messenger.Default.Register<SubjectEditedMessage>(this, m =>
             {
-                Subjects[Subjects.IndexOf(SelectedSubject)].BtnColor = m.Value.BtnColor;
-                Subjects[Subjects.IndexOf(SelectedSubject)].Name = m.Value.Name;
+                Subjects[Subjects.IndexOf(SelectedSubject)].BtnColor = m.Subject.BtnColor;
+                Subjects[Subjects.IndexOf(SelectedSubject)].Name = m.Subject.Name;
             });
 
             SetupTimer();
@@ -173,7 +173,7 @@ namespace Studygroup_with_Hansa.ViewModels
 
         private void ExecuteSetBlurCommand()
         {
-            WeakReferenceMessenger.Default.Send(new IsBlurChangedMessage(true));
+            Messenger.Default.Send(new IsBlurChangedMessage(true));
         }
 
         private void ExecuteStartCommand(object obj)
@@ -186,9 +186,9 @@ namespace Studygroup_with_Hansa.ViewModels
         {
             SelectedSubject.subjectTimer.Stop();
             RefreshPercentage();
-            OnPropertyChanged("TotalRunString");
-            OnPropertyChanged("Progress");
-            OnPropertyChanged("ProgressLeft");
+            RaisePropertyChanged("TotalRunString");
+            RaisePropertyChanged("Progress");
+            RaisePropertyChanged("ProgressLeft");
         }
 
         private void ExecuteSelectCommand(object obj)
@@ -203,8 +203,8 @@ namespace Studygroup_with_Hansa.ViewModels
             Subjects.Remove(SelectedSubject);
 
             RefreshPercentage();
-            OnPropertyChanged("TotalRunString");
-            OnPropertyChanged("Progress");
+            RaisePropertyChanged("TotalRunString");
+            RaisePropertyChanged("Progress");
         }
     }
 }

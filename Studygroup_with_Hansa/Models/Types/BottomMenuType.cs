@@ -6,8 +6,5 @@ using System.Threading.Tasks;
 
 namespace Studygroup_with_Hansa.Models.Types
 {
-    class MenuType
-    {
-        public enum MenuNumber { Stat, Plan, Home, Todo, Badge }
-    }
+    public enum BottomMenu { Stat, Group, Home, Todo, Badge }
 }

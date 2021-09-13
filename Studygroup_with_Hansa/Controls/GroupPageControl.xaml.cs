@@ -18,9 +18,9 @@ namespace Studygroup_with_Hansa.Controls
     /// <summary>
     /// Interaction logic for PlanPageControl.xaml
     /// </summary>
-    public partial class PlanPageControl : UserControl
+    public partial class GroupPageControl : UserControl
     {
-        public PlanPageControl()
+        public GroupPageControl()
         {
             InitializeComponent();
         }

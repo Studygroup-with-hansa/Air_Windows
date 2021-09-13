@@ -5,12 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Studygroup_with_Hansa.Controls"
              xmlns:services="clr-namespace:Studygroup_with_Hansa.Services"
-             xmlns:viewmodels="clr-namespace:Studygroup_with_Hansa.ViewModels"
              xmlns:local="clr-namespace:Studygroup_with_Hansa.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="537.5" d:DesignWidth="800"
-             DataContext="{StaticResource HomePageViewModel}"
-             d:DataContext="{d:DesignInstance Type=viewmodels:HomePageViewModel}">
+             DataContext="{Binding Source={StaticResource Locator}, Path=HomePage}">
     <UserControl.Resources>
         <!--Binding DataContext-->
         <services:BindingProxy x:Key="Proxy" Data="{Binding}"/>
@@ -41,25 +39,6 @@
             </Setter>
         </Style>
 
-        <Style x:Key="DetailBtn" TargetType="{x:Type ToggleButton}">
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ToggleButton">
-                        <Border Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Cursor" Value="Hand"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <DataTemplate x:Key="ItemTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -80,6 +59,7 @@
                         Style="{StaticResource CleanBtn}">
                     <Image Source="{StaticResource startDrawingImage}"/>
                 </Button>
+                
                 <StackPanel Grid.Column="1"
                             Margin="0,5,0,0"
                             VerticalAlignment="Center">
@@ -90,17 +70,19 @@
                                FontSize="12" FontWeight="Regular"
                                Foreground="#333333" Opacity="0.5"/>
                 </StackPanel>
+                
                 <TextBlock Grid.Column="2"
-                           Text="{Binding Percentage, StringFormat={}{0:0.#}%}"
+                           Text="{Binding Percentage, StringFormat={}{0:0}%}"
                            FontSize="12" FontWeight="Regular"
                            Foreground="#333333" Opacity="0.5"
                            VerticalAlignment="Center"/>
+                
                 <controls:DropDownButton Grid.Column="3"
                                          Height="12" Width="5"
                                          BorderThickness="0"
                                          Background="Transparent"
                                          Margin="15"
-                                         Style="{StaticResource DetailBtn}">
+                                         Style="{StaticResource CleanTbtn}">
                     <Image Source="{StaticResource detailDrawingImage}"/>
                     <controls:DropDownButton.Menu>
                         <ContextMenu>
@@ -135,10 +117,12 @@
                            FontSize="16" FontWeight="Medium"
                            Foreground="White" Opacity="0.8"
                            Margin="0,40,0,5" HorizontalAlignment="Center"/>
+                
                 <TextBlock Text="{Binding TotalRunString}"
                            FontSize="26" FontWeight="Medium"
                            Foreground="White" Margin="5"
                            HorizontalAlignment="Center"/>
+                
                 <ContentControl Margin="20"
                                 HorizontalAlignment="Center">
                     <ContentControl.Style>
@@ -165,7 +149,7 @@
                                                             Source={StaticResource Proxy}}"
                                                         Background="Transparent"
                                                         BorderBrush="White"
-                                                        Opacity="0.85"
+                                                        Opacity="0.8"
                                                         Style="{DynamicResource TextBtn}">
                                                     <TextBlock Text="목표 시간을 설정해주세요"
                                                                FontSize="16" FontWeight="Medium"
@@ -179,6 +163,7 @@
                         </Style>
                     </ContentControl.Style>
                 </ContentControl>
+                
                 <Grid Height="20" Width="{Binding Path=ActualWidth,
                         RelativeSource={RelativeSource AncestorType=UserControl}}"
                       Margin="0,35,0,0">
@@ -222,11 +207,8 @@
             <ScrollViewer Grid.Row="1"
                           VerticalScrollBarVisibility="Auto"
                           FocusVisualStyle="{x:Null}">
-                <ItemsControl BorderThickness="0"
-                              ItemsSource="{Binding Subjects}"
-                              ItemTemplate="{StaticResource ItemTemplate}"
-                              HorizontalContentAlignment="Stretch">
-                </ItemsControl>
+                <ItemsControl ItemsSource="{Binding Subjects}"
+                              ItemTemplate="{StaticResource ItemTemplate}"/>
             </ScrollViewer>
         </Grid>
     </Grid>

@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using GalaSoft.MvvmLight;
 using Studygroup_with_Hansa.Services;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Windows.Threading;
 
 namespace Studygroup_with_Hansa.Models
 {
-    class SubjectModel : ObservableObject
+    public class SubjectModel : ObservableObject
     {
         public DispatcherTimer subjectTimer;
 
@@ -17,14 +17,14 @@ namespace Studygroup_with_Hansa.Models
         public string BtnColor
         {
             get { return _btnColor; }
-            set { SetProperty(ref _btnColor, value); }
+            set { Set(ref _btnColor, value); }
         }
 
         private string _name;
         public string Name
         {
             get { return _name; }
-            set { SetProperty(ref _name, value); }
+            set { Set(ref _name, value); }
         }
 
         private int _elapsedTime = 0;
@@ -33,8 +33,8 @@ namespace Studygroup_with_Hansa.Models
             get { return _elapsedTime; }
             set
             {
-                SetProperty(ref _elapsedTime, value);
-                OnPropertyChanged("ElapsedTimeString");
+                Set(ref _elapsedTime, value);
+                RaisePropertyChanged("ElapsedTimeString");
             }
         }
 
@@ -51,7 +51,7 @@ namespace Studygroup_with_Hansa.Models
         public double Percentage
         {
             get { return _percentage; }
-            set { SetProperty(ref _percentage, value); }
+            set { Set(ref _percentage, value); }
         }
 
         public SubjectModel(string color, string name)

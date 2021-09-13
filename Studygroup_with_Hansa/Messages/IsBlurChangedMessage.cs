@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.Messaging.Messages;
+﻿using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 
 namespace Studygroup_with_Hansa.Messages
 {
-    sealed class IsBlurChangedMessage : ValueChangedMessage<bool>
+    sealed class IsBlurChangedMessage : MessageBase
     {
-        public IsBlurChangedMessage(bool IsBlur) : base(IsBlur) { }
+        public bool IsBlur { get; set; }
+
+        public IsBlurChangedMessage(bool isBlur)
+        {
+            IsBlur = isBlur;
+        }
     }
 }

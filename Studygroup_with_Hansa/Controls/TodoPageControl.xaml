@@ -3,10 +3,246 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:controls="clr-namespace:Studygroup_with_Hansa.Controls"
              xmlns:local="clr-namespace:Studygroup_with_Hansa.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="537.5" d:DesignWidth="800">
+             d:DesignHeight="537.5" d:DesignWidth="800"
+             DataContext="{Binding Source={StaticResource Locator}, Path=TodoPage}">
+    <UserControl.Resources>
+        <Style x:Key="AddTodoBtn" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="5"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Left"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="ItemTemplate">
+            <Border CornerRadius="5"
+                    Background="#F8F8FA"
+                    Margin="0,0,0,15">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0"
+                            Background="#7C92E0">
+                        <ToggleButton IsChecked="{Binding IsOpen}"
+                                      Background="Transparent"
+                                      Style="{StaticResource CleanTbtn}">
+                            <Grid Margin="15,17">
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding Name}"
+                                               FontSize="14" FontWeight="SemiBold"
+                                               Foreground="White"/>
+
+                                    <TextBlock Text="{Binding Percentage,
+                                                StringFormat={}{0:0}% 달성}"
+                                               FontSize="12" FontWeight="Regular"
+                                               Foreground="White" Opacity="0.5"
+                                               Margin="10,2,0,0"/>
+                                </StackPanel>
+
+                                <ContentControl Height="15" Width="15"
+                                                HorizontalAlignment="Right">
+                                    <ContentControl.Style>
+                                        <Style TargetType="{x:Type ContentControl}">
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <Image Source="{StaticResource downDrawingImage}"/>
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource=
+                                                                {RelativeSource AncestorType=ToggleButton},
+                                                                Path=IsChecked}"
+                                                             Value="True">
+                                                    <Setter Property="ContentTemplate">
+                                                        <Setter.Value>
+                                                            <DataTemplate>
+                                                                <Image Source="{StaticResource upDrawingImage}"/>
+                                                            </DataTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ContentControl.Style>
+                                </ContentControl>
+                            </Grid>
+                        </ToggleButton>
+
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsOpen}" Value="True">
+                                        <Setter Property="CornerRadius" Value="5,5,0,0"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+
+                    <ItemsControl Grid.Row="1"
+                                  ItemsSource="{Binding Todos}"
+                                  Margin="15,15,15,5">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ToggleButton IsChecked="{Binding IsOver}"
+                                              Background="Transparent"
+                                              Margin="0,0,0,10"
+                                              HorizontalAlignment="Left"
+                                              Style="{StaticResource CleanTbtn}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox IsChecked="{Binding RelativeSource=
+                                                    {RelativeSource AncestorType=ToggleButton},
+                                                    Path=IsChecked, Mode=TwoWay}"
+                                                  BorderBrush="#E2E2E2"
+                                                  IsHitTestVisible="False"/>
+
+                                        <TextBlock Text="{Binding Todo}"
+                                                   FontSize="12" FontWeight="Regular"
+                                                   Foreground="#333333"
+                                                   Margin="10,1,0,0"/>
+                                    </StackPanel>
+                                </ToggleButton>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                        <ItemsControl.Style>
+                            <Style TargetType="{x:Type ItemsControl}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsOpen}" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ItemsControl.Style>
+                    </ItemsControl>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+    
     <Grid>
-        <TextBlock>Todo</TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,20,0,0">
+            <Button Command="{Binding YesterdayCommand}"
+                    Background="Transparent"
+                    Style="{StaticResource CleanBtn}">
+                <Image Source="{StaticResource beforeDrawingImage}"/>
+            </Button>
+
+            <controls:TextDatePicker x:Name="datePicker"
+                                     SelectedDate="{Binding SelectedDate}"
+                                     Width="92"
+                                     Focusable="False"
+                                     FontSize="16" FontWeight="Medium"
+                                     Foreground="#333333"
+                                     BorderThickness="0"
+                                     Margin="20,0,20,0">
+                <controls:TextDatePicker.Resources>
+                    <Style TargetType="{x:Type DatePickerTextBox}">
+                        <EventSetter Event="MouseLeftButtonUp" Handler="OnMouseLeftButtonUp"/>
+                        <Setter Property="IsReadOnly" Value="True"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:TextDatePicker.Resources>
+            </controls:TextDatePicker>
+
+            <Button Command="{Binding TomorrowCommand}"
+                    Background="Transparent"
+                    Style="{StaticResource CleanBtn}">
+                <Image Source="{StaticResource afterDrawingImage}"/>
+            </Button>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer Grid.Column="0"
+                          VerticalScrollBarVisibility="Auto"
+                          FocusVisualStyle="{x:Null}"
+                          Margin="20,20,10,20">
+                <StackPanel>
+                    <ItemsControl ItemsSource="{Binding TodoList}"
+                                  ItemTemplate="{StaticResource ItemTemplate}"/>
+
+                    <Button Background="#F8F8F8"
+                            Padding="15,7"
+                            Style="{StaticResource AddTodoBtn}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="+"
+                                       FontSize="30" FontWeight="Regular"
+                                       Foreground="#5F79D3"/>
+                            <TextBlock Text="과목 추가"
+                                       FontSize="14" FontWeight="Regular"
+                                       Foreground="#5F79D3"
+                                       Margin="10,11.5,0,0"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </ScrollViewer>
+
+            <Border Grid.Column="1"
+                    Background="#F8F8FA"
+                    BorderThickness="1"
+                    BorderBrush="#F1F1F3"
+                    CornerRadius="5"
+                    Margin="10,20,20,20">
+                <xctk:WatermarkTextBox Text="{Binding InputMemo}"
+                                       AcceptsReturn="True" AcceptsTab="True"
+                                       TextWrapping="WrapWithOverflow"
+                                       Background="Transparent"
+                                       FontSize="12" FontWeight="Regular"
+                                       Foreground="#333333" Padding="15"
+                                       BorderThickness="0"
+                                       VerticalScrollBarVisibility="Auto">
+                    <xctk:WatermarkTextBox.Watermark>
+                        <TextBlock Text="자유롭게 메모해주세요"
+                               FontSize="12" FontWeight="Regular"
+                               Foreground="#333333" Opacity="0.5"/>
+                    </xctk:WatermarkTextBox.Watermark>
+                </xctk:WatermarkTextBox>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>

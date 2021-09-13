@@ -1,18 +1,18 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
 using Studygroup_with_Hansa.Messages;
 using Studygroup_with_Hansa.Models;
+using Studygroup_with_Hansa.Models.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Studygroup_with_Hansa.Models.Types.SubjectColorType;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
-    class EditSubjectViewModel : ObservableObject
+    public class EditSubjectViewModel : ViewModelBase
     {
         private string _enteredName = string.Empty;
         public string EnteredName
@@ -21,7 +21,7 @@ namespace Studygroup_with_Hansa.ViewModels
             set
             {
                 _enteredName = value;
-                EditCommand.NotifyCanExecuteChanged();
+                EditCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -29,12 +29,12 @@ namespace Studygroup_with_Hansa.ViewModels
         public SubjectColor SelectedColor
         {
             get { return _selectedColor; }
-            set { SetProperty(ref _selectedColor, value); }
+            set { Set(ref _selectedColor, value); }
         }
 
-        public IRelayCommand EditCommand { get; private set; }
+        public RelayCommand EditCommand { get; private set; }
 
-        public IRelayCommand OffBlurCommand { get; private set; }
+        public RelayCommand OffBlurCommand { get; private set; }
 
         public EditSubjectViewModel()
         {
@@ -46,7 +46,7 @@ namespace Studygroup_with_Hansa.ViewModels
         {
             SubjectModel toEditSubject =
                 new SubjectModel(SelectedColor.ToString().Replace("_", "#"), EnteredName.Trim());
-            WeakReferenceMessenger.Default.Send(new SubjectEditedMessage(toEditSubject));
+            Messenger.Default.Send(new SubjectEditedMessage(toEditSubject));
             ExecuteOffBlurCommand();
         }
 
@@ -57,7 +57,7 @@ namespace Studygroup_with_Hansa.ViewModels
 
         private void ExecuteOffBlurCommand()
         {
-            WeakReferenceMessenger.Default.Send(new IsBlurChangedMessage(false));
+            Messenger.Default.Send(new IsBlurChangedMessage(false));
         }
     }
 }

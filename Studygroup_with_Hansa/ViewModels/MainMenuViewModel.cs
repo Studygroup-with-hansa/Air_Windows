@@ -1,37 +1,37 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Messaging;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
 using Studygroup_with_Hansa.Messages;
+using Studygroup_with_Hansa.Models.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using static Studygroup_with_Hansa.Models.Types.MenuType;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
-    class MainMenuViewModel : ObservableObject
+    public class MainMenuViewModel : ViewModelBase
     {
-        private MenuNumber _menuNumbers = MenuNumber.Home;
-        public MenuNumber MenuNumbers
+        private BottomMenu _menuNumbers = BottomMenu.Home;
+        public BottomMenu MenuNumbers
         {
             get { return _menuNumbers; }
-            set { SetProperty(ref _menuNumbers, value); }
+            set { Set(ref _menuNumbers, value); }
         }
 
         private Visibility _isBlur = Visibility.Collapsed;
         public Visibility IsBlur
         {
             get { return _isBlur; }
-            set { SetProperty(ref _isBlur, value); }
+            set { Set(ref _isBlur, value); }
         }
 
         public MainMenuViewModel()
         {
-            WeakReferenceMessenger.Default.Register<IsBlurChangedMessage>(this, (r, m) =>
+            Messenger.Default.Register<IsBlurChangedMessage>(this, m =>
             {
-                IsBlur = m.Value ? Visibility.Visible : Visibility.Collapsed;
+                IsBlur = m.IsBlur ? Visibility.Visible : Visibility.Collapsed;
             });
         }
     }

@@ -1,18 +1,18 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
 using Studygroup_with_Hansa.Messages;
 using Studygroup_with_Hansa.Models;
+using Studygroup_with_Hansa.Models.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Studygroup_with_Hansa.Models.Types.SubjectColorType;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
-    class AddSubjectViewModel : ObservableObject
+    public class AddSubjectViewModel : ViewModelBase
     {
         private string _enteredName = string.Empty;
         public string EnteredName
@@ -21,7 +21,7 @@ namespace Studygroup_with_Hansa.ViewModels
             set
             {
                 _enteredName = value;
-                AddCommand.NotifyCanExecuteChanged();
+                AddCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -29,10 +29,10 @@ namespace Studygroup_with_Hansa.ViewModels
         public SubjectColor SelectedColor
         {
             get { return _selectedColor; }
-            set { SetProperty(ref _selectedColor, value); }
+            set { Set(ref _selectedColor, value); }
         }
 
-        public IRelayCommand AddCommand { get; private set; }
+        public RelayCommand AddCommand { get; private set; }
 
         public AddSubjectViewModel()
         {
@@ -43,7 +43,7 @@ namespace Studygroup_with_Hansa.ViewModels
         {
             SubjectModel toAddSubject =
                 new SubjectModel(SelectedColor.ToString().Replace("_", "#"), EnteredName.Trim());
-            WeakReferenceMessenger.Default.Send(new SubjectAddedMessage(toAddSubject));
+            Messenger.Default.Send(new SubjectAddedMessage(toAddSubject));
         }
 
         private bool CanExecuteAddCommand()

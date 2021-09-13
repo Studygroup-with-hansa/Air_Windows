@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:converters="clr-namespace:Studygroup_with_Hansa.Converters"
+        xmlns:types="clr-namespace:Studygroup_with_Hansa.Models.Types"
         xmlns:services="clr-namespace:Studygroup_with_Hansa.Services"
         xmlns:viewmodels="clr-namespace:Studygroup_with_Hansa.ViewModels"
         xmlns:local="clr-namespace:Studygroup_with_Hansa.Views"
@@ -64,14 +65,14 @@
                            Foreground="#333333"/>
                 <xctk:WatermarkTextBox Text="{Binding EnteredName,
                                         UpdateSourceTrigger=PropertyChanged}"
-                                       FontSize="10" FontWeight="Regular"
+                                       FontSize="11" FontWeight="Regular"
                                        Foreground="#333333"
                                        Background="Transparent"
                                        BorderThickness="0"
                                        Margin="0,10,0,15">
                     <xctk:WatermarkTextBox.Watermark>
                         <TextBlock Text="과목 이름을 입력해주세요"
-                                   FontSize="10" FontWeight="Regular"
+                                   FontSize="11" FontWeight="Regular"
                                    Foreground="#C4C4C4"/>
                     </xctk:WatermarkTextBox.Watermark>
                 </xctk:WatermarkTextBox>
@@ -83,27 +84,27 @@
                             services:MarginSetter.Margin="0,10,15,0">
                     <RadioButton IsChecked="{Binding SelectedColor,
                                     Converter={StaticResource EnumToBoolean},
-                                    ConverterParameter=_ED6A5E}"
+                                    ConverterParameter={x:Static types:SubjectColor._ED6A5E}}"
                                  Background="#ED6A5E"
                                  Style="{StaticResource ColorSelectBtn}"/>
                     <RadioButton IsChecked="{Binding SelectedColor,
                                     Converter={StaticResource EnumToBoolean},
-                                    ConverterParameter=_F6C343}"
+                                    ConverterParameter={x:Static types:SubjectColor._F6C343}}"
                                  Background="#F6C343"
                                  Style="{StaticResource ColorSelectBtn}"/>
                     <RadioButton IsChecked="{Binding SelectedColor,
                                     Converter={StaticResource EnumToBoolean},
-                                    ConverterParameter=_79D16E}"
+                                    ConverterParameter={x:Static types:SubjectColor._79D16E}}"
                                  Background="#79D16E"
                                  Style="{StaticResource ColorSelectBtn}"/>
                     <RadioButton IsChecked="{Binding SelectedColor,
                                     Converter={StaticResource EnumToBoolean},
-                                    ConverterParameter=_97BAFF}"
+                                    ConverterParameter={x:Static types:SubjectColor._97BAFF}}"
                                  Background="#97BAFF"
                                  Style="{StaticResource ColorSelectBtn}"/>
                     <RadioButton IsChecked="{Binding SelectedColor,
                                     Converter={StaticResource EnumToBoolean},
-                                    ConverterParameter=_8886FF}"
+                                    ConverterParameter={x:Static types:SubjectColor._8886FF}}"
                                  Background="#8886FF"
                                  Style="{StaticResource ColorSelectBtn}"/>
                 </StackPanel>
@@ -111,7 +112,8 @@
 
             <StackPanel Orientation="Horizontal"
                         VerticalAlignment="Bottom"
-                        HorizontalAlignment="Right">
+                        HorizontalAlignment="Right"
+                        Margin="15">
                 <Button Click="CloseButton_Click"
                         Command="{Binding EditCommand}"
                         Background="Transparent"
@@ -123,7 +125,7 @@
                 <Button Click="CloseButton_Click"
                         Command="{Binding OffBlurCommand}"
                         Background="Transparent"
-                        Margin="15"
+                        Margin="15,0,0,0"
                         Style="{StaticResource CleanBtn}">
                     <TextBlock Text="취소"
                                FontSize="12" FontWeight="Regular"

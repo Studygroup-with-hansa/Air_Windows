@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DrawingImage x:Key="groupDrawingImage">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V17 H17 V0 H0 Z">
+                <GeometryDrawing Geometry="F1 M17,17z M0,0z M0,2C0,0.89543,0.895431,0,2,0L15,0C16.1046,0,17,0.895431,17,2L17,15C17,16.1046,16.1046,17,15,17L2,17C0.89543,17,0,16.1046,0,15L0,2z">
+                    <GeometryDrawing.Brush>
+                        <SolidColorBrush Color="#FF464646"/>
+                    </GeometryDrawing.Brush>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#FFFFFFFF">
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry RadiusX="3.4871" RadiusY="3.4871" Center="8.3691,7.0149" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#FFFFFFFF" Geometry="F0 M17,17z M0,0z M14.628,17L2.10998,17C2.35336,13.7559 5.06263,11.1995 8.36898,11.1995 11.6753,11.1995 14.3846,13.7559 14.628,17z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+</ResourceDictionary>

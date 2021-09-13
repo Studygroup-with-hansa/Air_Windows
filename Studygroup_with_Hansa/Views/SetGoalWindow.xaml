@@ -61,7 +61,8 @@
 
             <StackPanel Orientation="Horizontal"
                         VerticalAlignment="Bottom"
-                        HorizontalAlignment="Right">
+                        HorizontalAlignment="Right"
+                        Margin="15">
                 <Button Click="CloseButton_Click"
                         Command="{Binding SetCommand}"
                         Background="Transparent"
@@ -73,7 +74,7 @@
                 <Button Click="CloseButton_Click"
                         Command="{Binding OffBlurCommand}"
                         Background="Transparent"
-                        Margin="15"
+                        Margin="15,0,0,0"
                         Style="{StaticResource CleanBtn}">
                     <TextBlock Text="취소"
                                FontSize="12" FontWeight="Regular"

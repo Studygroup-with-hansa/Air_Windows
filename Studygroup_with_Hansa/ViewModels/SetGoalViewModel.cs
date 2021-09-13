@@ -1,6 +1,6 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
 using Studygroup_with_Hansa.Messages;
 using Studygroup_with_Hansa.Services;
 using System;
@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
-    class SetGoalViewModel : ObservableObject
+    public class SetGoalViewModel : ViewModelBase
     {
         private int _enteredHour;
         public int EnteredHour
@@ -21,7 +21,7 @@ namespace Studygroup_with_Hansa.ViewModels
             set
             {
                 _enteredHour = value;
-                SetCommand.NotifyCanExecuteChanged();
+                SetCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -32,7 +32,7 @@ namespace Studygroup_with_Hansa.ViewModels
             set
             {
                 _enteredMinute = value;
-                SetCommand.NotifyCanExecuteChanged();
+                SetCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -43,13 +43,13 @@ namespace Studygroup_with_Hansa.ViewModels
             set
             {
                 _enteredSecond = value;
-                SetCommand.NotifyCanExecuteChanged();
+                SetCommand.RaiseCanExecuteChanged();
             }
         }
 
-        public IRelayCommand SetCommand { get; private set; }
+        public RelayCommand SetCommand { get; private set; }
 
-        public IRelayCommand OffBlurCommand { get; private set; }
+        public RelayCommand OffBlurCommand { get; private set; }
 
         public SetGoalViewModel()
         {
@@ -60,7 +60,7 @@ namespace Studygroup_with_Hansa.ViewModels
         private void ExecuteSetCommand()
         {
             int goal = TimeToSeconds.ToSeconds(EnteredHour, EnteredMinute, EnteredSecond);
-            WeakReferenceMessenger.Default.Send(new GoalChangedMessage(goal));
+            Messenger.Default.Send(new GoalChangedMessage(goal));
             ExecuteOffBlurCommand();
         }
 
@@ -71,7 +71,7 @@ namespace Studygroup_with_Hansa.ViewModels
 
         private void ExecuteOffBlurCommand()
         {
-            WeakReferenceMessenger.Default.Send(new IsBlurChangedMessage(false));
+            Messenger.Default.Send(new IsBlurChangedMessage(false));
         }
     }
 }

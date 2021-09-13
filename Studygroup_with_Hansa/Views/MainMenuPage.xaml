@@ -5,14 +5,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:controls="clr-namespace:Studygroup_with_Hansa.Controls"
       xmlns:converters="clr-namespace:Studygroup_with_Hansa.Converters"
+      xmlns:types="clr-namespace:Studygroup_with_Hansa.Models.Types"
       xmlns:services="clr-namespace:Studygroup_with_Hansa.Services"
-      xmlns:viewmodels="clr-namespace:Studygroup_with_Hansa.ViewModels"
       xmlns:local="clr-namespace:Studygroup_with_Hansa.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="800">
-    <Page.DataContext>
-        <viewmodels:MainMenuViewModel/>
-    </Page.DataContext>
+      d:DesignHeight="600" d:DesignWidth="800"
+      DataContext="{Binding Source={StaticResource Locator}, Path=MainMenu}">
     <Page.Resources>
         <converters:EnumToBooleanConverter x:Key="EnumToBoolean"/>
         
@@ -20,8 +18,8 @@
         <DataTemplate x:Key="StatPage">
             <controls:StatPageControl/>
         </DataTemplate>
-        <DataTemplate x:Key="PlanPage">
-            <controls:PlanPageControl/>
+        <DataTemplate x:Key="GroupPage">
+            <controls:GroupPageControl/>
         </DataTemplate>
         <DataTemplate x:Key="HomePage">
             <controls:HomePageControl/>
@@ -80,9 +78,9 @@
                             <Setter Property="ContentTemplate"
                                     Value="{StaticResource StatPage}"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding MenuNumbers}" Value="Plan">
+                        <DataTrigger Binding="{Binding MenuNumbers}" Value="Group">
                             <Setter Property="ContentTemplate"
-                                    Value="{StaticResource PlanPage}"/>
+                                    Value="{StaticResource GroupPage}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding MenuNumbers}" Value="Home">
                             <Setter Property="ContentTemplate"
@@ -115,31 +113,31 @@
                         services:MarginSetter.Margin="30">
                 <RadioButton IsChecked="{Binding MenuNumbers,
                                 Converter={StaticResource EnumToBoolean},
-                                ConverterParameter=Stat}"
+                                ConverterParameter={x:Static types:BottomMenu.Stat}}"
                              Style="{StaticResource BottomMenuBtn}">
                     <Image Source="{StaticResource statDrawingImage}"/>
                 </RadioButton>
                 <RadioButton IsChecked="{Binding MenuNumbers,
                                 Converter={StaticResource EnumToBoolean},
-                                ConverterParameter=Plan}"
+                                ConverterParameter={x:Static types:BottomMenu.Group}}"
                              Style="{StaticResource BottomMenuBtn}">
-                    <Image Source="{StaticResource planDrawingImage}"/>
+                    <Image Source="{StaticResource groupDrawingImage}"/>
                 </RadioButton>
                 <RadioButton IsChecked="{Binding MenuNumbers,
                                 Converter={StaticResource EnumToBoolean},
-                                ConverterParameter=Home}"
+                                ConverterParameter={x:Static types:BottomMenu.Home}}"
                              Style="{StaticResource BottomMenuBtn}">
                     <Image Source="{StaticResource homeDrawingImage}"/>
                 </RadioButton>
                 <RadioButton IsChecked="{Binding MenuNumbers,
                                 Converter={StaticResource EnumToBoolean},
-                                ConverterParameter=Todo}"
+                                ConverterParameter={x:Static types:BottomMenu.Todo}}"
                              Style="{StaticResource BottomMenuBtn}">
                     <Image Source="{StaticResource todoDrawingImage}"/>
                 </RadioButton>
                 <RadioButton IsChecked="{Binding MenuNumbers,
                                 Converter={StaticResource EnumToBoolean},
-                                ConverterParameter=Badge}"
+                                ConverterParameter={x:Static types:BottomMenu.Badge}}"
                              Style="{StaticResource BottomMenuBtn}">
                     <Image Source="{StaticResource badgeDrawingImage}"/>
                 </RadioButton>

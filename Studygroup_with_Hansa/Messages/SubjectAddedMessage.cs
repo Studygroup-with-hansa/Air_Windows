@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.Messaging.Messages;
+﻿using GalaSoft.MvvmLight.Messaging;
 using Studygroup_with_Hansa.Models;
 using System;
 using System.Collections.Generic;
@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 
 namespace Studygroup_with_Hansa.Messages
 {
-    class SubjectAddedMessage : ValueChangedMessage<SubjectModel>
+    class SubjectAddedMessage : MessageBase
     {
-        public SubjectAddedMessage(SubjectModel subject) : base(subject) { }
+        public SubjectModel Subject { get; set; }
+
+        public SubjectAddedMessage(SubjectModel subject)
+        {
+            Subject = subject;
+        }
     }
 }
