@@ -9,18 +9,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
     public class AddSubjectViewModel : ViewModelBase
     {
-        private string _enteredName = string.Empty;
-        public string EnteredName
+        private bool _validity = true;
+        public bool Validity
         {
-            get { return _enteredName; }
+            get { return _validity; }
+            set { Set(ref _validity, value); }
+        }
+
+        private string _inputName = string.Empty;
+        public string InputName
+        {
+            get { return _inputName; }
             set
             {
-                _enteredName = value;
+                _inputName = value;
                 AddCommand.RaiseCanExecuteChanged();
             }
         }
@@ -34,21 +42,37 @@ namespace Studygroup_with_Hansa.ViewModels
 
         public RelayCommand AddCommand { get; private set; }
 
+        private List<SubjectModel> subjects = null;
+
         public AddSubjectViewModel()
         {
+            ViewModelLocator locator = (ViewModelLocator)Application.Current.Resources["Locator"];
+
             AddCommand = new RelayCommand(ExecuteAddCommand, CanExecuteAddCommand);
+
+            subjects = locator.HomePage.Subjects.ToList();
         }
 
         private void ExecuteAddCommand()
         {
             SubjectModel toAddSubject =
-                new SubjectModel(SelectedColor.ToString().Replace("_", "#"), EnteredName.Trim());
+                new SubjectModel(SelectedColor.ToString().Replace("_", "#"), InputName.Trim());
             Messenger.Default.Send(new SubjectAddedMessage(toAddSubject));
         }
 
         private bool CanExecuteAddCommand()
         {
-            return string.IsNullOrWhiteSpace(EnteredName) == false;
+            Validity = true;
+            foreach(SubjectModel e in subjects)
+            {
+                if (e.Name == InputName)
+                {
+                    Validity = false;
+                    return false;
+                }
+            }
+
+            return string.IsNullOrWhiteSpace(InputName) == false;
         }
     }
 }

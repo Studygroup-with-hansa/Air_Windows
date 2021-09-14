@@ -252,9 +252,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\TextDatePicker.cs" />
+    <Compile Include="Converters\MultiParameterConverter.cs" />
     <Compile Include="Messages\GoalChangedMessage.cs" />
     <Compile Include="Messages\IsBlurChangedMessage.cs" />
     <Compile Include="Messages\SubjectAddedMessage.cs" />
+    <Compile Include="Messages\SubjectDeletedMessage.cs" />
     <Compile Include="Messages\SubjectEditedMessage.cs" />
     <Compile Include="Models\TodoModel.cs" />
     <Compile Include="Models\Types\BottomMenuType.cs" />
@@ -307,6 +309,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\before.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\cross.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

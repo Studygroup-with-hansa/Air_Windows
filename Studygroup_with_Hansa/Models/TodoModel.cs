@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using Studygroup_with_Hansa.Models.Types;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -36,18 +37,35 @@ namespace Studygroup_with_Hansa.Models
             set { Set(ref _isOpen, value); }
         }
 
-        public string Name { get; set; }
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set { Set(ref _name, value); }
+        }
 
         private double _percentage;
         public double Percentage
         {
             get
             {
-                _percentage = 0;
-                Todos.ToList().ForEach(e => _percentage += Convert.ToInt32(e.IsOver));
-                _percentage = (double)(_percentage / Todos.Count) * 100;
-                return _percentage;
+                if (Todos.Count > 0)
+                {
+                    _percentage = 0;
+                    Todos.ToList().ForEach(e => _percentage += Convert.ToInt32(e.IsOver));
+                    _percentage = (double)(_percentage / Todos.Count) * 100;
+                    return _percentage;
+                }
+
+                return 0;
             }
+        }
+
+        private string _inputTodo;
+        public string InputTodo
+        {
+            get { return _inputTodo; }
+            set { Set(ref _inputTodo, value); }
         }
 
         public ObservableCollection<TodoItem> Todos { get; set; }
@@ -59,7 +77,7 @@ namespace Studygroup_with_Hansa.Models
             Todos = new ObservableCollection<TodoItem>();
             Todos.CollectionChanged += TodoCollectionChanged;
 
-            todos.ForEach(e => Todos.Add(e));
+            if (todos != null) todos.ForEach(e => Todos.Add(e));
         }
 
         public void TodoCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -80,6 +98,8 @@ namespace Studygroup_with_Hansa.Models
                     item.PropertyChanged += TodoItemPropertyChanged;
                 }
             }
+
+            RaisePropertyChanged("Percentage");
         }
 
         public void TodoItemPropertyChanged(object sender, PropertyChangedEventArgs e)

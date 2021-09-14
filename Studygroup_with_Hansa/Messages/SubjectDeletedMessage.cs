@@ -8,15 +8,12 @@ using System.Threading.Tasks;
 
 namespace Studygroup_with_Hansa.Messages
 {
-    class SubjectEditedMessage : MessageBase
+    class SubjectDeletedMessage : MessageBase
     {
-        public string OldName { get; set; }
-
         public SubjectModel Subject { get; set; }
 
-        public SubjectEditedMessage(string name, SubjectModel subject)
+        public SubjectDeletedMessage(SubjectModel subject)
         {
-            OldName = name;
             Subject = subject;
         }
     }

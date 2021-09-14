@@ -1,5 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
+using Studygroup_with_Hansa.Messages;
 using Studygroup_with_Hansa.Models;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Xceed.Wpf.Toolkit;
 
 namespace Studygroup_with_Hansa.ViewModels
@@ -33,19 +36,47 @@ namespace Studygroup_with_Hansa.ViewModels
 
         public RelayCommand TomorrowCommand { get; private set; }
 
+        public RelayCommand<object> AddTodoCommand { get; private set; }
+
+        public RelayCommand<List<object>> DelTodoCommand { get; private set; }
+
         public TodoPageViewModel()
         {
+            ViewModelLocator locator = (ViewModelLocator)Application.Current.Resources["Locator"];
+
             TodoList = new ObservableCollection<TodoModel>();
-
-            var todos = new List<TodoItem>();
-            todos.Add(new TodoItem("할 일"));
-            todos.Add(new TodoItem("할 일"));
-            todos.Add(new TodoItem("할 일"));
-
-            TodoList.Add(new TodoModel("과목", todos));
+            locator.HomePage.Subjects.ToList().ForEach(e =>
+            {
+                TodoList.Add(new TodoModel(e.Name, null));
+            });
 
             YesterdayCommand = new RelayCommand(ExecuteYesterdayCommand);
             TomorrowCommand = new RelayCommand(ExecuteTomorrowCommand);
+            AddTodoCommand = new RelayCommand<object>(ExecuteAddTodoCommand);
+            DelTodoCommand = new RelayCommand<List<object>>(ExecuteDelTodoCommand);
+
+            Messenger.Default.Register<SubjectAddedMessage>(this, m =>
+            {
+                TodoList.Add(new TodoModel(m.Subject.Name, null));
+            });
+
+            Messenger.Default.Register<SubjectEditedMessage>(this, m =>
+            {
+                for(int i = 0; i < TodoList.Count(); i++)
+                {
+                    if(TodoList[i].Name == m.OldName)
+                        TodoList[i].Name = m.Subject.Name;
+                }
+            });
+
+            Messenger.Default.Register<SubjectDeletedMessage>(this, m =>
+            {
+                for (int i = 0; i < TodoList.Count(); i++)
+                {
+                    if (TodoList[i].Name == m.Subject.Name)
+                        TodoList.Remove(TodoList[i]);
+                }
+            });
         }
 
         private void ExecuteYesterdayCommand()
@@ -56,6 +87,23 @@ namespace Studygroup_with_Hansa.ViewModels
         private void ExecuteTomorrowCommand()
         {
             SelectedDate = SelectedDate.AddDays(1);
+        }
+
+        private void ExecuteAddTodoCommand(object obj)
+        {
+            TodoModel todo = obj as TodoModel;
+
+            if (!string.IsNullOrWhiteSpace(todo.InputTodo))
+                todo.Todos.Add(new TodoItem(todo.InputTodo.Trim()));
+
+            todo.InputTodo = string.Empty;
+        }
+
+        private void ExecuteDelTodoCommand(List<object> objs)
+        {
+            TodoModel todo = objs[0] as TodoModel;
+            TodoItem todoItem = objs[1] as TodoItem;
+            todo.Todos.Remove(todoItem);
         }
     }
 }

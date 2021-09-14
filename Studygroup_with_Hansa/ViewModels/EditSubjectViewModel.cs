@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
@@ -46,7 +47,9 @@ namespace Studygroup_with_Hansa.ViewModels
         {
             SubjectModel toEditSubject =
                 new SubjectModel(SelectedColor.ToString().Replace("_", "#"), EnteredName.Trim());
-            Messenger.Default.Send(new SubjectEditedMessage(toEditSubject));
+            ViewModelLocator locator = (ViewModelLocator)Application.Current.Resources["Locator"];
+
+            Messenger.Default.Send(new SubjectEditedMessage(locator.HomePage.SelectedSubject.Name, toEditSubject));
             ExecuteOffBlurCommand();
         }
 

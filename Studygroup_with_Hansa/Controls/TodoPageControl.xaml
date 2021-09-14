@@ -5,11 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:controls="clr-namespace:Studygroup_with_Hansa.Controls"
+             xmlns:converters="clr-namespace:Studygroup_with_Hansa.Converters"
+             xmlns:services="clr-namespace:Studygroup_with_Hansa.Services"
              xmlns:local="clr-namespace:Studygroup_with_Hansa.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="537.5" d:DesignWidth="800"
              DataContext="{Binding Source={StaticResource Locator}, Path=TodoPage}">
     <UserControl.Resources>
+        <!--Binding DataContext-->
+        <services:BindingProxy x:Key="Proxy" Data="{Binding}"/>
+        
+        <converters:MultiParameterConverter x:Key="MultiParameter"/>
+
         <Style x:Key="AddTodoBtn" TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="Template">
@@ -107,42 +114,109 @@
                         </Border.Style>
                     </Border>
 
-                    <ItemsControl Grid.Row="1"
-                                  ItemsSource="{Binding Todos}"
-                                  Margin="15,15,15,5">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <ToggleButton IsChecked="{Binding IsOver}"
-                                              Background="Transparent"
-                                              Margin="0,0,0,10"
-                                              HorizontalAlignment="Left"
-                                              Style="{StaticResource CleanTbtn}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox IsChecked="{Binding RelativeSource=
-                                                    {RelativeSource AncestorType=ToggleButton},
-                                                    Path=IsChecked, Mode=TwoWay}"
-                                                  BorderBrush="#E2E2E2"
-                                                  IsHitTestVisible="False"/>
+                    <StackPanel Grid.Row="1"
+                                Margin="15">
+                        <ItemsControl ItemsSource="{Binding Todos}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,0,10">
+                                        <ToggleButton IsChecked="{Binding IsOver}"
+                                                      Background="Transparent"
+                                                      HorizontalAlignment="Left"
+                                                      Style="{StaticResource CleanTbtn}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox IsChecked="{Binding RelativeSource=
+                                                            {RelativeSource AncestorType=ToggleButton},
+                                                            Path=IsChecked, Mode=TwoWay}"
+                                                          IsHitTestVisible="False"
+                                                          BorderBrush="#d2d2d2"
+                                                          Opacity="0.5"/>
 
-                                        <TextBlock Text="{Binding Todo}"
+                                                <TextBlock Text="{Binding Todo}"
+                                                           TextWrapping="WrapWithOverflow"
+                                                           FontSize="12" FontWeight="Regular"
+                                                           Foreground="#333333"
+                                                           Margin="10,0,0,0">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="{x:Type TextBlock}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsOver}"
+                                                                             Value="True">
+                                                                    <Setter Property="TextDecorations"
+                                                                            Value="Strikethrough"/>
+                                                                    <Setter Property="Opacity"
+                                                                            Value="0.5"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </ToggleButton>
+
+                                        <Button Command="{Binding Path=Data.DelTodoCommand,
+                                                    Source={StaticResource Proxy}}"
+                                                Height="10" Width="10"
+                                                Background="Transparent"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Right"
+                                                Style="{StaticResource CleanBtn}">
+                                            <Image Source="{StaticResource crossDrawingImage}"
+                                                   Opacity="0.5"/>
+
+                                            <Button.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource MultiParameter}">
+                                                    <Binding Path="DataContext"
+                                                             RelativeSource="{RelativeSource
+                                                                AncestorType=ItemsControl}"/>
+                                                    <Binding/>
+                                                </MultiBinding>
+                                            </Button.CommandParameter>
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsHitTestVisible="False"
+                                      BorderBrush="#d2d2d2"
+                                      Opacity="0.5"/>
+
+                            <xctk:WatermarkTextBox Text="{Binding InputTodo,
+                                                    UpdateSourceTrigger=PropertyChanged}"
                                                    FontSize="12" FontWeight="Regular"
                                                    Foreground="#333333"
-                                                   Margin="10,1,0,0"/>
-                                    </StackPanel>
-                                </ToggleButton>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
+                                                   Background="Transparent"
+                                                   BorderThickness="0"
+                                                   Padding="0"
+                                                   Margin="8,0,0,0">
+                                <xctk:WatermarkTextBox.Watermark>
+                                    <TextBlock Text="할 일을 작성해주세요"
+                                               FontSize="12" FontWeight="Regular"
+                                               Foreground="#333333" Opacity="0.5"
+                                               Margin="2,2,0,0"/>
+                                </xctk:WatermarkTextBox.Watermark>
 
-                        <ItemsControl.Style>
-                            <Style TargetType="{x:Type ItemsControl}">
+                                <xctk:WatermarkTextBox.InputBindings>
+                                    <KeyBinding Key="Enter"
+                                                Command="{Binding Path=Data.AddTodoCommand,
+                                                    Source={StaticResource Proxy}}"
+                                                CommandParameter="{Binding}"/>
+                                </xctk:WatermarkTextBox.InputBindings>
+                            </xctk:WatermarkTextBox>
+                        </StackPanel>
+
+                        <StackPanel.Style>
+                            <Style TargetType="{x:Type StackPanel}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsOpen}" Value="False">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </ItemsControl.Style>
-                    </ItemsControl>
+                        </StackPanel.Style>
+                    </StackPanel>
                 </Grid>
             </Border>
         </DataTemplate>
@@ -201,25 +275,10 @@
             <ScrollViewer Grid.Column="0"
                           VerticalScrollBarVisibility="Auto"
                           FocusVisualStyle="{x:Null}"
-                          Margin="20,20,10,20">
-                <StackPanel>
-                    <ItemsControl ItemsSource="{Binding TodoList}"
-                                  ItemTemplate="{StaticResource ItemTemplate}"/>
-
-                    <Button Background="#F8F8F8"
-                            Padding="15,7"
-                            Style="{StaticResource AddTodoBtn}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="+"
-                                       FontSize="30" FontWeight="Regular"
-                                       Foreground="#5F79D3"/>
-                            <TextBlock Text="과목 추가"
-                                       FontSize="14" FontWeight="Regular"
-                                       Foreground="#5F79D3"
-                                       Margin="10,11.5,0,0"/>
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
+                          Margin="20,20,0,20">
+                <ItemsControl ItemsSource="{Binding TodoList}"
+                              ItemTemplate="{StaticResource ItemTemplate}"
+                              Margin="0,0,10,0"/>
             </ScrollViewer>
 
             <Border Grid.Column="1"

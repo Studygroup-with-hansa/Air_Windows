@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
 using Studygroup_with_Hansa.Messages;
 using Studygroup_with_Hansa.Models;
 using Studygroup_with_Hansa.Services;
@@ -12,7 +13,6 @@ using System.Windows;
 using System.Windows.Threading;
 using System.Collections;
 using System.Collections.ObjectModel;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
@@ -201,6 +201,8 @@ namespace Studygroup_with_Hansa.ViewModels
         {
             SelectedSubject = obj as SubjectModel;
             Subjects.Remove(SelectedSubject);
+
+            Messenger.Default.Send(new SubjectDeletedMessage(SelectedSubject));
 
             RefreshPercentage();
             RaisePropertyChanged("TotalRunString");

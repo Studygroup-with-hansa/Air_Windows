@@ -73,30 +73,59 @@
             </Button>
         </Grid>
 
-        <StackPanel Grid.Row="1">
+        <WrapPanel Grid.Row="1"
+                   Orientation="Vertical"
+                   Margin="20"
+                   services:MarginSetter.Margin="0,0,0,15">
             <TextBlock Text="과목 이름"
                        FontSize="16" FontWeight="Regular"
-                       Foreground="#333333"
-                       Margin="20"/>
-            <xctk:WatermarkTextBox Text="{Binding EnteredName,
-                                    UpdateSourceTrigger=PropertyChanged}"
+                       Foreground="#333333"/>
+            <StackPanel>
+                <xctk:WatermarkTextBox Text="{Binding InputName,
+                                        UpdateSourceTrigger=PropertyChanged}"
+                                       FontSize="12" FontWeight="Regular"
+                                       Foreground="#333333" Padding="0"
+                                       Background="Transparent"
+                                       Template="{StaticResource DisableMouseOverWtb}">
+                    <xctk:WatermarkTextBox.Watermark>
+                        <TextBlock Text="과목 이름을 입력해주세요"
                                    FontSize="12" FontWeight="Regular"
-                                   Foreground="#333333"
-                                   Background="Transparent"
-                                   BorderThickness="0"
-                                   Margin="20,-5,0,0">
-                <xctk:WatermarkTextBox.Watermark>
-                    <TextBlock Text="과목 이름을 입력해주세요"
-                               FontSize="12" FontWeight="Regular"
-                               Foreground="#C4C4C4"/>
-                </xctk:WatermarkTextBox.Watermark>
-            </xctk:WatermarkTextBox>
+                                   Foreground="#C4C4C4"/>
+                    </xctk:WatermarkTextBox.Watermark>
+
+                    <xctk:WatermarkTextBox.Style>
+                        <Style TargetType="{x:Type xctk:WatermarkTextBox}">
+                            <Setter Property="BorderBrush" Value="Red"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Validity}" Value="False">
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </xctk:WatermarkTextBox.Style>
+                </xctk:WatermarkTextBox>
+
+                <TextBlock Text="중복된 과목 이름입니다"
+                           FontSize="10" FontWeight="Regular"
+                           Foreground="Red">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Validity}" Value="True">
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+            
             <TextBlock Text="과목 색상"
                        FontSize="16" FontWeight="Regular"
-                       Foreground="#333333"
-                       Margin="20,20,0,0"/>
-            <StackPanel Orientation="Horizontal" Margin="20,0,0,0"
-                        services:MarginSetter.Margin="0,15,15,0">
+                       Foreground="#333333"/>
+            <StackPanel Orientation="Horizontal"
+                        services:MarginSetter.Margin="0,0,15,0">
                 <RadioButton IsChecked="{Binding SelectedColor,
                                 Converter={StaticResource EnumToBoolean},
                                 ConverterParameter={x:Static types:SubjectColor._ED6A5E}}"
@@ -123,6 +152,6 @@
                              Background="#8886FF"
                              Style="{StaticResource ColorSelectBtn}"/>
             </StackPanel>
-        </StackPanel>
+        </WrapPanel>
     </Grid>
 </Page>

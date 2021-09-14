@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DrawingImage x:Key="crossDrawingImage">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                <GeometryDrawing Geometry="F1 M16,16z M0,0z M4.46445,4.46442L11.5356,11.5355">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#FF333333" Thickness="1" StartLineCap="Square" EndLineCap="Square" LineJoin="Round" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="F1 M16,16z M0,0z M4.46443,11.5356L11.5356,4.46446">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#FF333333" Thickness="1" StartLineCap="Square" EndLineCap="Square" LineJoin="Round" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+</ResourceDictionary>
