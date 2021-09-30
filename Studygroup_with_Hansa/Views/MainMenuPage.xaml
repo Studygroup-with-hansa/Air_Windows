@@ -72,7 +72,7 @@
         <ContentControl Panel.ZIndex="0"
                         Grid.Row="0">
             <ContentControl.Style>
-                <Style TargetType="ContentControl">
+                <Style TargetType="{x:Type ContentControl}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding MenuNumbers}" Value="Stat">
                             <Setter Property="ContentTemplate"

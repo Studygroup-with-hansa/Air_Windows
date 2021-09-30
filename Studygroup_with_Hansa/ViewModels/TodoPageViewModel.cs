@@ -10,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Xceed.Wpf.Toolkit;
 
 namespace Studygroup_with_Hansa.ViewModels
 {

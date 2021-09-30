@@ -45,8 +45,7 @@ namespace Studygroup_with_Hansa.Controls
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             Page parentPage = PageNavigation.FindParentPage(this);
-            AddSubjectPage addSubjectPage = new AddSubjectPage();
-            parentPage.NavigationService.Navigate(addSubjectPage);
+            parentPage.NavigationService.Navigate(new AddSubjectPage());
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)

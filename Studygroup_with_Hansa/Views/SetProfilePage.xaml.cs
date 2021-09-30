@@ -16,14 +16,18 @@ using System.Windows.Shapes;
 namespace Studygroup_with_Hansa.Views
 {
     /// <summary>
-    /// Interaction logic for MainMenuPage.xaml
+    /// Interaction logic for SetProfilePage.xaml
     /// </summary>
-    public partial class MainMenuPage : Page
+    public partial class SetProfilePage : Page
     {
-        public MainMenuPage()
+        public SetProfilePage()
         {
             InitializeComponent();
-            Application.Current.MainWindow.ResizeMode = ResizeMode.CanResizeWithGrip;
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new MainMenuPage());
         }
     }
 }

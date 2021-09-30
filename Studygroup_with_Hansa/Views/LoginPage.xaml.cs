@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Studygroup_with_Hansa.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,14 +17,19 @@ using System.Windows.Shapes;
 namespace Studygroup_with_Hansa.Views
 {
     /// <summary>
-    /// Interaction logic for MainMenuPage.xaml
+    /// Interaction logic for LoginPage.xaml
     /// </summary>
-    public partial class MainMenuPage : Page
+    public partial class LoginPage : Page
     {
-        public MainMenuPage()
+        public LoginPage()
         {
             InitializeComponent();
-            Application.Current.MainWindow.ResizeMode = ResizeMode.CanResizeWithGrip;
+            Application.Current.MainWindow.ResizeMode = ResizeMode.CanMinimize;
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new SetProfilePage());
         }
     }
 }

@@ -45,6 +45,7 @@ namespace Studygroup_with_Hansa.ViewModels
             SimpleIoc.Default.Register<MainMenuViewModel>();
             SimpleIoc.Default.Register<HomePageViewModel>();
             SimpleIoc.Default.Register<TodoPageViewModel>();
+            SimpleIoc.Default.Register<StatPageViewModel>();
         }
 
         public MainMenuViewModel MainMenu
@@ -68,6 +69,14 @@ namespace Studygroup_with_Hansa.ViewModels
             get
             {
                 return ServiceLocator.Current.GetInstance<TodoPageViewModel>();
+            }
+        }
+
+        public StatPageViewModel StatPage
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<StatPageViewModel>();
             }
         }
 

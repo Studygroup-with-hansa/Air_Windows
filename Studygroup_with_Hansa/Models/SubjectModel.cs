@@ -64,6 +64,13 @@ namespace Studygroup_with_Hansa.Models
             Name = name;
         }
 
+        public SubjectModel(string color, string name, int elapsedTime)
+        {
+            BtnColor = color;
+            Name = name;
+            ElapsedTime = elapsedTime;
+        }
+
         private void Time_Elapsed(object sender, EventArgs e)
         {
             ElapsedTime++;

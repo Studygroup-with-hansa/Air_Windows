@@ -166,7 +166,7 @@
                 
                 <Grid Height="20" Width="{Binding Path=ActualWidth,
                         RelativeSource={RelativeSource AncestorType=UserControl}}"
-                      Margin="0,35,0,0">
+                      Margin="0,40,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{Binding Progress}"/>
                         <ColumnDefinition Width="{Binding ProgressLeft}"/>

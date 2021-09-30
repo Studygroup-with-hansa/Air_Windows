@@ -5,10 +5,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Studygroup_with_Hansa.Views"
         mc:Ignorable="d"
-        Title="공기: 공부를 기록하다" Height="600" Width="800"
-        MinHeight="550" MinWidth="450">
-    <Grid>
-        <Frame Source="MainMenuPage.xaml"
-               NavigationUIVisibility="Hidden"/>
-    </Grid>
+        Title="공기: 공부를 기록하다"
+        Height="600" Width="850"
+        MinHeight="550" MinWidth="800">
+    <Frame Source="LoginPage.xaml"
+           NavigationUIVisibility="Hidden"/>
 </Window>

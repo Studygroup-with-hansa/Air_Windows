@@ -42,7 +42,7 @@ namespace Studygroup_with_Hansa.ViewModels
 
         public RelayCommand AddCommand { get; private set; }
 
-        private List<SubjectModel> subjects = null;
+        readonly List<SubjectModel> subjects;
 
         public AddSubjectViewModel()
         {
@@ -65,7 +65,7 @@ namespace Studygroup_with_Hansa.ViewModels
             Validity = true;
             foreach(SubjectModel e in subjects)
             {
-                if (e.Name == InputName)
+                if (e.Name == InputName.Trim())
                 {
                     Validity = false;
                     return false;

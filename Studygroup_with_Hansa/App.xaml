@@ -23,17 +23,18 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <Border CornerRadius="15"
+                            <Border CornerRadius="50"
                                     Padding="{TemplateBinding Padding}"
                                     Background="{TemplateBinding Background}">
-                                <ContentPresenter/>
+                                <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Cursor" Value="Hand"/>
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Opacity" Value="0"/>
+                                    <Setter Property="Visibility" Value="Hidden"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -112,7 +113,9 @@
                 <ResourceDictionary Source="Resources/detail.xaml"/>
                 <ResourceDictionary Source="Resources/down.xaml"/>
                 <ResourceDictionary Source="Resources/drawer.xaml"/>
+                <ResourceDictionary Source="Resources/logo.xaml"/>
                 <ResourceDictionary Source="Resources/start.xaml"/>
+                <ResourceDictionary Source="Resources/unknown.xaml"/>
                 <ResourceDictionary Source="Resources/up.xaml"/>
 
                 <!--Footer Icons-->

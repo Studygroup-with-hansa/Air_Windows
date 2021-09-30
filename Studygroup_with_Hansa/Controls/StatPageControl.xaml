@@ -3,10 +3,213 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:controls="clr-namespace:Studygroup_with_Hansa.Controls"
+             xmlns:services="clr-namespace:Studygroup_with_Hansa.Services"
              xmlns:local="clr-namespace:Studygroup_with_Hansa.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="537.5" d:DesignWidth="800">
-    <Grid>
-        <TextBlock>Stat</TextBlock>
+             d:DesignHeight="537.5" d:DesignWidth="800"
+             DataContext="{Binding Source={StaticResource Locator}, Path=StatPage}">
+    <UserControl.Resources>
+        <services:BindingProxy x:Key="Proxy" Data="{Binding}"/>
+
+        <Style x:Key="DaySelectBtn" TargetType="{x:Type RadioButton}">
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="SelectedBd"
+                                BorderBrush="#E92121"
+                                BorderThickness="0"
+                                Background="Transparent">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="SelectedBd"
+                                        Property="BorderThickness"
+                                        Value="1.0"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <DataTemplate x:Key="WeekViewTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0"
+                           Text="{Binding Day, StringFormat={}{0:ddd}}"
+                           FontSize="12" FontWeight="Regular"
+                           Foreground="#A8AEB2" TextAlignment="Center"
+                           Margin="0,0,0,15"/>
+                <Grid Grid.Row="1">
+                    <Border Background="#5F79D3">
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Opacity" Value="{Binding Opacity}"/>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                    <RadioButton GroupName="WeekView"
+                                 Command="{Binding Path=Data.SelectCommand,
+                                    Source={StaticResource Proxy}}"
+                                 CommandParameter="{Binding}"
+                                 IsChecked="{Binding IsChecked}"
+                                 Style="{StaticResource DaySelectBtn}">
+                        <TextBlock Text="{Binding Day, StringFormat={}{0:dd}}"
+                                   FontSize="16" FontWeight="Regular">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Foreground" Value="#333333"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsStarted}" Value="true">
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </RadioButton>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <Grid Margin="65, 20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <ItemsControl Grid.Row="0"
+                      ItemsSource="{Binding Week}"
+                      ItemTemplate="{StaticResource WeekViewTemplate}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="1" IsItemsHost="True"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <Separator Grid.Row="1"
+                   Background="#D2D2D2"
+                   Margin="0,25,0,10"/>
+
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid Height="40" Width="230"
+                      HorizontalAlignment="Left">
+                    <Border Background="#5F79D3"
+                            Opacity="{Binding SelectedDay.Opacity}"/>
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding SelectedDay.Achieve,
+                                    StringFormat=목표 달성률 {0:0}%}"
+                                   FontSize="14" FontWeight="Medium"
+                                   Foreground="White"/>
+                        <TextBlock Text=" | "
+                                   FontSize="14" FontWeight="Medium"
+                                   Foreground="White"/>
+                        <TextBlock Text="{Binding SelectedDay.GoalString}"
+                                   FontSize="14" FontWeight="Medium"
+                                   Foreground="White"/>
+                    </StackPanel>
+                </Grid>
+                <TextBlock Text="{Binding SelectedDay.Day,
+                            StringFormat={}{0:yyyy.MM.dd}}"
+                           FontSize="16" FontWeight="Medium"
+                           Foreground="#333333"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+            </Grid>
+
+            <ContentControl Grid.Row="2">
+                <ContentControl.Style>
+                    <Style TargetType="{x:Type ContentControl}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center">
+                                            <TextBlock Text="총 공부 시간"
+                                                       FontSize="16" FontWeight="Medium"
+                                                       Foreground="#5F79D3"
+                                                       Margin="0,0,0,10"/>
+                                            <TextBlock Text="{Binding SelectedDay.TotalRunString}"
+                                                       FontSize="26" FontWeight="Bold"
+                                                       Foreground="#5F79D3"/>
+                                        </StackPanel>
+
+                                        <ScrollViewer Grid.Column="1"
+                                                      VerticalScrollBarVisibility="Auto" 
+                                                      FocusVisualStyle="{x:Null}"
+                                                      Margin="0,30">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="auto"/>
+                                                </Grid.RowDefinitions>
+
+                                                <lvc:PieChart Grid.Row="0"
+                                                              MaxHeight="300" MinHeight="150"
+                                                              Series="{Binding SelectedDay.Subjects}"
+                                                              LegendLocation="None"
+                                                              StartingRotationAngle="0"
+                                                              DisableAnimations="True"
+                                                              Margin="0,0,0,25"/>
+                                                <controls:SubjectsLegend Grid.Row="1"
+                                                                         HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </ScrollViewer>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedDay.IsStarted}"
+                                         Value="false">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <TextBlock Text="공부 기록이 없습니다"
+                                                       FontSize="16" FontWeight="Medium"
+                                                       Foreground="#333333" Opacity="0.5"
+                                                       VerticalAlignment="Center"
+                                                       HorizontalAlignment="Center"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+        </Grid>
     </Grid>
 </UserControl>

@@ -83,6 +83,7 @@
             <StackPanel>
                 <xctk:WatermarkTextBox Text="{Binding InputName,
                                         UpdateSourceTrigger=PropertyChanged}"
+                                       MaxLength="10"
                                        FontSize="12" FontWeight="Regular"
                                        Foreground="#333333" Padding="0"
                                        Background="Transparent"

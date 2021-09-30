@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,17 +14,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Studygroup_with_Hansa.Views
+namespace Studygroup_with_Hansa.Controls
 {
     /// <summary>
-    /// Interaction logic for MainMenuPage.xaml
+    /// Interaction logic for SubjectsLegend.xaml
     /// </summary>
-    public partial class MainMenuPage : Page
+    public partial class SubjectsLegend : UserControl
     {
-        public MainMenuPage()
+        public SubjectsLegend()
         {
             InitializeComponent();
-            Application.Current.MainWindow.ResizeMode = ResizeMode.CanResizeWithGrip;
+        }
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer sv = sender as ScrollViewer;
+            if (0 > e.Delta) sv.LineRight();
+            else sv.LineLeft();
+            e.Handled = true;
         }
     }
 }

@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Studygroup_with_Hansa.Controls.SubjectsLegend"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:Studygroup_with_Hansa.Controls"
+             xmlns:local="clr-namespace:Studygroup_with_Hansa.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             DataContext="{Binding Source={StaticResource Locator}, Path=StatPage}">
+    <ItemsControl ItemsSource="{Binding SelectedDay.Legends}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Columns="2" IsItemsHost="True"/>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal"
+                            Margin="10,5">
+                    <Rectangle Height="15" Width="15"
+                               Fill="{Binding Fill}"
+                               Margin="0,0,10,0"/>
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Title}"
+                                   FontSize="16" FontWeight="Regular"
+                                   Foreground="#333333"/>
+                        <TextBlock Text=" : "
+                                   FontSize="16" FontWeight="Regular"
+                                   Foreground="#333333"/>
+                        <TextBlock Text="{Binding Value}"
+                                   FontSize="16" FontWeight="Regular"
+                                   Foreground="#333333"/>
+                    </StackPanel>
+                </StackPanel>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</UserControl>
