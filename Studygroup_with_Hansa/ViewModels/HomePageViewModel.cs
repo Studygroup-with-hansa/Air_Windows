@@ -148,7 +148,7 @@ namespace Studygroup_with_Hansa.ViewModels
             Subjects.ToList().ForEach(e =>
             {
                 if (TotalRun <= 0) e.Percentage = 0;
-                else e.Percentage = (double)e.ElapsedTime / TotalRun * 100;
+                else e.Percentage = (double)e.ElapsedTime / TotalRun;
             });
         }
 

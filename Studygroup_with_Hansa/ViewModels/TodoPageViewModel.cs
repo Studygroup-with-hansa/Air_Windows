@@ -93,7 +93,7 @@ namespace Studygroup_with_Hansa.ViewModels
             TodoModel todo = obj as TodoModel;
 
             if (!string.IsNullOrWhiteSpace(todo.InputTodo))
-                todo.Todos.Add(new TodoItem(todo.InputTodo.Trim()));
+                todo.Todos.Insert(0, new TodoItem(todo.InputTodo.Trim()));
 
             todo.InputTodo = string.Empty;
         }

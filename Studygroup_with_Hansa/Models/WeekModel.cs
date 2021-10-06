@@ -1,4 +1,5 @@
-﻿using LiveCharts;
+﻿using GalaSoft.MvvmLight;
+using LiveCharts;
 using LiveCharts.Wpf;
 using Studygroup_with_Hansa.Services;
 using System;
@@ -19,7 +20,7 @@ namespace Studygroup_with_Hansa.Models
         public string Value { get; set; }
     }
 
-    public class WeekModel
+    public class WeekModel : ObservableObject
     {
         public bool IsChecked { get; set; }
 
@@ -68,7 +69,6 @@ namespace Studygroup_with_Hansa.Models
 
         public WeekModel(DateTime day, int goal, int totalRun, List<SubjectModel> subjects)
         {
-            IsChecked = false;
             Day = day;
             Goal = goal;
             TotalRun = totalRun;

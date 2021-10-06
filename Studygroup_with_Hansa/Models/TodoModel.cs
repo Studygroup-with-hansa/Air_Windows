@@ -44,17 +44,15 @@ namespace Studygroup_with_Hansa.Models
             set { Set(ref _name, value); }
         }
 
-        private double _percentage;
         public double Percentage
         {
             get
             {
                 if (Todos.Count > 0)
                 {
-                    _percentage = 0;
-                    Todos.ToList().ForEach(e => _percentage += Convert.ToInt32(e.IsOver));
-                    _percentage = (double)(_percentage / Todos.Count) * 100;
-                    return _percentage;
+                    int count = 0;
+                    Todos.ToList().ForEach(e => count += Convert.ToInt32(e.IsOver));
+                    return (double)count / Todos.Count;
                 }
 
                 return 0;

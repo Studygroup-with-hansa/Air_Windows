@@ -263,6 +263,9 @@
     <Compile Include="Controls\SubjectsLegend.xaml.cs">
       <DependentUpon>SubjectsLegend.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SubjectsTooltip.xaml.cs">
+      <DependentUpon>SubjectsTooltip.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TextDatePicker.cs" />
     <Compile Include="Controls\UniformGridWithOrientation.cs" />
     <Compile Include="Converters\MultiParameterConverter.cs" />
@@ -312,6 +315,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SubjectsLegend.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SubjectsTooltip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

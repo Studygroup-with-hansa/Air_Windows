@@ -72,7 +72,7 @@
                 </StackPanel>
                 
                 <TextBlock Grid.Column="2"
-                           Text="{Binding Percentage, StringFormat={}{0:0}%}"
+                           Text="{Binding Percentage, StringFormat={}{0:P0}}"
                            FontSize="12" FontWeight="Regular"
                            Foreground="#333333" Opacity="0.5"
                            VerticalAlignment="Center"/>

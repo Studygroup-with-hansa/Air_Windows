@@ -30,7 +30,7 @@
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="SelectedBd"
                                         Property="BorderThickness"
-                                        Value="1.0"/>
+                                        Value="1"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Cursor" Value="Hand"/>
@@ -73,7 +73,7 @@
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Setter Property="Foreground" Value="#333333"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsStarted}" Value="true">
+                                        <DataTrigger Binding="{Binding IsStarted}" Value="True">
                                             <Setter Property="Foreground" Value="White"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -181,8 +181,13 @@
                                                               LegendLocation="None"
                                                               StartingRotationAngle="0"
                                                               DisableAnimations="True"
-                                                              Margin="0,0,0,25"/>
+                                                              Margin="0,0,0,25">
+                                                    <lvc:PieChart.DataTooltip>
+                                                        <controls:SubjectsTooltip SelectionMode="OnlySender"/>
+                                                    </lvc:PieChart.DataTooltip>
+                                                </lvc:PieChart>
                                                 <controls:SubjectsLegend Grid.Row="1"
+                                                                         DataContext="{Binding SelectedDay}"
                                                                          HorizontalAlignment="Center"/>
                                             </Grid>
                                         </ScrollViewer>
