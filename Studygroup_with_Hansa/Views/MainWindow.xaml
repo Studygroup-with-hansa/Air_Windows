@@ -11,9 +11,8 @@
         WindowStyle="None" BorderBrush="#9F9F9F">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="28"
-                      CornerRadius="15"
                       GlassFrameThickness="0"
-                      ResizeBorderThickness="3"/>
+                      ResizeBorderThickness="2"/>
     </WindowChrome.WindowChrome>
     
     <Grid>
@@ -91,7 +90,7 @@
 
     <Window.Style>
         <Style TargetType="{x:Type Window}">
-            <Setter Property="BorderThickness" Value="0.5"/>
+            <Setter Property="BorderThickness" Value="1"/>
             <Style.Triggers>
                 <Trigger Property="WindowState" Value="Maximized">
                     <Setter Property="BorderThickness" Value="0"/>
