@@ -23,7 +23,7 @@ namespace Studygroup_with_Hansa.Views
         public MainMenuPage()
         {
             InitializeComponent();
-            Application.Current.MainWindow.ResizeMode = ResizeMode.CanResizeWithGrip;
+            Application.Current.MainWindow.ResizeMode = ResizeMode.CanResize;
         }
     }
 }
