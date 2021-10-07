@@ -10,9 +10,7 @@
         MinHeight="550" MinWidth="800"
         WindowStyle="None" BorderBrush="#9F9F9F">
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="28"
-                      GlassFrameThickness="0"
-                      ResizeBorderThickness="2"/>
+        <WindowChrome CaptionHeight="28"/>
     </WindowChrome.WindowChrome>
     
     <Grid>
