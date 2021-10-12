@@ -21,7 +21,7 @@ namespace Studygroup_with_Hansa.Controls
             var parentWindow = Window.GetWindow(this);
             var setGoalWindow = new SetGoalWindow();
 
-            var item = sender as MenuItem;
+            var item = sender as Button;
             var cmd = item?.Tag as ICommand;
             cmd?.Execute(item.CommandParameter);
 

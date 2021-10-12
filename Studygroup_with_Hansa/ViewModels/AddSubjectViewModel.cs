@@ -61,8 +61,9 @@ namespace Studygroup_with_Hansa.ViewModels
 
         private bool CanExecuteAddCommand()
         {
+            Validity = true;
             return subjects.All(e => e.Name != InputName.Trim())
-                ? Validity = string.IsNullOrWhiteSpace(InputName) == false
+                ? string.IsNullOrWhiteSpace(InputName) == false
                 : Validity = false;
         }
     }
