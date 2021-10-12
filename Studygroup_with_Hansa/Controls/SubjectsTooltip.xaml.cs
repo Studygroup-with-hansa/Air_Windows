@@ -1,32 +1,26 @@
-﻿using LiveCharts;
-using LiveCharts.Wpf;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.ComponentModel;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace Studygroup_with_Hansa.Controls
 {
     /// <summary>
-    /// Interaction logic for SubjectsTooltip.xaml
+    ///     Interaction logic for SubjectsTooltip.xaml
     /// </summary>
     public partial class SubjectsTooltip : UserControl, IChartTooltip
     {
         private TooltipData _data;
+
+        public SubjectsTooltip()
+        {
+            InitializeComponent();
+            DataContext = this;
+        }
+
         public TooltipData Data
         {
-            get { return _data; }
+            get => _data;
             set
             {
                 _data = value;
@@ -36,18 +30,11 @@ namespace Studygroup_with_Hansa.Controls
 
         public TooltipSelectionMode? SelectionMode { get; set; }
 
-        public SubjectsTooltip()
-        {
-            InitializeComponent();
-            DataContext = this;
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName = null)
         {
-            if (PropertyChanged != null)
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

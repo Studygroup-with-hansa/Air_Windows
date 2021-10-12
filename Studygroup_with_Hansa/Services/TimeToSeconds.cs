@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Studygroup_with_Hansa.Services
+﻿namespace Studygroup_with_Hansa.Services
 {
-    class TimeToSeconds
+    internal class TimeToSeconds
     {
         public static int ToSeconds(int hour, int minute, int second)
         {
@@ -15,7 +9,7 @@ namespace Studygroup_with_Hansa.Services
 
         public static int[] FromSeconds(int second)
         {
-            int[] time = { 0, 0, 0 };
+            int[] time = {0, 0, 0};
 
             time[0] += second / 3600;
             time[1] += second % 3600 / 60;

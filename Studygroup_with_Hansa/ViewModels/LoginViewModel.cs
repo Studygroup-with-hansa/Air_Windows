@@ -1,21 +1,23 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
         private string _inputMail;
+
+        public LoginViewModel()
+        {
+            ProveCommand = new RelayCommand(ExecuteProveCommand, CanExecuteProveCommand);
+        }
+
         public string InputMail
         {
-            get { return _inputMail; }
+            get => _inputMail;
             set
             {
                 _inputMail = value;
@@ -23,28 +25,22 @@ namespace Studygroup_with_Hansa.ViewModels
             }
         }
 
-        public RelayCommand ProveCommand { get; private set; }
-
-        public LoginViewModel()
-        {
-            ProveCommand = new RelayCommand(ExecuteProveCommand, CanExecuteProveCommand);
-        }
+        public RelayCommand ProveCommand { get; }
 
         private void ExecuteProveCommand()
         {
-
         }
 
         private bool CanExecuteProveCommand()
         {
             if (string.IsNullOrWhiteSpace(InputMail)) return false;
 
-            string regularedMail = null;
+            string regularedMail;
             try
             {
                 // Normalize the domain
                 regularedMail = Regex.Replace(InputMail, @"(@)(.+)$", DomainMapper,
-                                      RegexOptions.None, TimeSpan.FromMilliseconds(200));
+                    RegexOptions.None, TimeSpan.FromMilliseconds(200));
 
                 // Examines the domain part of the email and normalizes it.
                 string DomainMapper(Match match)
@@ -53,7 +49,7 @@ namespace Studygroup_with_Hansa.ViewModels
                     var idn = new IdnMapping();
 
                     // Pull out and process domain name (throws ArgumentException on invalid)
-                    string domainName = idn.GetAscii(match.Groups[2].Value);
+                    var domainName = idn.GetAscii(match.Groups[2].Value);
 
                     return match.Groups[1].Value + domainName;
                 }

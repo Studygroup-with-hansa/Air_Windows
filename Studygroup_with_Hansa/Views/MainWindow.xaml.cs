@@ -1,24 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace Studygroup_with_Hansa
+namespace Studygroup_with_Hansa.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -43,40 +31,39 @@ namespace Studygroup_with_Hansa
         }
 
         #region Set Window Maximum
+
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
-            ((HwndSource)PresentationSource.FromVisual(this)).AddHook(HookProc);
+            ((HwndSource) PresentationSource.FromVisual(this))?.AddHook(HookProc);
         }
 
         public static IntPtr HookProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (msg == WM_GETMINMAXINFO)
+            if (msg != WM_GETMINMAXINFO) return IntPtr.Zero;
+            // We need to tell the system what our size should be when maximized. Otherwise it will
+            // cover the whole screen, including the task bar.
+            var mmi = (MinMaxInfo) Marshal.PtrToStructure(lParam, typeof(MinMaxInfo));
+
+            // Adjust the maximized size and position to fit the work area of the correct monitor
+            var monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+
+            if (monitor != IntPtr.Zero)
             {
-                // We need to tell the system what our size should be when maximized. Otherwise it will
-                // cover the whole screen, including the task bar.
-                MINMAXINFO mmi = (MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(MINMAXINFO));
-
-                // Adjust the maximized size and position to fit the work area of the correct monitor
-                IntPtr monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
-
-                if (monitor != IntPtr.Zero)
+                var monitorInfo = new MonitorInfo
                 {
-                    MONITORINFO monitorInfo = new MONITORINFO
-                    {
-                        cbSize = Marshal.SizeOf(typeof(MONITORINFO))
-                    };
-                    GetMonitorInfo(monitor, ref monitorInfo);
-                    RECT rcWorkArea = monitorInfo.rcWork;
-                    RECT rcMonitorArea = monitorInfo.rcMonitor;
-                    mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.Left - rcMonitorArea.Left);
-                    mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.Top - rcMonitorArea.Top);
-                    mmi.ptMaxSize.X = Math.Abs(rcWorkArea.Right - rcWorkArea.Left);
-                    mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.Bottom - rcWorkArea.Top);
-                }
-
-                Marshal.StructureToPtr(mmi, lParam, true);
+                    cbSize = Marshal.SizeOf(typeof(MonitorInfo))
+                };
+                _ = GetMonitorInfo(monitor, ref monitorInfo);
+                var rcWorkArea = monitorInfo.rcWork;
+                var rcMonitorArea = monitorInfo.rcMonitor;
+                mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.Left - rcMonitorArea.Left);
+                mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.Top - rcMonitorArea.Top);
+                mmi.ptMaxSize.X = Math.Abs(rcWorkArea.Right - rcWorkArea.Left);
+                mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.Bottom - rcWorkArea.Top);
             }
+
+            Marshal.StructureToPtr(mmi, lParam, true);
 
             return IntPtr.Zero;
         }
@@ -89,58 +76,59 @@ namespace Studygroup_with_Hansa
         private static extern IntPtr MonitorFromWindow(IntPtr handle, uint flags);
 
         [DllImport("user32.dll")]
-        private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
+        private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MonitorInfo lpmi);
 
         [Serializable]
         [StructLayout(LayoutKind.Sequential)]
-        public struct RECT
+        public struct Rect
         {
             public int Left;
             public int Top;
             public int Right;
             public int Bottom;
 
-            public RECT(int left, int top, int right, int bottom)
+            public Rect(int left, int top, int right, int bottom)
             {
-                this.Left = left;
-                this.Top = top;
-                this.Right = right;
-                this.Bottom = bottom;
+                Left = left;
+                Top = top;
+                Right = right;
+                Bottom = bottom;
             }
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct MONITORINFO
+        public struct MonitorInfo
         {
             public int cbSize;
-            public RECT rcMonitor;
-            public RECT rcWork;
+            public Rect rcMonitor;
+            public Rect rcWork;
             public uint dwFlags;
         }
 
         [Serializable]
         [StructLayout(LayoutKind.Sequential)]
-        public struct POINT
+        public struct Point
         {
             public int X;
             public int Y;
 
-            public POINT(int x, int y)
+            public Point(int x, int y)
             {
-                this.X = x;
-                this.Y = y;
+                X = x;
+                Y = y;
             }
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct MINMAXINFO
+        public struct MinMaxInfo
         {
-            public POINT ptReserved;
-            public POINT ptMaxSize;
-            public POINT ptMaxPosition;
-            public POINT ptMinTrackSize;
-            public POINT ptMaxTrackSize;
+            public Point ptReserved;
+            public Point ptMaxSize;
+            public Point ptMaxPosition;
+            public Point ptMinTrackSize;
+            public Point ptMaxTrackSize;
         }
+
         #endregion
     }
 }

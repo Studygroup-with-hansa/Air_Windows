@@ -18,9 +18,9 @@ namespace Studygroup_with_Hansa
         public App()
         {
             FrameworkElement.LanguageProperty.OverrideMetadata(
-                typeof(FrameworkElement),
-                new FrameworkPropertyMetadata(
-                    XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+                forType: typeof(FrameworkElement),
+                typeMetadata: new FrameworkPropertyMetadata(
+                    defaultValue: XmlLanguage.GetLanguage(ietfLanguageTag: CultureInfo.CurrentCulture.IetfLanguageTag)));
         }
     }
 }

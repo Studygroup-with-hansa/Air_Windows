@@ -260,6 +260,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
+    <None Include="Notepad.cs" />
     <Compile Include="Controls\SubjectsLegend.xaml.cs">
       <DependentUpon>SubjectsLegend.xaml</DependentUpon>
     </Compile>
@@ -267,7 +271,6 @@
       <DependentUpon>SubjectsTooltip.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TextDatePicker.cs" />
-    <Compile Include="Controls\UniformGridWithOrientation.cs" />
     <Compile Include="Converters\MultiParameterConverter.cs" />
     <Compile Include="Messages\GoalChangedMessage.cs" />
     <Compile Include="Messages\IsBlurChangedMessage.cs" />
@@ -485,6 +488,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

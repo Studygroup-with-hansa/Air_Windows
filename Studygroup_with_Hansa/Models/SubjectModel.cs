@@ -1,64 +1,29 @@
-﻿using GalaSoft.MvvmLight;
-using Studygroup_with_Hansa.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Threading;
+using GalaSoft.MvvmLight;
+using Studygroup_with_Hansa.Services;
 
 namespace Studygroup_with_Hansa.Models
 {
     public class SubjectModel : ObservableObject
     {
-        public DispatcherTimer subjectTimer;
-
         private string _btnColor;
-        public string BtnColor
-        {
-            get { return _btnColor; }
-            set { Set(ref _btnColor, value); }
-        }
+
+        private int _elapsedTime;
 
         private string _name;
-        public string Name
-        {
-            get { return _name; }
-            set { Set(ref _name, value); }
-        }
 
-        private int _elapsedTime = 0;
-        public int ElapsedTime
-        {
-            get { return _elapsedTime; }
-            set
-            {
-                Set(ref _elapsedTime, value);
-                RaisePropertyChanged("ElapsedTimeString");
-            }
-        }
+        private double _percentage;
 
-        public string ElapsedTimeString
-        {
-            get
-            {
-                int[] t = TimeToSeconds.FromSeconds(ElapsedTime);
-                return string.Format($"{t[0]:00}:{t[1]:00}:{t[2]:00}");
-            }
-        }
-
-        private double _percentage = 0;
-        public double Percentage
-        {
-            get { return _percentage; }
-            set { Set(ref _percentage, value); }
-        }
+        public DispatcherTimer SubjectTimer;
 
         public SubjectModel(string color, string name)
         {
-            subjectTimer = new DispatcherTimer();
-            subjectTimer.Interval = new TimeSpan(0, 0, 1);
-            subjectTimer.Tick += new EventHandler(Time_Elapsed);
+            SubjectTimer = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 1)
+            };
+            SubjectTimer.Tick += Time_Elapsed;
 
             BtnColor = color;
             Name = name;
@@ -69,6 +34,43 @@ namespace Studygroup_with_Hansa.Models
             BtnColor = color;
             Name = name;
             ElapsedTime = elapsedTime;
+        }
+
+        public string BtnColor
+        {
+            get => _btnColor;
+            set => Set(ref _btnColor, value);
+        }
+
+        public string Name
+        {
+            get => _name;
+            set => Set(ref _name, value);
+        }
+
+        public int ElapsedTime
+        {
+            get => _elapsedTime;
+            set
+            {
+                _ = Set(ref _elapsedTime, value);
+                RaisePropertyChanged("ElapsedTimeString");
+            }
+        }
+
+        public string ElapsedTimeString
+        {
+            get
+            {
+                var t = TimeToSeconds.FromSeconds(ElapsedTime);
+                return string.Format($"{t[0]:00}:{t[1]:00}:{t[2]:00}");
+            }
+        }
+
+        public double Percentage
+        {
+            get => _percentage;
+            set => Set(ref _percentage, value);
         }
 
         private void Time_Elapsed(object sender, EventArgs e)

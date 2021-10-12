@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 
 namespace Studygroup_with_Hansa.Controls
 {
-    class DropDownButton : ToggleButton
+    internal class DropDownButton : ToggleButton
     {
+        public static readonly DependencyProperty MenuProperty = DependencyProperty.Register(name: "Menu",
+            propertyType: typeof(ContextMenu), ownerType: typeof(DropDownButton), typeMetadata: new UIPropertyMetadata(defaultValue: null, propertyChangedCallback: OnMenuChanged));
+
         public DropDownButton()
         {
             // Bind the ToogleButton.IsChecked property to the drop-down's IsOpen property
-            Binding binding = new Binding("Menu.IsOpen");
-            binding.Source = this;
-            this.SetBinding(IsCheckedProperty, binding);
+            var binding = new Binding(path: "Menu.IsOpen")
+            {
+                Source = this
+            };
+            _ = SetBinding(dp: IsCheckedProperty, binding: binding);
             DataContextChanged += (sender, args) =>
             {
                 if (Menu != null)
@@ -28,11 +28,9 @@ namespace Studygroup_with_Hansa.Controls
         // ***Properties***
         public ContextMenu Menu
         {
-            get { return (ContextMenu)GetValue(MenuProperty); }
-            set { SetValue(MenuProperty, value); }
+            get => (ContextMenu) GetValue(dp: MenuProperty);
+            set => SetValue(dp: MenuProperty, value: value);
         }
-        public static readonly DependencyProperty MenuProperty = DependencyProperty.Register("Menu",
-            typeof(ContextMenu), typeof(DropDownButton), new UIPropertyMetadata(null, OnMenuChanged));
 
         private static void OnMenuChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -43,12 +41,10 @@ namespace Studygroup_with_Hansa.Controls
 
         protected override void OnClick()
         {
-            if (Menu != null)
-            {
-                Menu.PlacementTarget = this;
-                Menu.Placement = PlacementMode.Bottom;
-                Menu.IsOpen = true;
-            }
+            if (Menu == null) return;
+            Menu.PlacementTarget = this;
+            Menu.Placement = PlacementMode.Bottom;
+            Menu.IsOpen = true;
         }
     }
 }
