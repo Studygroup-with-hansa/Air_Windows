@@ -43,7 +43,7 @@
         </Style>
         
         <DataTemplate x:Key="WeekViewTemplate"
-                      DataType="models:WeekModel">
+                      DataType="models:Stat">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -51,7 +51,7 @@
                 </Grid.RowDefinitions>
                 
                 <TextBlock Grid.Row="0"
-                           Text="{Binding Day, StringFormat={}{0:ddd}}"
+                           Text="{Binding Date, StringFormat={}{0:ddd}}"
                            FontSize="12" FontWeight="Regular"
                            Foreground="#A8AEB2" TextAlignment="Center"
                            Margin="0,0,0,15"/>
@@ -69,7 +69,7 @@
                                  CommandParameter="{Binding}"
                                  IsChecked="{Binding IsChecked}"
                                  Style="{StaticResource DaySelectBtn}">
-                        <TextBlock Text="{Binding Day, StringFormat={}{0:dd}}"
+                        <TextBlock Text="{Binding Date, StringFormat={}{0:dd}}"
                                    FontSize="16" FontWeight="Regular">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
@@ -96,7 +96,7 @@
         </Grid.RowDefinitions>
         
         <ItemsControl Grid.Row="0"
-                      ItemsSource="{Binding Week}"
+                      ItemsSource="{Binding Week.Stats}"
                       ItemTemplate="{StaticResource WeekViewTemplate}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -135,7 +135,7 @@
                                    Foreground="White"/>
                     </StackPanel>
                 </Grid>
-                <TextBlock Text="{Binding SelectedDay.Day,
+                <TextBlock Text="{Binding SelectedDay.Date,
                             StringFormat={}{0:yyyy.MM.dd}}"
                            FontSize="16" FontWeight="Medium"
                            Foreground="#333333"
@@ -163,7 +163,7 @@
                                                        Foreground="#5F79D3"
                                                        TextAlignment="Center"
                                                        Margin="0,0,0,10"/>
-                                            <TextBlock Text="{Binding SelectedDay.TotalRunString}"
+                                            <TextBlock Text="{Binding SelectedDay.TotalStudyTimeString}"
                                                        FontSize="26" FontWeight="Bold"
                                                        Foreground="#5F79D3"
                                                        TextAlignment="Center"/>
@@ -181,7 +181,7 @@
 
                                                 <lvc:PieChart Grid.Row="0"
                                                               MaxHeight="300" MinHeight="150"
-                                                              Series="{Binding SelectedDay.Subjects}"
+                                                              Series="{Binding SelectedDay.SubjectSeries}"
                                                               LegendLocation="None"
                                                               StartingRotationAngle="0"
                                                               DisableAnimations="True"

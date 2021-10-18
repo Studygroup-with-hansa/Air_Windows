@@ -279,11 +279,13 @@
     <Compile Include="Messages\SubjectEditedMessage.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ParamModel.cs" />
+    <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\StatModel.cs" />
+    <Compile Include="Models\SubjectListModel.cs" />
+    <Compile Include="Models\TodoListModel.cs" />
     <Compile Include="Models\TodoModel.cs" />
     <Compile Include="Models\Types\BottomMenuType.cs" />
     <Compile Include="Models\Types\SubjectColorType.cs" />
-    <Compile Include="Models\WeekModel.cs" />
     <Compile Include="Services\RestManager.cs" />
     <Compile Include="ViewModels\AddSubjectViewModel.cs" />
     <Compile Include="ViewModels\EditSubjectViewModel.cs" />

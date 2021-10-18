@@ -7,8 +7,8 @@
              xmlns:local="clr-namespace:Studygroup_with_Hansa.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             d:DataContext="{d:DesignInstance models:WeekModel}">
-    <ItemsControl ItemsSource="{Binding Legends}">
+             d:DataContext="{d:DesignInstance models:Stat}">
+    <ItemsControl ItemsSource="{Binding Subjects}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <UniformGrid Columns="2" IsItemsHost="True"/>
@@ -30,7 +30,7 @@
                         <TextBlock Text=" : "
                                    FontSize="16" FontWeight="Regular"
                                    Foreground="#333333"/>
-                        <TextBlock Text="{Binding Value}"
+                        <TextBlock Text="{Binding Time}"
                                    FontSize="16" FontWeight="Regular"
                                    Foreground="#333333"/>
                     </StackPanel>

@@ -10,23 +10,33 @@ namespace Studygroup_with_Hansa.ViewModels
 {
     public class StatPageViewModel : ViewModelBase
     {
-        private WeekModel _selectedDay;
-        private List<WeekModel> _week;
+        private Stat _selectedDay;
+        private StatModel _week;
 
         public StatPageViewModel()
         {
-            Week = GetWeek(DateTime.Now.AddDays(-1));
-            SelectedDay = Week[Week.Count - 1];
             SelectCommand = new RelayCommand<object>(ExecuteSelectCommand);
+
+            var requestParams = new List<ParamModel>
+            {
+                new ParamModel("startDate", DateTime.Now.AddDays(-6).ToString("yyyy-MM-dd")),
+                new ParamModel("endDate", DateTime.Now.ToString("yyyy-MM-dd"))
+            };
+            var result =
+                RestManager.RestRequest<ResultModel<StatModel>>("v1/user/data/stats/", Method.POST, requestParams);
+
+            Week = result.Result.Data.Data;
+            Week.Stats[Week.Stats.Count - 1].IsChecked = true;
+            SelectedDay = Week.Stats[Week.Stats.Count - 1];
         }
 
-        public List<WeekModel> Week
+        public StatModel Week
         {
             get => _week;
             set => Set(ref _week, value);
         }
 
-        public WeekModel SelectedDay
+        public Stat SelectedDay
         {
             get => _selectedDay;
             set => Set(ref _selectedDay, value);
@@ -34,29 +44,9 @@ namespace Studygroup_with_Hansa.ViewModels
 
         public RelayCommand<object> SelectCommand { get; }
 
-        private List<WeekModel> GetWeek(DateTime lastDay)
-        {
-            var thisWeek = new List<WeekModel>();
-
-            var requestParams = new List<ParamModel>
-            {
-                new ParamModel("startDate", lastDay.AddDays(-6).ToString("yyyy-MM-dd")),
-                new ParamModel("endDate", lastDay.ToString("yyyy-MM-dd"))
-            };
-            var result = RestManager.RestRequest<StatModel>("v1/user/data/stats/", Method.POST, requestParams);
-
-            result.Result.Data.Data.Stats.ForEach(e =>
-            {
-                thisWeek.Add(new WeekModel(DateTime.Parse(e.Date), e.Goal, e.TotalStudyTime, e.Subject));
-            });
-            thisWeek[thisWeek.Count - 1].IsChecked = true;
-
-            return thisWeek;
-        }
-
         private void ExecuteSelectCommand(object day)
         {
-            SelectedDay = day as WeekModel;
+            SelectedDay = day as Stat;
         }
     }
 }
