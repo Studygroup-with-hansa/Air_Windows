@@ -56,7 +56,7 @@ namespace Studygroup_with_Hansa.ViewModels
 
         private void ExecuteSetCommand()
         {
-            var goal = TimeToSeconds.ToSeconds(EnteredHour, EnteredMinute, EnteredSecond);
+            var goal = EnteredHour * 60 * 60 + EnteredMinute * 60 + EnteredSecond;
             Messenger.Default.Send(new GoalChangedMessage(goal));
             ExecuteOffBlurCommand();
         }

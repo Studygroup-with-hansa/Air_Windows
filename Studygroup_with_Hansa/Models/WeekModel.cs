@@ -4,7 +4,6 @@ using System.Windows.Media;
 using GalaSoft.MvvmLight;
 using LiveCharts;
 using LiveCharts.Wpf;
-using Studygroup_with_Hansa.Services;
 
 namespace Studygroup_with_Hansa.Models
 {
@@ -19,7 +18,7 @@ namespace Studygroup_with_Hansa.Models
 
     public class WeekModel : ObservableObject
     {
-        public WeekModel(DateTime day, int goal, int totalRun, List<SubjectModel> subjects)
+        public WeekModel(DateTime day, int goal, int totalRun, List<Subject> subjects)
         {
             Day = day;
             Goal = goal;
@@ -27,20 +26,21 @@ namespace Studygroup_with_Hansa.Models
 
             Subjects = new SeriesCollection();
             Legends = new List<LegendModel>();
-            subjects.ForEach(e =>
+
+            subjects?.ForEach(e =>
             {
                 Subjects.Add(new PieSeries
                 {
-                    Title = e.Name,
-                    Fill = (Brush) new BrushConverter().ConvertFromString(e.BtnColor),
-                    Values = new ChartValues<int> {e.ElapsedTime}
+                    Title = e.Title,
+                    Fill = (Brush) new BrushConverter().ConvertFromString(e.Color),
+                    Values = new ChartValues<int> {e.Time}
                 });
 
                 Legends.Add(new LegendModel
                 {
-                    Title = e.Name,
-                    Fill = (Brush) new BrushConverter().ConvertFromString(e.BtnColor),
-                    Value = e.ElapsedTimeString
+                    Title = e.Title,
+                    Fill = (Brush) new BrushConverter().ConvertFromString(e.Color),
+                    Value = new TimeSpan(0, 0, 0, e.Time).ToString("hh\\:mm\\:ss")
                 });
             });
         }
@@ -55,8 +55,8 @@ namespace Studygroup_with_Hansa.Models
         {
             get
             {
-                var t = TimeToSeconds.FromSeconds(Goal);
-                return string.Format($"{t[0]:00}H {t[1]:00}M {t[2]:00}S");
+                var t = TimeSpan.FromSeconds(Goal);
+                return string.Format($"{t:hh}H {t:mm}M {t:ss}S");
             }
         }
 
@@ -66,14 +66,23 @@ namespace Studygroup_with_Hansa.Models
         {
             get
             {
-                var t = TimeToSeconds.FromSeconds(TotalRun);
-                return string.Format($"{t[0]:00}H {t[1]:00}M {t[2]:00}S");
+                var t = TimeSpan.FromSeconds(TotalRun);
+                return string.Format($"{t:hh}H {t:mm}M {t:ss}S");
             }
         }
 
-        public double Achieve => Goal > 0 ? (double) (TotalRun % Goal) / Goal * 100 : 0;
+        public double Achieve
+        {
+            get
+            {
+                if (TotalRun < Goal)
+                    return (double) TotalRun / Goal;
 
-        public double Opacity => Achieve / 100 > 0 ? 0.3 + Achieve / 100 * ((double) 7 / 10) : 0;
+                return Goal > 0 ? 1 : 0;
+            }
+        }
+
+        public double Opacity => Achieve > 0 ? 0.3 + Achieve * ((double) 7 / 10) : 0;
 
         public bool IsStarted => TotalRun > 0;
 

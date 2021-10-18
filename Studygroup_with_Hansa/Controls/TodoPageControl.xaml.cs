@@ -15,7 +15,7 @@ namespace Studygroup_with_Hansa.Controls
 
         private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            datePicker.IsDropDownOpen = true;
+            MainDatePicker.IsDropDownOpen = true;
         }
     }
 }

@@ -52,7 +52,7 @@
         <StackPanel Grid.Row="1"
                     Width="350"
                     HorizontalAlignment="Center">
-            <Grid Margin="0,50,0,15">
+            <Grid Margin="0,50,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
@@ -98,10 +98,32 @@
                 </Button>
             </Grid>
 
+            <TextBlock FontSize="10" FontWeight="Regular"
+                       Foreground="Red">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEmailSent}" Value="True">
+                                <Setter Property="Text" Value="{Binding LeftTime,
+                                            StringFormat=메일이 전송되었습니다! \{0:mm\\:ss\} 안에 입력해주세요.}"/>
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding IsEmailSent}" Value="False">
+                                <Setter Property="Text" Value="메일 전송 실패"/>
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
             <Border Padding="12,10"
                     BorderBrush="#F1F1F3"
                     BorderThickness="1"
-                    CornerRadius="5">
+                    CornerRadius="5"
+                    Margin="0,5,0,0">
                 <xctk:WatermarkTextBox Text=""
                                        FontSize="12" FontWeight="Regular"
                                        Foreground="#333333" Padding="0"

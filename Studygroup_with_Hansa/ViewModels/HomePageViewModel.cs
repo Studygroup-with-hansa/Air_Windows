@@ -8,7 +8,6 @@ using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using Studygroup_with_Hansa.Messages;
 using Studygroup_with_Hansa.Models;
-using Studygroup_with_Hansa.Services;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
@@ -17,6 +16,7 @@ namespace Studygroup_with_Hansa.ViewModels
         private static DispatcherTimer changeDateTimer;
 
         private int _goal = -1;
+
         private DateTime _nowTime = DateTime.Now;
 
         private int _totalRun;
@@ -66,10 +66,8 @@ namespace Studygroup_with_Hansa.ViewModels
         {
             get
             {
-                if (Goal <= 0) return "00H 00M 00S";
-
-                var t = TimeToSeconds.FromSeconds(Goal);
-                return string.Format($"{t[0]:00}H {t[1]:00}M {t[2]:00}S");
+                var t = TimeSpan.FromSeconds(Goal);
+                return t.TotalSeconds > 0 ? string.Format($"{t:hh}H {t:mm}M {t:ss}S") : "00H 00M 00S";
             }
         }
 
@@ -87,8 +85,8 @@ namespace Studygroup_with_Hansa.ViewModels
         {
             get
             {
-                var t = TimeToSeconds.FromSeconds(TotalRun);
-                return string.Format($"{t[0]:00}H {t[1]:00}M {t[2]:00}S");
+                var t = TimeSpan.FromSeconds(TotalRun);
+                return string.Format($"{t:hh}H {t:mm}M {t:ss}S");
             }
         }
 

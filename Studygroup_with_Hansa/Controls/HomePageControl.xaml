@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Studygroup_with_Hansa.Controls"
+             xmlns:models="clr-namespace:Studygroup_with_Hansa.Models"
              xmlns:services="clr-namespace:Studygroup_with_Hansa.Services"
              xmlns:local="clr-namespace:Studygroup_with_Hansa.Controls"
              mc:Ignorable="d" 
@@ -39,7 +40,7 @@
             </Setter>
         </Style>
 
-        <DataTemplate x:Key="ItemTemplate">
+        <DataTemplate x:Key="ItemTemplate" DataType="models:SubjectModel">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>

@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace Studygroup_with_Hansa.Converters
 {
-    internal class MultiParameterConverter : IMultiValueConverter
+    public class MultiParameterConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {

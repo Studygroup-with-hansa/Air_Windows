@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace Studygroup_with_Hansa.Services
 {
-    internal class MarginSetter
+    public class MarginSetter
     {
         // Using a DependencyProperty as the backing store for Margin.
         // This enables animation, styling, binding, etc...

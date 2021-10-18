@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace Studygroup_with_Hansa.Services
 {
-    internal class PageNavigation
+    public class PageNavigation
     {
         public static Page FindParentPage(DependencyObject child)
         {

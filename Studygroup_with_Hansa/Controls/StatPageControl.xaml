@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:controls="clr-namespace:Studygroup_with_Hansa.Controls"
+             xmlns:models="clr-namespace:Studygroup_with_Hansa.Models"
              xmlns:services="clr-namespace:Studygroup_with_Hansa.Services"
              xmlns:local="clr-namespace:Studygroup_with_Hansa.Controls"
              mc:Ignorable="d" 
@@ -41,7 +42,8 @@
             </Setter>
         </Style>
         
-        <DataTemplate x:Key="WeekViewTemplate">
+        <DataTemplate x:Key="WeekViewTemplate"
+                      DataType="models:WeekModel">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -122,7 +124,7 @@
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center">
                         <TextBlock Text="{Binding SelectedDay.Achieve,
-                                    StringFormat=목표 달성률 {0:0}%}"
+                                    StringFormat=목표 달성률 {0:P0}}"
                                    FontSize="14" FontWeight="Medium"
                                    Foreground="White"/>
                         <TextBlock Text=" | "
@@ -141,7 +143,7 @@
                            HorizontalAlignment="Center"/>
             </Grid>
 
-            <ContentControl Grid.Row="2">
+            <ContentControl Grid.Row="1">
                 <ContentControl.Style>
                     <Style TargetType="{x:Type ContentControl}">
                         <Setter Property="Template">
@@ -159,10 +161,12 @@
                                             <TextBlock Text="총 공부 시간"
                                                        FontSize="16" FontWeight="Medium"
                                                        Foreground="#5F79D3"
+                                                       TextAlignment="Center"
                                                        Margin="0,0,0,10"/>
                                             <TextBlock Text="{Binding SelectedDay.TotalRunString}"
                                                        FontSize="26" FontWeight="Bold"
-                                                       Foreground="#5F79D3"/>
+                                                       Foreground="#5F79D3"
+                                                       TextAlignment="Center"/>
                                         </StackPanel>
 
                                         <ScrollViewer Grid.Column="1"

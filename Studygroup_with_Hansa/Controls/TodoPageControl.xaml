@@ -6,6 +6,7 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:controls="clr-namespace:Studygroup_with_Hansa.Controls"
              xmlns:converters="clr-namespace:Studygroup_with_Hansa.Converters"
+             xmlns:models="clr-namespace:Studygroup_with_Hansa.Models"
              xmlns:services="clr-namespace:Studygroup_with_Hansa.Services"
              xmlns:local="clr-namespace:Studygroup_with_Hansa.Controls"
              mc:Ignorable="d" 
@@ -14,34 +15,10 @@
     <UserControl.Resources>
         <!--Binding DataContext-->
         <services:BindingProxy x:Key="Proxy" Data="{Binding}"/>
-        
+
         <converters:MultiParameterConverter x:Key="MultiParameter"/>
 
-        <Style x:Key="AddTodoBtn" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="5"
-                                Padding="{TemplateBinding Padding}"
-                                Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Left"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Cursor" Value="Hand"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" Value="0"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <DataTemplate x:Key="ItemTemplate">
+        <DataTemplate x:Key="ItemTemplate" DataType="models:TodoModel">
             <Border CornerRadius="5"
                     Background="#F8F8FA"
                     Margin="0,0,0,15">
@@ -238,7 +215,7 @@
                 <Image Source="{StaticResource beforeDrawingImage}"/>
             </Button>
 
-            <controls:TextDatePicker x:Name="datePicker"
+            <controls:TextDatePicker x:Name="MainDatePicker"
                                      SelectedDate="{Binding SelectedDate}"
                                      Width="92"
                                      Focusable="False"

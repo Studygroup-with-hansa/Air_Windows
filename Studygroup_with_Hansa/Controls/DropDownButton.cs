@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace Studygroup_with_Hansa.Controls
 {
-    internal class DropDownButton : ToggleButton
+    public class DropDownButton : ToggleButton
     {
         public static readonly DependencyProperty MenuProperty = DependencyProperty.Register(name: "Menu",
             propertyType: typeof(ContextMenu), ownerType: typeof(DropDownButton), typeMetadata: new UIPropertyMetadata(defaultValue: null, propertyChangedCallback: OnMenuChanged));

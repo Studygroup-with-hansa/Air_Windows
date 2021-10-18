@@ -2,13 +2,13 @@
 
 namespace Studygroup_with_Hansa.Messages
 {
-    internal sealed class IsBlurChangedMessage : MessageBase
+    internal class IsBlurChangedMessage : MessageBase
     {
-        public bool IsBlur;
-
         public IsBlurChangedMessage(bool isBlur)
         {
             IsBlur = isBlur;
         }
+
+        public bool IsBlur { get; }
     }
 }

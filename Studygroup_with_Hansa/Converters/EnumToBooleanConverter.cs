@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace Studygroup_with_Hansa.Converters
 {
-    internal class EnumToBooleanConverter : IValueConverter
+    public class EnumToBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

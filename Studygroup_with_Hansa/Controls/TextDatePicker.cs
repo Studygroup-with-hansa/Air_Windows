@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace Studygroup_with_Hansa.Controls
 {
-    internal class TextDatePicker : DatePicker
+    public class TextDatePicker : DatePicker
     {
         public override void OnApplyTemplate()
         {

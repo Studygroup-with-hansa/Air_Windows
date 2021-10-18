@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
 
 namespace Studygroup_with_Hansa
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    ///     Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
+        internal static readonly string ServerUrl = "http://13.124.172.240:8000/";
+
         public App()
         {
             FrameworkElement.LanguageProperty.OverrideMetadata(
-                forType: typeof(FrameworkElement),
-                typeMetadata: new FrameworkPropertyMetadata(
-                    defaultValue: XmlLanguage.GetLanguage(ietfLanguageTag: CultureInfo.CurrentCulture.IetfLanguageTag)));
+                typeof(FrameworkElement),
+                new FrameworkPropertyMetadata(
+                    XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
         }
     }
 }

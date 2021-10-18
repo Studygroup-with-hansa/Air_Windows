@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Threading;
 using GalaSoft.MvvmLight;
-using Studygroup_with_Hansa.Services;
 
 namespace Studygroup_with_Hansa.Models
 {
@@ -27,13 +26,6 @@ namespace Studygroup_with_Hansa.Models
 
             BtnColor = color;
             Name = name;
-        }
-
-        public SubjectModel(string color, string name, int elapsedTime)
-        {
-            BtnColor = color;
-            Name = name;
-            ElapsedTime = elapsedTime;
         }
 
         public string BtnColor
@@ -62,8 +54,8 @@ namespace Studygroup_with_Hansa.Models
         {
             get
             {
-                var t = TimeToSeconds.FromSeconds(ElapsedTime);
-                return string.Format($"{t[0]:00}:{t[1]:00}:{t[2]:00}");
+                var t = TimeSpan.FromSeconds(ElapsedTime);
+                return t.ToString(@"hh\:mm\:ss");
             }
         }
 

@@ -2,7 +2,7 @@
 
 namespace Studygroup_with_Hansa.Services
 {
-    internal class BindingProxy : Freezable
+    public class BindingProxy : Freezable
     {
         public static readonly DependencyProperty DataProperty =
             DependencyProperty.Register("Data", typeof(object),
