@@ -2,7 +2,6 @@
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using Studygroup_with_Hansa.Messages;
-using Studygroup_with_Hansa.Services;
 
 namespace Studygroup_with_Hansa.ViewModels
 {

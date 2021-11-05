@@ -1,51 +1,46 @@
 ﻿using System;
-using System.Windows.Threading;
+using System.Collections.Generic;
+using System.Timers;
 using GalaSoft.MvvmLight;
+using RestSharp.Deserializers;
 
 namespace Studygroup_with_Hansa.Models
 {
-    public class SubjectModel : ObservableObject
+    public class Subject : ObservableObject
     {
-        private string _btnColor;
+        private string _color;
 
         private int _elapsedTime;
 
-        private string _name;
-
         private double _percentage;
 
-        public DispatcherTimer SubjectTimer;
+        private string _title;
 
-        public SubjectModel(string color, string name)
+        public Timer SubjectTimer;
+
+        public Subject()
         {
-            SubjectTimer = new DispatcherTimer
+            SubjectTimer = new Timer
             {
-                Interval = new TimeSpan(0, 0, 1)
+                Interval = 1000
             };
-            SubjectTimer.Tick += Time_Elapsed;
-
-            BtnColor = color;
-            Name = name;
+            SubjectTimer.Elapsed += (sender, e) => ElapsedTime++;
         }
 
-        public string BtnColor
+        [DeserializeAs(Name = "color")]
+        public string Color
         {
-            get => _btnColor;
-            set => Set(ref _btnColor, value);
+            get => _color;
+            set => Set(ref _color, value);
         }
 
-        public string Name
-        {
-            get => _name;
-            set => Set(ref _name, value);
-        }
-
+        [DeserializeAs(Name = "time")]
         public int ElapsedTime
         {
             get => _elapsedTime;
             set
             {
-                _ = Set(ref _elapsedTime, value);
+                _elapsedTime = value;
                 RaisePropertyChanged("ElapsedTimeString");
             }
         }
@@ -65,9 +60,18 @@ namespace Studygroup_with_Hansa.Models
             set => Set(ref _percentage, value);
         }
 
-        private void Time_Elapsed(object sender, EventArgs e)
+        [DeserializeAs(Name = "title")]
+        public string Title
         {
-            ElapsedTime++;
+            get => _title;
+            set => Set(ref _title, value);
         }
+    }
+
+    public class SubjectModel : ObservableObject
+    {
+        [DeserializeAs(Name = "subject")] public List<Subject> SubjectList { get; set; }
+
+        [DeserializeAs(Name = "goal")] public int Goal { get; set; }
     }
 }

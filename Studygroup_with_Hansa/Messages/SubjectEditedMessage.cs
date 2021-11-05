@@ -5,14 +5,17 @@ namespace Studygroup_with_Hansa.Messages
 {
     internal class SubjectEditedMessage : MessageBase
     {
-        public string OldName;
-
-        public SubjectModel Subject;
-
-        public SubjectEditedMessage(string name, SubjectModel subject)
+        public SubjectEditedMessage(Subject oldSubject, string color, string title)
         {
-            OldName = name;
-            Subject = subject;
+            Color = color;
+            OldSubject = oldSubject;
+            Title = title;
         }
+
+        public string Color { get; }
+
+        public Subject OldSubject { get; }
+
+        public string Title { get; }
     }
 }

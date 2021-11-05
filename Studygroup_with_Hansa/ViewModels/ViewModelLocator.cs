@@ -45,6 +45,7 @@ namespace Studygroup_with_Hansa.ViewModels
             SimpleIoc.Default.Register<HomePageViewModel>();
             SimpleIoc.Default.Register<TodoPageViewModel>();
             SimpleIoc.Default.Register<StatPageViewModel>();
+            SimpleIoc.Default.Register<GroupPageViewModel>();
         }
 
         public MainMenuViewModel MainMenu => ServiceLocator.Current.GetInstance<MainMenuViewModel>();
@@ -54,6 +55,8 @@ namespace Studygroup_with_Hansa.ViewModels
         public TodoPageViewModel TodoPage => ServiceLocator.Current.GetInstance<TodoPageViewModel>();
 
         public StatPageViewModel StatPage => ServiceLocator.Current.GetInstance<StatPageViewModel>();
+
+        public GroupPageViewModel GroupPage => ServiceLocator.Current.GetInstance<GroupPageViewModel>();
 
         public static void Cleanup()
         {

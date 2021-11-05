@@ -7,7 +7,7 @@ using RestSharp.Deserializers;
 
 namespace Studygroup_with_Hansa.Models
 {
-    public class Subject
+    public class StatSubject
     {
         [DeserializeAs(Name = "title")] public string Title { get; set; }
 
@@ -15,7 +15,7 @@ namespace Studygroup_with_Hansa.Models
 
         [DeserializeAs(Name = "color")] public string Color { get; set; }
 
-        public Brush Fill => (Brush) new BrushConverter().ConvertFromString(Color);
+        public Brush Fill => (Brush)new BrushConverter().ConvertFromString(Color);
     }
 
     public class Stat
@@ -37,7 +37,7 @@ namespace Studygroup_with_Hansa.Models
             }
         }
 
-        [DeserializeAs(Name = "subject")] public List<Subject> Subjects { get; set; }
+        [DeserializeAs(Name = "subject")] public List<StatSubject> Subjects { get; set; }
 
         [DeserializeAs(Name = "goal")] public int Goal { get; set; }
 

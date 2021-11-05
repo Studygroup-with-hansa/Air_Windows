@@ -5,11 +5,11 @@ namespace Studygroup_with_Hansa.Messages
 {
     internal class SubjectAddedMessage : MessageBase
     {
-        public SubjectModel Subject;
-
-        public SubjectAddedMessage(SubjectModel subject)
+        public SubjectAddedMessage(Subject subject)
         {
             Subject = subject;
         }
+
+        public Subject Subject { get; }
     }
 }

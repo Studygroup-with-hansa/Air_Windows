@@ -1,19 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Timers;
 using System.Windows;
-using System.Windows.Threading;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
+using RestSharp;
 using Studygroup_with_Hansa.Messages;
 using Studygroup_with_Hansa.Models;
+using Studygroup_with_Hansa.Services;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
     public class HomePageViewModel : ViewModelBase
     {
-        private static DispatcherTimer changeDateTimer;
+        private static Timer changeDateTimer;
 
         private int _goal = -1;
 
@@ -21,9 +24,11 @@ namespace Studygroup_with_Hansa.ViewModels
 
         private int _totalRun;
 
+        private ObservableCollection<Subject> _subjects;
+
         public HomePageViewModel()
         {
-            Subjects = new ObservableCollection<SubjectModel>();
+            SetSubjects();
 
             SetBlurCommand = new RelayCommand(ExecuteSetBlurCommand);
             StartCommand = new RelayCommand<object>(ExecuteStartCommand);
@@ -37,8 +42,8 @@ namespace Studygroup_with_Hansa.ViewModels
 
             Messenger.Default.Register<SubjectEditedMessage>(this, m =>
             {
-                Subjects[Subjects.IndexOf(SelectedSubject)].BtnColor = m.Subject.BtnColor;
-                Subjects[Subjects.IndexOf(SelectedSubject)].Name = m.Subject.Name;
+                Subjects[Subjects.IndexOf(SelectedSubject)].Color = m.Color;
+                Subjects[Subjects.IndexOf(SelectedSubject)].Title = m.Title;
             });
 
             SetupTimer();
@@ -48,6 +53,25 @@ namespace Studygroup_with_Hansa.ViewModels
         {
             get => _nowTime;
             set => Set(ref _nowTime, value);
+        }
+
+        public int TotalRun
+        {
+            get
+            {
+                _totalRun = 0;
+                Subjects?.ToList().ForEach(e => _totalRun += e.ElapsedTime);
+                return _totalRun;
+            }
+        }
+
+        public string TotalRunString
+        {
+            get
+            {
+                var t = TimeSpan.FromSeconds(TotalRun);
+                return string.Format($"{t:hh}H {t:mm}M {t:ss}S");
+            }
         }
 
         public int Goal
@@ -71,35 +95,21 @@ namespace Studygroup_with_Hansa.ViewModels
             }
         }
 
-        public int TotalRun
-        {
-            get
-            {
-                _totalRun = 0;
-                Subjects.ToList().ForEach(e => _totalRun += e.ElapsedTime);
-                return _totalRun;
-            }
-        }
-
-        public string TotalRunString
-        {
-            get
-            {
-                var t = TimeSpan.FromSeconds(TotalRun);
-                return string.Format($"{t:hh}H {t:mm}M {t:ss}S");
-            }
-        }
-
         public GridLength Progress =>
             TotalRun <= 0 || Goal <= 0
                 ? new GridLength(0)
                 : new GridLength((double) TotalRun / Goal, GridUnitType.Star);
 
-        public GridLength ProgressLeft => new GridLength(1 - Progress.Value, GridUnitType.Star);
+        public GridLength ProgressLeft =>
+            Progress.Value > 1 ? new GridLength(0) : new GridLength(1 - Progress.Value, GridUnitType.Star);
 
-        public ObservableCollection<SubjectModel> Subjects { get; set; }
+        public ObservableCollection<Subject> Subjects
+        {
+            get => _subjects;
+            set => Set(ref _subjects, value);
+        }
 
-        public SubjectModel SelectedSubject { get; set; }
+        public Subject SelectedSubject { get; set; }
 
         public RelayCommand SetBlurCommand { get; }
 
@@ -111,17 +121,43 @@ namespace Studygroup_with_Hansa.ViewModels
 
         public RelayCommand<object> DeleteCommand { get; }
 
+        private async void SetSubjects()
+        {
+            var result = await RestManager.RestRequest<SubjectModel>("v1/user/data/subject/", Method.GET, null);
+            Subjects = new ObservableCollection<Subject>(result.Data.SubjectList);
+            Goal = result.Data.Goal;
+
+            RaisePropertyChanged("TotalRunString");
+        }
+
+        private async void DeleteSubject()
+        {
+            _ = await RestManager.RestRequest<string>("v1/user/data/subject/manage/", Method.DELETE,
+                new List<ParamModel> {new ParamModel("title", SelectedSubject.Title)});
+        }
+
+        private async void StartTimer()
+        {
+            _ = await RestManager.RestRequest<string>("v1/user/timer/start/", Method.POST,
+                new List<ParamModel> {new ParamModel("title", SelectedSubject.Title)});
+        }
+
+        private async void StopTimer()
+        {
+            _ = await RestManager.RestRequest<string>("v1/user/timer/stop/", Method.POST, null);
+        }
+
         private void SetupTimer()
         {
             var nowTime = DateTime.Now;
             var midNight = new DateTime(nowTime.Year, nowTime.Month, nowTime.Day, 0, 0, 0, 0).AddDays(1);
-            var remainTime = (midNight - nowTime).Ticks;
+            var remainTime = (midNight - nowTime).Milliseconds;
 
-            changeDateTimer = new DispatcherTimer
+            changeDateTimer = new Timer
             {
-                Interval = new TimeSpan(remainTime)
+                Interval = remainTime
             };
-            changeDateTimer.Tick += Change_Date;
+            changeDateTimer.Elapsed += Change_Date;
             changeDateTimer.Start();
         }
 
@@ -156,14 +192,19 @@ namespace Studygroup_with_Hansa.ViewModels
 
         private void ExecuteStartCommand(object obj)
         {
-            SelectedSubject = obj as SubjectModel;
+            SelectedSubject = obj as Subject;
             SelectedSubject?.SubjectTimer.Start();
+
+            StartTimer();
         }
 
         private void ExecuteStopCommand()
         {
             SelectedSubject.SubjectTimer.Stop();
+
+            StopTimer();
             RefreshPercentage();
+
             RaisePropertyChanged("TotalRunString");
             RaisePropertyChanged("Progress");
             RaisePropertyChanged("ProgressLeft");
@@ -171,16 +212,16 @@ namespace Studygroup_with_Hansa.ViewModels
 
         private void ExecuteSelectCommand(object obj)
         {
-            SelectedSubject = obj as SubjectModel;
+            SelectedSubject = obj as Subject;
             ExecuteSetBlurCommand();
         }
 
         private void ExecuteDeleteCommand(object obj)
         {
-            SelectedSubject = obj as SubjectModel;
-            _ = Subjects?.Remove(SelectedSubject);
+            SelectedSubject = obj as Subject;
 
-            Messenger.Default.Send(new SubjectDeletedMessage(SelectedSubject));
+            DeleteSubject();
+            _ = Subjects?.Remove(SelectedSubject);
 
             RefreshPercentage();
             RaisePropertyChanged("TotalRunString");

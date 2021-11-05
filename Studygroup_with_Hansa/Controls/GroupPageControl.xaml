@@ -3,10 +3,247 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:models="clr-namespace:Studygroup_with_Hansa.Models"
+             xmlns:services="clr-namespace:Studygroup_with_Hansa.Services"
              xmlns:local="clr-namespace:Studygroup_with_Hansa.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="537.5" d:DesignWidth="800">
-    <Grid>
-        <TextBlock>Group</TextBlock>
-    </Grid>
+             d:DesignHeight="537.5" d:DesignWidth="800"
+             DataContext="{Binding Source={StaticResource Locator}, Path=GroupPage}">
+    <UserControl.Resources>
+        <services:BindingProxy x:Key="Proxy" Data="{Binding}"/>
+    </UserControl.Resources>
+
+    <ContentControl Content="{Binding}">
+        <ContentControl.Style>
+            <Style TargetType="{x:Type ContentControl}">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.Resources>
+                                    <DataTemplate x:Key="ItemTemplate" DataType="models:Group">
+                                        <Border Background="#F8F8FA"
+                                                CornerRadius="5"
+                                                Margin="15,0,15,20">
+                                            <Button Command="{Binding Data.SelectCommand,
+                                                        Source={StaticResource Proxy}}"
+                                                    CommandParameter="{Binding}"
+                                                    Background="Transparent" Padding="10"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    Style="{StaticResource CleanBtn}">
+                                                <Grid>
+                                                    <StackPanel VerticalAlignment="Center"
+                                                                HorizontalAlignment="Left">
+                                                        <TextBlock Text="{Binding Leader,
+                                                                    StringFormat={}{0}님의 그룹}"
+                                                                   FontSize="14" FontWeight="SemiBold"
+                                                                   Foreground="#333333"
+                                                                   Margin="0,0,0,5"/>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding FirstPlace}"
+                                                                       FontSize="12" FontWeight="Regular"
+                                                                       Foreground="#333333" Opacity="0.5"
+                                                                       Margin="0,0,5,0"/>
+                                                            <TextBlock Text="{Binding FirstPlaceStudyTimeString}"
+                                                                       FontSize="12" FontWeight="Regular"
+                                                                       Foreground="#333333" Opacity="0.5"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+
+                                                    <StackPanel VerticalAlignment="Center"
+                                                                HorizontalAlignment="Right">
+                                                        <TextBlock Text="{Binding UserCount,
+                                                                    StringFormat={}{0}명}"
+                                                                   FontSize="12" FontWeight="Regular"
+                                                                   Foreground="#333333" Opacity="0.5"
+                                                                   TextAlignment="Right"
+                                                                   Margin="0,0,0,5"/>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <ItemsControl ItemsSource="{Binding UserIcon}">
+                                                                <ItemsControl.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <StackPanel Orientation="Horizontal"/>
+                                                                    </ItemsPanelTemplate>
+                                                                </ItemsControl.ItemsPanel>
+
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <Image Source="{StaticResource person_blueDrawingImage}"
+                                                                               Margin="5,0,0,0"/>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+
+                                                            <TextBlock Text="{Binding Excess,
+                                                                        StringFormat=+{0}}"
+                                                                       FontSize="12" FontWeight="Regular"
+                                                                       Foreground="#5F79D3"
+                                                                       VerticalAlignment="Center"
+                                                                       Margin="8,0,0,0">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="{x:Type TextBlock}">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsExcess}"
+                                                                                         Value="True">
+                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Button>
+                                        </Border>
+                                    </DataTemplate>
+                                </Grid.Resources>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0"
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin="15,20">
+                                    <Button Content="그룹 생성"
+                                            FontSize="16" FontWeight="Regular"
+                                            Foreground="#5F79D3"
+                                            Background="Transparent"
+                                            Margin="0,0,10,0"
+                                            Style="{StaticResource CleanBtn}"/>
+                                    <Button Content="그룹 참여"
+                                            FontSize="16" FontWeight="Regular"
+                                            Foreground="#5F79D3"
+                                            Background="Transparent"
+                                            Style="{StaticResource CleanBtn}"/>
+                                </StackPanel>
+
+                                <ScrollViewer Grid.Row="1"
+                                              VerticalScrollBarVisibility="Auto"
+                                              FocusVisualStyle="{x:Null}">
+                                    <ItemsControl ItemsSource="{Binding Groups}"
+                                                  ItemTemplate="{StaticResource ItemTemplate}"/>
+                                </ScrollViewer>
+                            </Grid>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+                
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsSelected}"
+                                 Value="True">
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.Resources>
+                                            <DataTemplate x:Key="ItemTemplate" DataType="models:UserList">
+                                                <Grid Height="50">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1.25*"/>
+                                                        <ColumnDefinition Width="2*"/>
+                                                        <ColumnDefinition Width="4*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Grid.Column="0"
+                                                               Text="{Binding Rank}"
+                                                               FontSize="16" FontWeight="SemiBold"
+                                                               Foreground="#333333"
+                                                               TextAlignment="Center"
+                                                               VerticalAlignment="Center"/>
+
+                                                    <StackPanel Grid.Column="1"
+                                                                Orientation="Horizontal"
+                                                                VerticalAlignment="Center"
+                                                                HorizontalAlignment="Center">
+                                                        <TextBlock Text="{Binding Name}"
+                                                                   FontSize="14" FontWeight="Medium"
+                                                                   Foreground="#333333"
+                                                                   TextAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   Margin="0,0,10,0"/>
+                                                        <Image Height="6" Width="9"
+                                                               Source="{StaticResource crownDrawingImage}">
+                                                            <Image.Style>
+                                                                <Style TargetType="{x:Type Image}">
+                                                                    <Setter Property="Visibility" Value="Hidden"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsItOwner}"
+                                                                                     Value="true">
+                                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Image.Style>
+                                                        </Image>
+                                                    </StackPanel>
+
+                                                    <TextBlock Grid.Column="2"
+                                                               Text="{Binding TodayStudyTimeString}"
+                                                               FontSize="14" FontWeight="Medium"
+                                                               Foreground="#333333"
+                                                               TextAlignment="Center"
+                                                               VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </Grid.Resources>
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0"
+                                              Background="#5F79D3">
+                                            <Button Height="15" Width="15"
+                                                    Command="{Binding BackCommand}"
+                                                    Background="Transparent"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Left"
+                                                    Margin="20"
+                                                    Style="{StaticResource CleanBtn}">
+                                                <Image Source="{StaticResource backDrawingImage}"/>
+                                            </Button>
+
+                                            <TextBlock Text="{Binding SelectedGroup.Title}"
+                                                       FontSize="16" FontWeight="Medium"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+
+                                            <StackPanel Orientation="Horizontal"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Right"
+                                                        Margin="20">
+                                                <Image Height="23" Width="20"
+                                                       Source="{StaticResource person_whiteDrawingImage}"
+                                                       Margin="0,0,10,0"/>
+                                                <TextBlock Text="{Binding SelectedGroup.UserCount,
+                                                            StringFormat={}{0}명}"
+                                                           FontSize="12" FontWeight="Regular"
+                                                           Foreground="White" Opacity="0.5"
+                                                           VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <ScrollViewer Grid.Row="1"
+                                                      VerticalScrollBarVisibility="Auto"
+                                                      FocusVisualStyle="{x:Null}">
+                                            <ItemsControl ItemsSource="{Binding SelectedGroup.UserList}"
+                                                          ItemTemplate="{StaticResource ItemTemplate}"
+                                                          Margin="15,20"/>
+                                        </ScrollViewer>
+                                    </Grid>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ContentControl.Style>
+    </ContentControl>
 </UserControl>

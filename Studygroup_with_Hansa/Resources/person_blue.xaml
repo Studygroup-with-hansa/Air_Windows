@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DrawingImage x:Key="person_blueDrawingImage">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V23 H20 V0 H0 Z">
+                <GeometryDrawing Brush="#FF5F79D3" Geometry="F0 M20,23z M0,0z M10,12C13.3137,12 16,9.31371 16,6 16,2.68629 13.3137,0 10,0 6.68629,0 4,2.68629 4,6 4,9.31371 6.68629,12 10,12z M17.0711,15.9289C18.9464,17.8043,20,20.3478,20,23L10,23 0,23C0,20.3478 1.05357,17.8043 2.92893,15.9289 4.8043,14.0536 7.34784,13 10,13 12.6522,13 15.1957,14.0536 17.0711,15.9289z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+</ResourceDictionary>

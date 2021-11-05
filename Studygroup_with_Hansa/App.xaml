@@ -110,18 +110,21 @@
                 <ResourceDictionary Source="Resources/back.xaml"/>
                 <ResourceDictionary Source="Resources/before.xaml"/>
                 <ResourceDictionary Source="Resources/cross.xaml"/>
+                <ResourceDictionary Source="Resources/crown.xaml"/>
                 <ResourceDictionary Source="Resources/detail.xaml"/>
                 <ResourceDictionary Source="Resources/down.xaml"/>
                 <ResourceDictionary Source="Resources/drawer.xaml"/>
                 <ResourceDictionary Source="Resources/logo.xaml"/>
+                <ResourceDictionary Source="Resources/person_blue.xaml"/>
+                <ResourceDictionary Source="Resources/person_white.xaml"/>
                 <ResourceDictionary Source="Resources/start.xaml"/>
                 <ResourceDictionary Source="Resources/unknown.xaml"/>
                 <ResourceDictionary Source="Resources/up.xaml"/>
 
                 <!--Footer Icons-->
                 <ResourceDictionary Source="Resources/home.xaml"/>
-                <ResourceDictionary Source="Resources/badge.xaml"/>
                 <ResourceDictionary Source="Resources/group.xaml"/>
+                <ResourceDictionary Source="Resources/setting.xaml"/>
                 <ResourceDictionary Source="Resources/stat.xaml"/>
                 <ResourceDictionary Source="Resources/todo.xaml"/>
             </ResourceDictionary.MergedDictionaries>

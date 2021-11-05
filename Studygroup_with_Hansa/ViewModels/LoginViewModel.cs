@@ -54,9 +54,9 @@ namespace Studygroup_with_Hansa.ViewModels
         {
             var requestParams = new List<ParamModel> {new ParamModel("email", InputMail)};
 
-            var result = RestManager.RestRequest<ResultModel<LoginModel>>("v1/user/manage/signin/", Method.POST, requestParams);
+            var result = RestManager.RestRequest<LoginModel>("v1/user/manage/signin/", Method.POST, requestParams);
 
-            IsEmailSent = result != null && result.Result.Data.Data.EmailSent;
+            IsEmailSent = result.Result != null && result.Result.Data.EmailSent;
 
             if (!(bool) IsEmailSent) return;
             timer = new DispatcherTimer

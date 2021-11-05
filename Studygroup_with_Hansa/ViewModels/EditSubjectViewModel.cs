@@ -1,10 +1,13 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
+using RestSharp;
 using Studygroup_with_Hansa.Messages;
 using Studygroup_with_Hansa.Models;
 using Studygroup_with_Hansa.Models.Types;
+using Studygroup_with_Hansa.Services;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
@@ -40,13 +43,24 @@ namespace Studygroup_with_Hansa.ViewModels
 
         public RelayCommand OffBlurCommand { get; }
 
+        private async void EditSubject(string oldSubject)
+        {
+            var requestParams = new List<ParamModel>
+            {
+                new ParamModel("title_new", EnteredName),
+                new ParamModel("title", oldSubject),
+                new ParamModel("color", SelectedColor.ToString().Replace("_", "#"))
+            };
+            _ = await RestManager.RestRequest<string>("v1/user/data/subject/manage/", Method.PUT, requestParams);
+        }
+
         private void ExecuteEditCommand()
         {
-            var toEditSubject =
-                new SubjectModel(SelectedColor.ToString().Replace("_", "#"), EnteredName.Trim());
             var locator = (ViewModelLocator) Application.Current.Resources["Locator"];
 
-            Messenger.Default.Send(new SubjectEditedMessage(locator.HomePage.SelectedSubject.Name, toEditSubject));
+            EditSubject(locator.HomePage.SelectedSubject.Title);
+            Messenger.Default.Send(new SubjectEditedMessage(locator.HomePage.SelectedSubject,
+                SelectedColor.ToString().Replace("_", "#"), EnteredName.Trim()));
             ExecuteOffBlurCommand();
         }
 

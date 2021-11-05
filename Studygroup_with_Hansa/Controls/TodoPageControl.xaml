@@ -18,7 +18,7 @@
 
         <converters:MultiParameterConverter x:Key="MultiParameter"/>
 
-        <DataTemplate x:Key="ItemTemplate" DataType="models:TodoModel">
+        <DataTemplate x:Key="ItemTemplate" DataType="models:TodoSubject">
             <Border CornerRadius="5"
                     Background="#F8F8FA"
                     Margin="0,0,0,15">
@@ -36,7 +36,7 @@
                             <Grid Margin="15,17">
                                 <StackPanel Orientation="Horizontal"
                                             HorizontalAlignment="Left">
-                                    <TextBlock Text="{Binding Name}"
+                                    <TextBlock Text="{Binding Title}"
                                                FontSize="14" FontWeight="SemiBold"
                                                Foreground="White"/>
 
@@ -253,7 +253,7 @@
                           VerticalScrollBarVisibility="Auto"
                           FocusVisualStyle="{x:Null}"
                           Margin="20,20,0,20">
-                <ItemsControl ItemsSource="{Binding TodoList}"
+                <ItemsControl ItemsSource="{Binding Subjects}"
                               ItemTemplate="{StaticResource ItemTemplate}"
                               Margin="0,0,10,0"/>
             </ScrollViewer>

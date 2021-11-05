@@ -40,7 +40,7 @@
             </Setter>
         </Style>
 
-        <DataTemplate x:Key="ItemTemplate" DataType="models:SubjectModel">
+        <DataTemplate x:Key="ItemTemplate" DataType="models:Subject">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -55,7 +55,7 @@
                             Source={StaticResource Proxy}}"
                         CommandParameter="{Binding}"
                         Height="32" Width="32"
-                        Background="{Binding BtnColor}"
+                        Background="{Binding Color}"
                         Padding="12,8,9,7" Margin="15"
                         Style="{StaticResource CleanBtn}">
                     <Image Source="{StaticResource startDrawingImage}"/>
@@ -64,7 +64,7 @@
                 <StackPanel Grid.Column="1"
                             Margin="0,5,0,0"
                             VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name}"
+                    <TextBlock Text="{Binding Title}"
                                FontSize="14" FontWeight="SemiBold"
                                Foreground="#333333"/>
                     <TextBlock Text="{Binding ElapsedTimeString}"
@@ -176,7 +176,8 @@
                             CornerRadius="0,10,10,0"
                             Background="White"
                             Opacity="0.6"/>
-                    <Border Grid.ColumnSpan="2"
+                    <Border Grid.Column="0"
+                            Grid.ColumnSpan="2"
                             Background="White"
                             Opacity="0.6"/>
                 </Grid>

@@ -27,7 +27,7 @@
         <DataTemplate x:Key="TodoPage">
             <controls:TodoPageControl/>
         </DataTemplate>
-        <DataTemplate x:Key="BadgePage">
+        <DataTemplate x:Key="SettingPage">
             <controls:BadgePageControl/>
         </DataTemplate>
 
@@ -92,7 +92,7 @@
                         </DataTrigger>
                         <DataTrigger Binding="{Binding MenuNumbers}" Value="Badge">
                             <Setter Property="ContentTemplate"
-                                    Value="{StaticResource BadgePage}"/>
+                                    Value="{StaticResource SettingPage}"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -137,9 +137,9 @@
                 </RadioButton>
                 <RadioButton IsChecked="{Binding MenuNumbers,
                                 Converter={StaticResource EnumToBoolean},
-                                ConverterParameter={x:Static types:BottomMenu.Badge}}"
+                                ConverterParameter={x:Static types:BottomMenu.Setting}}"
                              Style="{StaticResource BottomMenuBtn}">
-                    <Image Source="{StaticResource badgeDrawingImage}"/>
+                    <Image Source="{StaticResource settingDrawingImage}"/>
                 </RadioButton>
             </StackPanel>
         </Grid>

@@ -11,7 +11,7 @@
       d:DataContext="{d:DesignInstance Type=vm:HomePageViewModel}">
     <StackPanel VerticalAlignment="Center"
                 HorizontalAlignment="Center">
-        <TextBlock Text="{Binding SelectedSubject.Name}"
+        <TextBlock Text="{Binding SelectedSubject.Title}"
                    FontSize="14" FontWeight="SemiBold"
                    Foreground="White"
                    HorizontalAlignment="Center"/>

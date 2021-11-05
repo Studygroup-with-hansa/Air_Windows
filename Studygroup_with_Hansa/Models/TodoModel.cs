@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
+using RestSharp.Deserializers;
 
 namespace Studygroup_with_Hansa.Models
 {
@@ -12,37 +13,25 @@ namespace Studygroup_with_Hansa.Models
     {
         private bool _isOver;
 
-        public TodoItem(string todo)
-        {
-            Todo = todo;
-        }
-
+        [DeserializeAs(Name = "isitDone")]
         public bool IsOver
         {
             get => _isOver;
             set => Set(ref _isOver, value);
         }
 
-        public string Todo { get; set; }
+        [DeserializeAs(Name = "todo")] public string Todo { get; set; }
     }
 
-    public class TodoModel : ObservableObject
+    public class TodoSubject : ObservableObject
     {
         private string _inputTodo;
 
         private bool _isOpen;
 
-        private string _name;
+        private string _title;
 
-        public TodoModel(string name, List<TodoItem> todos)
-        {
-            Name = name;
-
-            Todos = new ObservableCollection<TodoItem>();
-            Todos.CollectionChanged += TodoCollectionChanged;
-
-            todos?.ForEach(e => Todos.Add(e));
-        }
+        private List<TodoItem> _todos;
 
         public bool IsOpen
         {
@@ -50,10 +39,11 @@ namespace Studygroup_with_Hansa.Models
             set => Set(ref _isOpen, value);
         }
 
-        public string Name
+        [DeserializeAs(Name = "subject")]
+        public string Title
         {
-            get => _name;
-            set => Set(ref _name, value);
+            get => _title;
+            set => Set(ref _title, value);
         }
 
         public double Percentage
@@ -73,28 +63,20 @@ namespace Studygroup_with_Hansa.Models
             set => Set(ref _inputTodo, value);
         }
 
-        public ObservableCollection<TodoItem> Todos { get; set; }
-
-        public void TodoCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        [DeserializeAs(Name = "todoList")]
+        public List<TodoItem> Todos
         {
-            if (e.Action != NotifyCollectionChangedAction.Remove)
-            {
-                if (e.Action == NotifyCollectionChangedAction.Add)
-                    foreach (TodoItem item in e.NewItems)
-                        //Added items
-                        item.PropertyChanged += TodoItemPropertyChanged;
-            }
-            else
-                foreach (TodoItem item in e.OldItems)
-                    //Removed items
-                    item.PropertyChanged -= TodoItemPropertyChanged;
-
-            RaisePropertyChanged("Percentage");
+            get => _todos;
+            set => Set(ref _todos, value);
         }
+    }
 
-        public void TodoItemPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "IsOver") RaisePropertyChanged("Percentage");
-        }
+    public class TodoModel : ObservableObject
+    {
+        [DeserializeAs(Name = "date")] public string Date { get; set; }
+
+        [DeserializeAs(Name = "memo")] public string InputMemo { get; set; }
+
+        [DeserializeAs(Name = "subjects")] public List<TodoSubject> Subjects { get; set; }
     }
 }

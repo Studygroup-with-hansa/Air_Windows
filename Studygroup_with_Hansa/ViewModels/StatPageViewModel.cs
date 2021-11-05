@@ -17,17 +17,7 @@ namespace Studygroup_with_Hansa.ViewModels
         {
             SelectCommand = new RelayCommand<object>(ExecuteSelectCommand);
 
-            var requestParams = new List<ParamModel>
-            {
-                new ParamModel("startDate", DateTime.Now.AddDays(-6).ToString("yyyy-MM-dd")),
-                new ParamModel("endDate", DateTime.Now.ToString("yyyy-MM-dd"))
-            };
-            var result =
-                RestManager.RestRequest<ResultModel<StatModel>>("v1/user/data/stats/", Method.POST, requestParams);
-
-            Week = result.Result.Data.Data;
-            Week.Stats[Week.Stats.Count - 1].IsChecked = true;
-            SelectedDay = Week.Stats[Week.Stats.Count - 1];
+            SetStats();
         }
 
         public StatModel Week
@@ -43,6 +33,20 @@ namespace Studygroup_with_Hansa.ViewModels
         }
 
         public RelayCommand<object> SelectCommand { get; }
+
+        private async void SetStats()
+        {
+            var requestParams = new List<ParamModel>
+            {
+                new ParamModel("startDate", DateTime.Now.AddDays(-6).ToString("yyyy-MM-dd")),
+                new ParamModel("endDate", DateTime.Now.ToString("yyyy-MM-dd"))
+            };
+            var result = await RestManager.RestRequest<StatModel>("v1/user/data/stats/", Method.POST, requestParams);
+
+            Week = result.Data;
+            Week.Stats[Week.Stats.Count - 1].IsChecked = true;
+            SelectedDay = Week.Stats[Week.Stats.Count - 1];
+        }
 
         private void ExecuteSelectCommand(object day)
         {

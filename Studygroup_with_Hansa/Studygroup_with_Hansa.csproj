@@ -70,9 +70,6 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="RestSharp, Version=106.12.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.12.0\lib\net452\RestSharp.dll</HintPath>
     </Reference>
@@ -263,7 +260,10 @@
     <None Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </None>
-    <None Include="Notepad.cs" />
+    <Compile Include="Models\GroupListModel.cs" />
+    <Compile Include="Models\GroupModel.cs" />
+    <Compile Include="Models\TodoModel.cs" />
+    <Compile Include="Notepad.cs" />
     <Compile Include="Controls\SubjectsLegend.xaml.cs">
       <DependentUpon>SubjectsLegend.xaml</DependentUpon>
     </Compile>
@@ -275,20 +275,18 @@
     <Compile Include="Messages\GoalChangedMessage.cs" />
     <Compile Include="Messages\IsBlurChangedMessage.cs" />
     <Compile Include="Messages\SubjectAddedMessage.cs" />
-    <Compile Include="Messages\SubjectDeletedMessage.cs" />
     <Compile Include="Messages\SubjectEditedMessage.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ParamModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\StatModel.cs" />
-    <Compile Include="Models\SubjectListModel.cs" />
-    <Compile Include="Models\TodoListModel.cs" />
-    <Compile Include="Models\TodoModel.cs" />
+    <Compile Include="Models\SubjectModel.cs" />
     <Compile Include="Models\Types\BottomMenuType.cs" />
     <Compile Include="Models\Types\SubjectColorType.cs" />
     <Compile Include="Services\RestManager.cs" />
     <Compile Include="ViewModels\AddSubjectViewModel.cs" />
     <Compile Include="ViewModels\EditSubjectViewModel.cs" />
+    <Compile Include="ViewModels\GroupPageViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\SetGoalViewModel.cs" />
     <Compile Include="ViewModels\SetProfileViewModel.cs" />
@@ -311,7 +309,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\BadgePageControl.xaml">
+    <Page Include="Controls\SettringPageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -347,15 +345,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\badge.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Resources\before.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\cross.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\crown.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -380,6 +378,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\logo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\person_blue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\person_white.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\setting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -435,8 +445,8 @@
     <Compile Include="Controls\HomePageControl.xaml.cs">
       <DependentUpon>HomePageControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\BadgePageControl.xaml.cs">
-      <DependentUpon>BadgePageControl.xaml</DependentUpon>
+    <Compile Include="Controls\SettringPageControl.xaml.cs">
+      <DependentUpon>SettringPageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\GroupPageControl.xaml.cs">
       <DependentUpon>GroupPageControl.xaml</DependentUpon>
@@ -448,7 +458,6 @@
       <DependentUpon>TodoPageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\EnumToBooleanConverter.cs" />
-    <Compile Include="Models\SubjectModel.cs" />
     <Compile Include="Services\BindingProxy.cs" />
     <Compile Include="Services\MarginSetter.cs" />
     <Compile Include="Services\PageNavigation.cs" />
