@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using Studygroup_with_Hansa.Properties;
 using Studygroup_with_Hansa.Services;
@@ -22,6 +21,7 @@ namespace Studygroup_with_Hansa.Controls
             var parentPage = PageNavigation.FindParentPage(this);
             _ = parentPage.NavigationService?.Navigate(new LoginPage());
             Settings.Default.Token = string.Empty;
+            Settings.Default.Save();
         }
     }
 }
