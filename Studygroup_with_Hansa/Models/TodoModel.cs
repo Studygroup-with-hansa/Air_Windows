@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
 using RestSharp.Deserializers;
@@ -12,6 +9,8 @@ namespace Studygroup_with_Hansa.Models
     public class TodoItem : ObservableObject
     {
         private bool _isOver;
+
+        [DeserializeAs(Name = "pk")] public int Key { get; set; }
 
         [DeserializeAs(Name = "isitDone")]
         public bool IsOver
@@ -31,7 +30,7 @@ namespace Studygroup_with_Hansa.Models
 
         private string _title;
 
-        private List<TodoItem> _todos;
+        private List<TodoItem> _todos = new List<TodoItem>();
 
         public bool IsOpen
         {
@@ -77,6 +76,6 @@ namespace Studygroup_with_Hansa.Models
 
         [DeserializeAs(Name = "memo")] public string InputMemo { get; set; }
 
-        [DeserializeAs(Name = "subjects")] public List<TodoSubject> Subjects { get; set; }
+        [DeserializeAs(Name = "subjects")] public List<TodoSubject> Subjects { get; set; } = new List<TodoSubject>();
     }
 }

@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:local="clr-namespace:Studygroup_with_Hansa"
-             StartupUri="Views/MainWindow.xaml">
+             StartupUri="Views/MainWindow.xaml"
+             Exit="App_OnExit">
     <Application.Resources>
         <ResourceDictionary>
             <vm:ViewModelLocator xmlns:vm="clr-namespace:Studygroup_with_Hansa.ViewModels"
@@ -114,6 +115,8 @@
                 <ResourceDictionary Source="Resources/detail.xaml"/>
                 <ResourceDictionary Source="Resources/down.xaml"/>
                 <ResourceDictionary Source="Resources/drawer.xaml"/>
+                <ResourceDictionary Source="Resources/exit.xaml"/>
+                <ResourceDictionary Source="Resources/info.xaml"/>
                 <ResourceDictionary Source="Resources/logo.xaml"/>
                 <ResourceDictionary Source="Resources/person_blue.xaml"/>
                 <ResourceDictionary Source="Resources/person_white.xaml"/>

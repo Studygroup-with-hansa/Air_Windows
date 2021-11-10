@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
@@ -17,9 +17,9 @@ namespace Studygroup_with_Hansa.ViewModels
     {
         private DateTime _selectedDate = DateTime.Now;
 
-        private string _inputMemo;
-
         private ObservableCollection<TodoSubject> _subjects;
+
+        private string _inputMemo;
 
         public TodoPageViewModel()
         {
@@ -29,6 +29,7 @@ namespace Studygroup_with_Hansa.ViewModels
             TomorrowCommand = new RelayCommand(ExecuteTomorrowCommand);
             AddTodoCommand = new RelayCommand<object>(ExecuteAddTodoCommand);
             DelTodoCommand = new RelayCommand<List<object>>(ExecuteDelTodoCommand);
+            ToggleTodoCommand = new RelayCommand<object>(ExecuteToggleTodoCommand);
 
             Messenger.Default.Register<SubjectAddedMessage>(this,
                 m => { Subjects.Add(new TodoSubject {Title = m.Subject.Title}); });
@@ -39,21 +40,25 @@ namespace Studygroup_with_Hansa.ViewModels
             get => _selectedDate;
             set
             {
+                var old = _selectedDate;
                 _ = Set(ref _selectedDate, value);
+
+                if(!old.ToString("MM/dd/yyyy").Equals(_selectedDate.ToString("MM/dd/yyyy")))
+                    SaveMemo(old.ToString("yyyy-MM-dd"));
                 SetTodos();
             }
-        }
-
-        public string InputMemo
-        {
-            get => _inputMemo;
-            set => Set(ref _inputMemo, value);
         }
 
         public ObservableCollection<TodoSubject> Subjects
         {
             get => _subjects;
             set => Set(ref _subjects, value);
+        }
+
+        public string InputMemo
+        {
+            get => _inputMemo;
+            set => Set(ref _inputMemo, value);
         }
 
         public RelayCommand YesterdayCommand { get; }
@@ -64,12 +69,50 @@ namespace Studygroup_with_Hansa.ViewModels
 
         public RelayCommand<List<object>> DelTodoCommand { get; }
 
+        public RelayCommand<object> ToggleTodoCommand { get; }
+
         private async void SetTodos()
         {
-            var result = (await RestManager.RestRequest<TodoModel>("/v1/user/data/subject/checklist/", Method.POST,
-                new List<ParamModel> {new ParamModel("date", SelectedDate.ToString("yyyy-MM-dd"))})).Data;
-            InputMemo = result.InputMemo;
-            Subjects = new ObservableCollection<TodoSubject>(result.Subjects);
+            var result = await RestManager.RestRequest<TodoModel>("/v1/user/data/subject/checklist/", Method.GET,
+                new List<ParamModel> {new ParamModel("date", SelectedDate.ToString("yyyy-MM-dd"))});
+            InputMemo = result.Data.InputMemo;
+            Subjects = new ObservableCollection<TodoSubject>(result.Data.Subjects);
+        }
+
+        private async Task<int> AddTodo(TodoSubject subject)
+        {
+            var requestParams = new List<ParamModel>
+            {
+                new ParamModel("subject", subject.Title),
+                new ParamModel("date", SelectedDate.ToString("yyyy-MM-dd")),
+                new ParamModel("todo", subject.InputTodo)
+            };
+
+            var result = await RestManager.RestRequest<AddTodoModel>("/v1/user/data/subject/checklist/", Method.POST, requestParams);
+            return result.Data.Key;
+        }
+
+        private async void DelTodo(int pk)
+        {
+            _ = await RestManager.RestRequest<string>("/v1/user/data/subject/checklist/", Method.DELETE,
+                new List<ParamModel> { new ParamModel("pk", pk.ToString()) });
+        }
+
+        private async void ToggleTodo(int pk)
+        {
+            _ = await RestManager.RestRequest<string>("/v1/user/data/subject/checklist/status/", Method.PUT,
+                new List<ParamModel> {new ParamModel("pk", pk.ToString())});
+        }
+
+        public async void SaveMemo(string date)
+        {
+            var requestParams = new List<ParamModel>
+            {
+                new ParamModel("date", date),
+                new ParamModel("memo", InputMemo)
+            };
+
+            _ = await RestManager.RestRequest<string>("/v1/user/data/subject/checklist/memo/", Method.POST, requestParams);
         }
 
         private void ExecuteYesterdayCommand()
@@ -82,28 +125,38 @@ namespace Studygroup_with_Hansa.ViewModels
             SelectedDate = SelectedDate.AddDays(1);
         }
 
-        private void ExecuteAddTodoCommand(object obj)
+        private async void ExecuteAddTodoCommand(object obj)
         {
-            var todo = obj as TodoSubject;
-            var addTodo = todo?.Todos.ToList();
+            var subject = obj as TodoSubject;
+            var addTodo = subject?.Todos.ToList();
+            var key = await AddTodo(subject);
 
-            if (todo != null && !string.IsNullOrWhiteSpace(todo.InputTodo))
+            if (subject != null && !string.IsNullOrWhiteSpace(subject.InputTodo))
             {
-                addTodo.Insert(0, new TodoItem {Todo = todo.InputTodo.Trim()});
-                todo.Todos = addTodo;
+                addTodo.Insert(0, new TodoItem {Key = key, Todo = subject.InputTodo.Trim()});
+                subject.Todos = addTodo;
             }
 
-            if (todo != null) todo.InputTodo = string.Empty;
+            if (subject != null) subject.InputTodo = string.Empty;
         }
 
         private void ExecuteDelTodoCommand(List<object> objs)
         {
-            var todo = objs[0] as TodoSubject;
-            var delTodo = todo?.Todos.ToList();
-            var todoItem = objs[1] as TodoItem;
+            var subject = objs[0] as TodoSubject;
+            var delTodo = subject?.Todos.ToList();
 
-            _ = delTodo?.Remove(todoItem);
-            if (todo != null) todo.Todos = delTodo;
+            if (objs[1] is TodoItem todoItem)
+            {
+                DelTodo(todoItem.Key);
+                _ = delTodo?.Remove(todoItem);
+            }
+
+            if (subject != null) subject.Todos = delTodo;
+        }
+
+        private void ExecuteToggleTodoCommand(object obj)
+        {
+            if (obj is TodoItem todoItem) ToggleTodo(todoItem.Key);
         }
     }
 }

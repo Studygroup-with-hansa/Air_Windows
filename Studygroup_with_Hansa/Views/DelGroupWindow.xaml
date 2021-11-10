@@ -1,0 +1,45 @@
+﻿<Window x:Class="Studygroup_with_Hansa.Views.DelGroupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Studygroup_with_Hansa.Views"
+        mc:Ignorable="d"
+        Height="170" Width="250"
+        Background="Transparent"
+        WindowStyle="None" AllowsTransparency="True"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        DataContext="{Binding Source={StaticResource Locator}, Path=GroupPage}">
+    <Border CornerRadius="5"
+            Background="White">
+        <Grid>
+            <TextBlock Text="그룹을 삭제할까요?"
+                       FontSize="16" FontWeight="Regular"
+                       Foreground="#333333"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+            
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"
+                        Margin="20,15">
+                <Button Click="CloseButton_Click"
+                        Command="{Binding OffBlurCommand}"
+                        Content="취소"
+                        FontSize="12" FontWeight="Regular"
+                        Foreground="#5F79D3"
+                        Background="Transparent"
+                        Margin="0,0,15,0"
+                        Style="{StaticResource CleanBtn}"/>
+                <Button Click="CloseButton_Click"
+                        Command="{Binding DelCommand}"
+                        Content="삭제"
+                        FontSize="12" FontWeight="Regular"
+                        Foreground="#D14F42"
+                        Background="Transparent"
+                        Style="{StaticResource CleanBtn}"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

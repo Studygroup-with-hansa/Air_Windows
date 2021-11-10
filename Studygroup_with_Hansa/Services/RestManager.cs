@@ -21,7 +21,7 @@ namespace Studygroup_with_Hansa.Services
         {
             var client = new RestClient(App.ServerUrl)
             {
-                Timeout = 1000
+                Timeout = 10000
             };
             var request = new RestRequest(endPoint, method);
             var requestParam = "";
@@ -30,11 +30,11 @@ namespace Studygroup_with_Hansa.Services
             _ = request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
             if (!string.IsNullOrEmpty(Settings.Default.Token))
-                _ = request.AddHeader("Authorization", Settings.Default.Token);
+                _ = request.AddHeader("Authorization", "Token " + Settings.Default.Token);
 
             if (method == Method.GET || method == Method.PUT || method == Method.DELETE)
             {
-                rParams?.ForEach(e => request.AddParameter(e.Key, e.Value));
+                rParams?.ForEach(e => request.AddQueryParameter(e.Key, e.Value));
             }
             else {
                 rParams?.ForEach(e => requestParam += $"{e.Key}={e.Value}&");

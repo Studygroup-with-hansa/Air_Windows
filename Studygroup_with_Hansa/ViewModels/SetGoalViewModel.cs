@@ -1,7 +1,11 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Collections.Generic;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
+using RestSharp;
 using Studygroup_with_Hansa.Messages;
+using Studygroup_with_Hansa.Models;
+using Studygroup_with_Hansa.Services;
 
 namespace Studygroup_with_Hansa.ViewModels
 {
@@ -53,9 +57,11 @@ namespace Studygroup_with_Hansa.ViewModels
 
         public RelayCommand OffBlurCommand { get; }
 
-        private void ExecuteSetCommand()
+        private async void ExecuteSetCommand()
         {
             var goal = EnteredHour * 60 * 60 + EnteredMinute * 60 + EnteredSecond;
+            _ = await RestManager.RestRequest<string>("/v1/user/data/subject/targettime/", Method.POST,
+                new List<ParamModel> {new ParamModel("targetTime", goal.ToString())});
             Messenger.Default.Send(new GoalChangedMessage(goal));
             ExecuteOffBlurCommand();
         }

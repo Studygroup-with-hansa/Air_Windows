@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DrawingImage x:Key="exitDrawingImage">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V19 H20 V0 H0 Z">
+                <GeometryDrawing Brush="#FF9DABDC" Geometry="F1 M20,19z M0,0z M10.682,0L1.84173,0C0.824571,0,0,0.817941,0,1.82692L0,17.1731C0,18.1821,0.824571,19,1.84173,19L10.682,19C11.6992,19,12.5238,18.1821,12.5238,17.1731L12.5238,1.82692C12.5238,0.817941,11.6992,0,10.682,0z" />
+                <GeometryDrawing Brush="#FF5F79D3" Geometry="F1 M20,19z M0,0z M18.1176,8L9.88235,8C9.39504,8,9,8.50368,9,9.125L9,9.875C9,10.4963,9.39504,11,9.88235,11L18.1176,11C18.605,11,19,10.4963,19,9.875L19,9.125C19,8.50368,18.605,8,18.1176,8z" />
+                <GeometryDrawing Brush="#FF5F79D3" Geometry="F1 M20,19z M0,0z M19.8083,9.99163C20.0638,9.71288,20.0638,9.28713,19.8083,9.00838L15.7393,4.56958C15.2863,4.07543,14.4575,4.39332,14.4575,5.06121L14.4575,13.9388C14.4575,14.6067,15.2863,14.9246,15.7393,14.4304L19.8083,9.99163z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+</ResourceDictionary>

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Studygroup_with_Hansa.ViewModels;
 
 namespace Studygroup_with_Hansa.Views
 {
@@ -13,11 +14,17 @@ namespace Studygroup_with_Hansa.Views
             InitializeComponent();
             if (Application.Current.MainWindow != null)
                 Application.Current.MainWindow.ResizeMode = ResizeMode.CanMinimize;
-        }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            _ = NavigationService?.Navigate(new SetProfilePage());
+            if (DataContext is LoginViewModel vm)
+                vm.PropertyChanged += (sender, args) =>
+                {
+                    if (args.PropertyName == nameof(vm.LoginState) && vm.LoginState == true)
+                    {
+                        _ = vm.IsAccExist
+                            ? NavigationService?.Navigate(new MainMenuPage())
+                            : NavigationService?.Navigate(new SetProfilePage());
+                    }
+                };
         }
     }
 }

@@ -260,9 +260,12 @@
     <None Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </None>
+    <Compile Include="Models\AddTodoModel.cs" />
     <Compile Include="Models\GroupListModel.cs" />
     <Compile Include="Models\GroupModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\TodoModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Notepad.cs" />
     <Compile Include="Controls\SubjectsLegend.xaml.cs">
       <DependentUpon>SubjectsLegend.xaml</DependentUpon>
@@ -276,7 +279,7 @@
     <Compile Include="Messages\IsBlurChangedMessage.cs" />
     <Compile Include="Messages\SubjectAddedMessage.cs" />
     <Compile Include="Messages\SubjectEditedMessage.cs" />
-    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\ProveModel.cs" />
     <Compile Include="Models\ParamModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\StatModel.cs" />
@@ -293,6 +296,9 @@
     <Compile Include="ViewModels\StatPageViewModel.cs" />
     <Compile Include="ViewModels\TodoPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\DelGroupWindow.xaml.cs">
+      <DependentUpon>DelGroupWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EditSubjectWindow.xaml.cs">
       <DependentUpon>EditSubjectWindow.xaml</DependentUpon>
     </Compile>
@@ -309,7 +315,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SettringPageControl.xaml">
+    <Page Include="Controls\SettingPageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -369,11 +375,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\exit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\group.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\home.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\info.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -417,6 +431,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\DelGroupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DuringStudyPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -445,8 +463,8 @@
     <Compile Include="Controls\HomePageControl.xaml.cs">
       <DependentUpon>HomePageControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SettringPageControl.xaml.cs">
-      <DependentUpon>SettringPageControl.xaml</DependentUpon>
+    <Compile Include="Controls\SettingPageControl.xaml.cs">
+      <DependentUpon>SettingPageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\GroupPageControl.xaml.cs">
       <DependentUpon>GroupPageControl.xaml</DependentUpon>

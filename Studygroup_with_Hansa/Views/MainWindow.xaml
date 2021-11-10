@@ -82,7 +82,8 @@
             </StackPanel>
         </Border>
 
-        <Frame Grid.Row="1" Source="LoginPage.xaml"
+        <Frame Grid.Row="1"
+               x:Name="MainFrame"
                NavigationUIVisibility="Hidden"/>
     </Grid>
 

@@ -2,6 +2,9 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using RestSharp;
+using Studygroup_with_Hansa.Properties;
+using Studygroup_with_Hansa.Services;
 
 namespace Studygroup_with_Hansa.Views
 {
@@ -13,6 +16,26 @@ namespace Studygroup_with_Hansa.Views
         public MainWindow()
         {
             InitializeComponent();
+
+            CheckToken();
+        }
+
+        private async void CheckToken()
+        {
+            if (!string.IsNullOrEmpty(Settings.Default.Token))
+            {
+                var result =
+                    await RestManager.RestRequest<object>("/v1/user/info/manage/basic/checktoken/", Method.GET, null);
+
+                if (result.Status == 200)
+                {
+                    MainFrame.Source = new Uri("MainMenuPage.xaml", UriKind.Relative);
+                    return;
+                }
+                Settings.Default.Token = string.Empty;
+            }
+
+            MainFrame.Source = new Uri("LoginPage.xaml", UriKind.Relative);
         }
 
         private void ButtonMinimize_Click(object sender, RoutedEventArgs e)

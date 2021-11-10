@@ -7,10 +7,13 @@
              xmlns:controls="clr-namespace:Studygroup_with_Hansa.Controls"
              xmlns:models="clr-namespace:Studygroup_with_Hansa.Models"
              xmlns:services="clr-namespace:Studygroup_with_Hansa.Services"
+             xmlns:viewmodels="clr-namespace:Studygroup_with_Hansa.ViewModels"
              xmlns:local="clr-namespace:Studygroup_with_Hansa.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="537.5" d:DesignWidth="800"
-             DataContext="{Binding Source={StaticResource Locator}, Path=StatPage}">
+             d:DesignHeight="537.5" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <viewmodels:StatPageViewModel/>
+    </UserControl.DataContext>
     <UserControl.Resources>
         <services:BindingProxy x:Key="Proxy" Data="{Binding}"/>
 

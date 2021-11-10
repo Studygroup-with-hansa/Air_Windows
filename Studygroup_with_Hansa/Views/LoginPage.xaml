@@ -67,7 +67,7 @@
                     <xctk:WatermarkTextBox Text="{Binding InputMail,
                                             UpdateSourceTrigger=PropertyChanged}"
                                            FontSize="12" FontWeight="Regular"
-                                           Foreground="#333333" Padding="0"
+                                           Padding="0"
                                            BorderThickness="0">
                         <xctk:WatermarkTextBox.Watermark>
                             <TextBlock Text="이메일을 입력해주세요"
@@ -75,6 +75,22 @@
                                        Foreground="#9E9E9E"
                                        Margin="0,2,0,0"/>
                         </xctk:WatermarkTextBox.Watermark>
+
+                        <xctk:WatermarkTextBox.Style>
+                            <Style TargetType="{x:Type xctk:WatermarkTextBox}">
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Setter Property="Foreground" Value="#333333"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEmailSent}"
+                                                 Value="true">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Foreground" Value="#d2d2d2"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </xctk:WatermarkTextBox.Style>
                     </xctk:WatermarkTextBox>
                 </Border>
 
@@ -110,6 +126,18 @@
                                 <Setter Property="Visibility" Value="Visible"/>
                             </DataTrigger>
 
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEmailSent}"
+                                               Value="True"/>
+                                    <Condition Binding="{Binding LeftTime}"
+                                               Value="0"/>
+                                </MultiDataTrigger.Conditions>
+
+                                <Setter Property="Text" Value="인증 시간이 만료되었습니다."/>
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </MultiDataTrigger>
+
                             <DataTrigger Binding="{Binding IsEmailSent}" Value="False">
                                 <Setter Property="Text" Value="메일 전송 실패"/>
                                 <Setter Property="Visibility" Value="Visible"/>
@@ -124,10 +152,12 @@
                     BorderThickness="1"
                     CornerRadius="5"
                     Margin="0,5,0,0">
-                <xctk:WatermarkTextBox Text=""
+                <xctk:WatermarkTextBox Text="{Binding InputCode,
+                                        UpdateSourceTrigger=PropertyChanged}"
                                        FontSize="12" FontWeight="Regular"
                                        Foreground="#333333" Padding="0"
-                                       BorderThickness="0">
+                                       BorderThickness="0"
+                                       MaxLength="8">
                     <xctk:WatermarkTextBox.Watermark>
                         <TextBlock Text="인증 코드를 입력해주세요"
                                    FontSize="12" FontWeight="Regular"
@@ -136,16 +166,44 @@
                     </xctk:WatermarkTextBox.Watermark>
                 </xctk:WatermarkTextBox>
             </Border>
+
+            <TextBlock Text="인증 코드가 일치하지 않습니다."
+                       FontSize="10" FontWeight="Regular"
+                       Foreground="Red">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding LoginState}"
+                                         Value="False">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
         </StackPanel>
 
         <Button Grid.Row="1" Width="350"
-                Content="로그인" Click="LoginButton_Click"
+                Command="{Binding LoginCommand}"
+                Content="로그인"
                 FontSize="14" FontWeight="SemiBold"
                 Foreground="White" Padding="0,11,0,9"
                 Background="#5F79D3"
                 BorderThickness="0"
                 VerticalAlignment="Bottom"
-                Margin="0,0,0,70"
-                Style="{StaticResource BtnSytle}"/>
+                Margin="0,0,0,70">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}"
+                       BasedOn="{StaticResource BtnSytle}">
+                    <Setter Property="Opacity" Value="1.0"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.3"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
     </Grid>
 </Page>

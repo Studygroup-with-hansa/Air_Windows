@@ -28,7 +28,7 @@
             <controls:TodoPageControl/>
         </DataTemplate>
         <DataTemplate x:Key="SettingPage">
-            <controls:BadgePageControl/>
+            <controls:SettingPageControl/>
         </DataTemplate>
 
         <Style x:Key="BottomMenuBtn" TargetType="{x:Type RadioButton}">
@@ -90,7 +90,7 @@
                             <Setter Property="ContentTemplate"
                                     Value="{StaticResource TodoPage}"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding MenuNumbers}" Value="Badge">
+                        <DataTrigger Binding="{Binding MenuNumbers}" Value="Setting">
                             <Setter Property="ContentTemplate"
                                     Value="{StaticResource SettingPage}"/>
                         </DataTrigger>

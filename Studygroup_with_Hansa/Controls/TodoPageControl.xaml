@@ -126,7 +126,10 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0,10,0,0">
-                                        <ToggleButton IsChecked="{Binding IsOver}"
+                                        <ToggleButton Command="{Binding Path=Data.ToggleTodoCommand,
+                                                        Source={StaticResource Proxy}}"
+                                                      CommandParameter="{Binding}"
+                                                      IsChecked="{Binding IsOver}"
                                                       Background="Transparent"
                                                       HorizontalAlignment="Left"
                                                       Style="{StaticResource CleanTbtn}">

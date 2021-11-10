@@ -70,7 +70,7 @@ namespace Studygroup_with_Hansa.Models
 
     public class SubjectModel : ObservableObject
     {
-        [DeserializeAs(Name = "subject")] public List<Subject> SubjectList { get; set; }
+        [DeserializeAs(Name = "subject")] public List<Subject> SubjectList { get; set; } = new List<Subject>();
 
         [DeserializeAs(Name = "goal")] public int Goal { get; set; }
     }

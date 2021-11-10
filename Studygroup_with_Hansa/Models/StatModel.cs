@@ -13,6 +13,15 @@ namespace Studygroup_with_Hansa.Models
 
         [DeserializeAs(Name = "time")] public int Time { get; set; }
 
+        public string TimeString
+        {
+            get
+            {
+                var t = TimeSpan.FromSeconds(Time);
+                return string.Format($"{t:hh}H {t:mm}M {t:ss}S");
+            }
+        }
+
         [DeserializeAs(Name = "color")] public string Color { get; set; }
 
         public Brush Fill => (Brush)new BrushConverter().ConvertFromString(Color);

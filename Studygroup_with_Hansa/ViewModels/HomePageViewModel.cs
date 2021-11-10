@@ -46,7 +46,7 @@ namespace Studygroup_with_Hansa.ViewModels
                 Subjects[Subjects.IndexOf(SelectedSubject)].Title = m.Title;
             });
 
-            SetupTimer();
+            //SetupTimer();
         }
 
         public DateTime NowTime
@@ -123,10 +123,11 @@ namespace Studygroup_with_Hansa.ViewModels
 
         private async void SetSubjects()
         {
-            var result = await RestManager.RestRequest<SubjectModel>("v1/user/data/subject/", Method.GET, null);
+            var result = await RestManager.RestRequest<SubjectModel>("v1/user/data/subject/history/", Method.POST, null);
             Subjects = new ObservableCollection<Subject>(result.Data.SubjectList);
-            Goal = result.Data.Goal;
+            Goal = result.Data.Goal == 0 ? -1 : result.Data.Goal;
 
+            RefreshPercentage();
             RaisePropertyChanged("TotalRunString");
         }
 
@@ -193,16 +194,15 @@ namespace Studygroup_with_Hansa.ViewModels
         private void ExecuteStartCommand(object obj)
         {
             SelectedSubject = obj as Subject;
-            SelectedSubject?.SubjectTimer.Start();
 
             StartTimer();
+            SelectedSubject?.SubjectTimer.Start();
         }
 
         private void ExecuteStopCommand()
         {
-            SelectedSubject.SubjectTimer.Stop();
-
             StopTimer();
+            SelectedSubject.SubjectTimer.Stop();
             RefreshPercentage();
 
             RaisePropertyChanged("TotalRunString");
